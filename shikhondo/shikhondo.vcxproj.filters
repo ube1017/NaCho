@@ -13,14 +13,128 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{7cb8d6f2-eee7-4947-be10-32925aa8a5c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Manager">
+      <UniqueIdentifier>{0985c74f-6f16-4c7b-8592-582307a67f05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Character">
+      <UniqueIdentifier>{be2ad1ab-a6bf-49d7-8314-a6b8a9743048}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Main">
+      <UniqueIdentifier>{60fe8af4-5ce7-4dc4-9e5e-7e0dfdea4786}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Missile">
+      <UniqueIdentifier>{a4d742f1-6372-4b6f-9f58-ebd656c93113}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Image">
+      <UniqueIdentifier>{4f402a4d-a616-4e35-912f-174032d85c74}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="ImageManager.cpp">
+      <Filter>Main\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="MissileManager.cpp">
+      <Filter>Main\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="TimerManager.cpp">
+      <Filter>Main\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Main\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Main\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Main\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="MainGame.cpp">
+      <Filter>Main\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayScene.cpp">
+      <Filter>Main\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Missile.cpp">
+      <Filter>Main\Missile</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>Main\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>Main\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Main\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyManager.cpp">
+      <Filter>Main\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>Main\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameNode.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="TimerManager.h">
+      <Filter>Main\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="MissileManager.h">
+      <Filter>Main\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageManager.h">
+      <Filter>Main\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Main\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Main\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Main\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="MainGame.h">
+      <Filter>Main\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayScene.h">
+      <Filter>Main\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Missile.h">
+      <Filter>Main\Missile</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>Main\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Main\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>Main\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Main\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyManager.h">
+      <Filter>Main\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>Main\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameNode.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
