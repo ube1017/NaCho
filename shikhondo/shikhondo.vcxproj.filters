@@ -31,8 +31,11 @@
     <Filter Include="Main\Image">
       <UniqueIdentifier>{4f402a4d-a616-4e35-912f-174032d85c74}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Main\Main\UI">
-      <UniqueIdentifier>{437b982e-53af-4377-a2a6-6365fbdd6f31}</UniqueIdentifier>
+    <Filter Include="Main\NewFilter1">
+      <UniqueIdentifier>{d6b9a66c-b6b6-40a5-9da2-7aee492e84bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Character\Enemy">
+      <UniqueIdentifier>{9da97222-5e9c-4ddb-88e7-4b9ce627f136}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -90,6 +93,18 @@
     <ClCompile Include="BackGround.cpp">
       <Filter>Main\Main\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy1.cpp">
+      <Filter>Main\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy2.cpp">
+      <Filter>Main\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy3.cpp">
+      <Filter>Main\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBoss.cpp">
+      <Filter>Main\Character\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -145,6 +160,18 @@
     </ClInclude>
     <ClInclude Include="BackGround.h">
       <Filter>Main\Main\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy1.h">
+      <Filter>Main\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy3.h">
+      <Filter>Main\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBoss.h">
+      <Filter>Main\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy2.h">
+      <Filter>Main\Character\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
