@@ -2,13 +2,21 @@
 #include "Enemy.h"
 #include "Missile.h"
 #include "ImageManager.h"
+#include "Image.h"
 #include "EnemyManager.h"
+
+#include <ctime>
 
 
 HRESULT MainGame::Init()
 {
+	srand((UINT)time(NULL));
 	ImageManager* imageManager = ImageManager::GetSingleton();
 	imageManager->Init();
+
+	imageManager->AddImage("BackBuffer","Image/mapImage.bmp",1024,768);
+	Image* backBuffer = imageManager->FindImage("BackBuffer");
+	Memdc = backBuffer->GetMemDC();
 
 	return S_OK;
 }
@@ -25,7 +33,16 @@ void MainGame::Update()
 
 void MainGame::Render()
 {
-	
+	ImageManager* imageManager = ImageManager::GetSingleton();
+	Image* backBuffer =	imageManager->FindImage("BackBuffer");
+	if (backBuffer)
+		backBuffer->Render(Memdc,0,0);
+
+	Rectangle(Memdc,0,0,100,100);
+
+	HDC hdc = GetDC(g_hWnd);
+	BitBlt(hdc,0,0,WINSIZE_X,WINSIZE_Y , Memdc, 0,0, SRCCOPY);
+	DeleteDC(hdc);
 }
 
 bool MainGame::CheckCollision(Missile * m1, Missile * m2)
@@ -58,12 +75,6 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 	{
 	case WM_CREATE:
 		break;
-		//case WM_TIMER:
-		//	if (isInit)
-		//	{
-		//		this->Update();
-		//	}
-		//	break;
 	case WM_KEYDOWN:
 		switch (wParam)
 		{
@@ -73,28 +84,6 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 			break;
 		}
 		break;
-	case WM_MOUSEMOVE:
-		mouseData.mousePosX = LOWORD(lParam);
-		mouseData.mousePosY = HIWORD(lParam);
-		break;
-	case WM_RBUTTONDOWN:
-		break;
-	case WM_LBUTTONUP:
-		break;
-	case WM_LBUTTONDOWN:
-		mouseData.clickedPosX = LOWORD(lParam);
-		mouseData.clickedPosY = HIWORD(lParam);
-		break;
-		//case WM_PAINT:
-		//	hdc = BeginPaint(g_hWnd, &ps);
-
-		//	if (isInit)
-		//	{
-		//		this->Render(hdc);
-		//	}
-
-		//	EndPaint(g_hWnd, &ps);
-		//	break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
@@ -105,7 +94,6 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 
 MainGame::MainGame()
 {
-	isInit = false;
 }
 
 
