@@ -1,24 +1,25 @@
 #include "MainGame.h"
 #include "Enemy.h"
 #include "Missile.h"
-#include "Image.h"
+#include "ImageManager.h"
 #include "EnemyManager.h"
 
 
 HRESULT MainGame::Init()
 {
+	ImageManager* imageManager = ImageManager::GetSingleton();
+	imageManager->Init();
+
 	return S_OK;
 }
 
 void MainGame::Release()
 {
-	
+	ImageManager::GetSingleton()->Release();
 }
 
 void MainGame::Update()
 {
-	
-
 	InvalidateRect(g_hWnd, NULL, false);
 }
 
