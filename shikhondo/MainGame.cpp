@@ -1,30 +1,64 @@
 #include "MainGame.h"
 #include "Enemy.h"
 #include "Missile.h"
+#include "ImageManager.h"
+#include "KeyManager.h"
 #include "Image.h"
 #include "EnemyManager.h"
+#include "Player.h"
+#include "BackGround.h"
+
+#include <ctime>
 
 
 HRESULT MainGame::Init()
 {
+	srand((UINT)time(NULL));
+	KeyManager::GetSingleton()->Init();
+	ImageManager* imageManager = ImageManager::GetSingleton();
+	imageManager->Init();
+
+	imageManager->AddImage("BackBuffer","Image/mapImage.bmp",WINSIZE_X, WINSIZE_Y);
+	imageManager->AddImage("leftBack", "Image/leftBack.bmp", 448, 512, 2, 1, true, RGB(255, 0, 255));
+	Image* backBuffer = imageManager->FindImage("BackBuffer");
+	Memdc = backBuffer->GetMemDC();
+
+
+	player = new Player;
+	player->Init();
+	bk = new BackGround;
+	bk->Init();
+
 	return S_OK;
 }
 
 void MainGame::Release()
 {
-	
+	ImageManager::GetSingleton()->Release();
+	player->Release();
+	delete player;
 }
 
 void MainGame::Update()
 {
-	
-
+	player->Update();
+	bk->Update();
 	InvalidateRect(g_hWnd, NULL, false);
 }
 
 void MainGame::Render()
 {
-	
+	ImageManager* imageManager = ImageManager::GetSingleton();
+	Image* backBuffer =	imageManager->FindImage("BackBuffer");
+	if (backBuffer)
+		backBuffer->Render(Memdc,0,0);
+
+	Rectangle(Memdc,0,0,100,100);
+	bk->Render(Memdc);
+
+	HDC hdc = GetDC(g_hWnd);
+	BitBlt(hdc,0,0,WINSIZE_X,WINSIZE_Y , Memdc, 0,0, SRCCOPY);
+	DeleteDC(hdc);
 }
 
 bool MainGame::CheckCollision(Missile * m1, Missile * m2)
@@ -57,12 +91,6 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 	{
 	case WM_CREATE:
 		break;
-		//case WM_TIMER:
-		//	if (isInit)
-		//	{
-		//		this->Update();
-		//	}
-		//	break;
 	case WM_KEYDOWN:
 		switch (wParam)
 		{
@@ -72,28 +100,6 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 			break;
 		}
 		break;
-	case WM_MOUSEMOVE:
-		mouseData.mousePosX = LOWORD(lParam);
-		mouseData.mousePosY = HIWORD(lParam);
-		break;
-	case WM_RBUTTONDOWN:
-		break;
-	case WM_LBUTTONUP:
-		break;
-	case WM_LBUTTONDOWN:
-		mouseData.clickedPosX = LOWORD(lParam);
-		mouseData.clickedPosY = HIWORD(lParam);
-		break;
-		//case WM_PAINT:
-		//	hdc = BeginPaint(g_hWnd, &ps);
-
-		//	if (isInit)
-		//	{
-		//		this->Render(hdc);
-		//	}
-
-		//	EndPaint(g_hWnd, &ps);
-		//	break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
@@ -104,7 +110,6 @@ LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 
 MainGame::MainGame()
 {
-	isInit = false;
 }
 
 

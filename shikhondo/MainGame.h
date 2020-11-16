@@ -8,36 +8,18 @@
 */
 #include "GameNode.h"
 
-class Tank;
-class Enemy;
 class Missile;
 class Image;
-class EnemyManager;
-class SpaceShip;
 class MainGame : public GameNode
 {
 private:
-	struct MOUSE_DATA
-	{
-		int mousePosX, mousePosY;
-		int clickedPosX, clickedPosY;
-	};
-
-	HDC hdc;
-	//PAINTSTRUCT ps;
-	//HANDLE hTimer;
-	MOUSE_DATA mouseData;
-	bool isInit;
-
-	SpaceShip* spaceShip;
-	Tank* tank1;
-	Enemy* enemy1;
-	EnemyManager* enemyMgr;
+	HDC Memdc;
 
 	Image* backBuffer;
 	Image* backGround;
-	int random;
 
+	class Player* player;
+	class BackGround* bk;
 public:
 	HRESULT Init();				// 멤버 변수 초기화, 메모리 할당
 	void Release();				// 메모리 해제
