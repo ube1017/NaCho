@@ -20,6 +20,8 @@ HRESULT MainGame::Init()
 
 	imageManager->AddImage("BackBuffer","Image/mapImage.bmp",WINSIZE_X, WINSIZE_Y);
 	imageManager->AddImage("leftBack", "Image/leftBack.bmp", 448, 512, 2, 1, true, RGB(255, 0, 255));
+	imageManager->AddImage("leftCloud", "Image/leftCloud.bmp", 1024/3 * 2, 512/3 * 2, true, RGB(255, 0, 255));
+	//leftCloud
 	Image* backBuffer = imageManager->FindImage("BackBuffer");
 	Memdc = backBuffer->GetMemDC();
 

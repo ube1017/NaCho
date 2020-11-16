@@ -26,7 +26,9 @@ void BackGround::Update()
 
 void BackGround::Render(HDC hdc)
 {
-	
+	//leftCloud
 	leftBack->FrameRender(hdc, leftBack1pos.x, leftBack1pos.y,224, WINSIZE_Y ,0,0);
 	leftBack->FrameRender(hdc, leftBack2pos.x, leftBack2pos.y, 224, WINSIZE_Y , 1, 0);
+	Image* image = ImageManager::GetSingleton()->FindImage("leftCloud");
+	image->Render(hdc,0,0);
 }
