@@ -66,9 +66,6 @@
     <ClCompile Include="Missile.cpp">
       <Filter>Main\Missile</Filter>
     </ClCompile>
-    <ClCompile Include="UI.cpp">
-      <Filter>Main\Main</Filter>
-    </ClCompile>
     <ClCompile Include="Image.cpp">
       <Filter>Main\Image</Filter>
     </ClCompile>
@@ -86,6 +83,12 @@
     </ClCompile>
     <ClCompile Include="GameNode.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>Main\Main\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="BackGround.cpp">
+      <Filter>Main\Main\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -119,9 +122,6 @@
     <ClInclude Include="Missile.h">
       <Filter>Main\Missile</Filter>
     </ClInclude>
-    <ClInclude Include="UI.h">
-      <Filter>Main\Main</Filter>
-    </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>Main\Image</Filter>
     </ClInclude>
@@ -139,6 +139,12 @@
     </ClInclude>
     <ClInclude Include="GameNode.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>Main\Main\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="BackGround.h">
+      <Filter>Main\Main\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

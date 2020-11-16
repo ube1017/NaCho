@@ -6,6 +6,7 @@
 #include "Image.h"
 #include "EnemyManager.h"
 #include "Player.h"
+#include "BackGround.h"
 
 #include <ctime>
 
@@ -17,13 +18,16 @@ HRESULT MainGame::Init()
 	ImageManager* imageManager = ImageManager::GetSingleton();
 	imageManager->Init();
 
-	imageManager->AddImage("BackBuffer","Image/mapImage.bmp",1024,768);
+	imageManager->AddImage("BackBuffer","Image/mapImage.bmp",WINSIZE_X, WINSIZE_Y);
+	imageManager->AddImage("leftBack", "Image/leftBack.bmp", 448, 512, 2, 1, true, RGB(255, 0, 255));
 	Image* backBuffer = imageManager->FindImage("BackBuffer");
 	Memdc = backBuffer->GetMemDC();
 
 
 	player = new Player;
 	player->Init();
+	bk = new BackGround;
+	bk->Init();
 
 	return S_OK;
 }
@@ -38,6 +42,7 @@ void MainGame::Release()
 void MainGame::Update()
 {
 	player->Update();
+	bk->Update();
 	InvalidateRect(g_hWnd, NULL, false);
 }
 
@@ -49,6 +54,7 @@ void MainGame::Render()
 		backBuffer->Render(Memdc,0,0);
 
 	Rectangle(Memdc,0,0,100,100);
+	bk->Render(Memdc);
 
 	HDC hdc = GetDC(g_hWnd);
 	BitBlt(hdc,0,0,WINSIZE_X,WINSIZE_Y , Memdc, 0,0, SRCCOPY);

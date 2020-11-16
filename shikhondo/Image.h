@@ -92,8 +92,8 @@ public:
 	void Release();
 
 	void Render(HDC hdc, int destX, int destY);
-	void FrameRender(HDC hdc, int destX, int destY,
-		int currFrameX, int currFrameY);
+	void FrameRender(HDC hdc, int destX, int destY, int currFrameX, int currFrameY);
+	void FrameRender(HDC hdc, int destX, int destY,int sizex,int sizey ,int currFrameX, int currFrameY);
 	void AlphaRender(HDC hdc, int destX, int destY, BYTE alpha);
 
 	HDC GetMemDC() { return imageInfo->hMemDC; }

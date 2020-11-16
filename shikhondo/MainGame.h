@@ -19,7 +19,7 @@ private:
 	Image* backGround;
 
 	class Player* player;
-
+	class BackGround* bk;
 public:
 	HRESULT Init();				// 멤버 변수 초기화, 메모리 할당
 	void Release();				// 메모리 해제
