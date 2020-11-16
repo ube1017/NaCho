@@ -192,14 +192,14 @@ void Image::FrameRender(HDC hdc, int destX, int destY, int currFrameX, int currF
 	imageInfo->currFrameX = currFrameX;
 	imageInfo->currFrameY = currFrameY;
 
-	imageInfo->x = destX - (imageInfo->frameWidth / 2);
-	imageInfo->y = destY - (imageInfo->frameHeight / 2);
+	imageInfo->x = static_cast<int>(destX - (imageInfo->frameWidth / 2));
+	imageInfo->y = static_cast<int>(destY - (imageInfo->frameHeight / 2));
 
 	if (isTrans)
 	{
 		GdiTransparentBlt(
 			hdc,
-			imageInfo->x, imageInfo->y,
+			static_cast<int>(imageInfo->x), static_cast<int>(imageInfo->y),
 			imageInfo->frameWidth, imageInfo->frameHeight,
 
 			imageInfo->hMemDC,

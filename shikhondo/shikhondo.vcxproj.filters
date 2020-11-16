@@ -31,6 +31,9 @@
     <Filter Include="Main\Image">
       <UniqueIdentifier>{4f402a4d-a616-4e35-912f-174032d85c74}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Main\Main\UI">
+      <UniqueIdentifier>{437b982e-53af-4377-a2a6-6365fbdd6f31}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

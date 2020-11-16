@@ -8,12 +8,8 @@
 */
 #include "GameNode.h"
 
-class Tank;
-class Enemy;
 class Missile;
 class Image;
-class EnemyManager;
-class SpaceShip;
 class MainGame : public GameNode
 {
 private:
@@ -21,6 +17,8 @@ private:
 
 	Image* backBuffer;
 	Image* backGround;
+
+	class Player* player;
 
 public:
 	HRESULT Init();				// 멤버 변수 초기화, 메모리 할당

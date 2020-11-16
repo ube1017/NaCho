@@ -16,3 +16,4 @@ void Character::Update()
 void Character::Render(HDC hdc)
 {
 }
+

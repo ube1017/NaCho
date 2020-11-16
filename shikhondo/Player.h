@@ -1,5 +1,12 @@
 #pragma once
 #include "Character.h"
+
+enum class MoveState
+{
+	NORMAL,
+	SLOW,
+};
+
 class Player : public Character
 {
 public:
@@ -10,5 +17,19 @@ public:
 	void Render(HDC hdc);		// 프레임 단위 출력 (이미지, 텍스트 등)
 
 
+private:
+	// 키 체크 함수
+	void KeyChack();
+	// z키함수
+	void Fire();
+	// 느린 움직임
+	void SlowMove();
+	// 폭탄
+	void Boom();
+
+private:
+	MoveState moveState;
+	// 폭탄 갯수
+	int boomCount;
 };
 

@@ -2,8 +2,10 @@
 #include "Enemy.h"
 #include "Missile.h"
 #include "ImageManager.h"
+#include "KeyManager.h"
 #include "Image.h"
 #include "EnemyManager.h"
+#include "Player.h"
 
 #include <ctime>
 
@@ -11,6 +13,7 @@
 HRESULT MainGame::Init()
 {
 	srand((UINT)time(NULL));
+	KeyManager::GetSingleton()->Init();
 	ImageManager* imageManager = ImageManager::GetSingleton();
 	imageManager->Init();
 
@@ -18,16 +21,23 @@ HRESULT MainGame::Init()
 	Image* backBuffer = imageManager->FindImage("BackBuffer");
 	Memdc = backBuffer->GetMemDC();
 
+
+	player = new Player;
+	player->Init();
+
 	return S_OK;
 }
 
 void MainGame::Release()
 {
 	ImageManager::GetSingleton()->Release();
+	player->Release();
+	delete player;
 }
 
 void MainGame::Update()
 {
+	player->Update();
 	InvalidateRect(g_hWnd, NULL, false);
 }
 
