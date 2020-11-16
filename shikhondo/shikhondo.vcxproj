@@ -140,7 +140,6 @@
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="Missile.cpp" />
     <ClCompile Include="MissileManager.cpp" />
-    <ClCompile Include="pch.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Timer.cpp" />
