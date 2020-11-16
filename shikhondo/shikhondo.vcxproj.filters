@@ -39,9 +39,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="pch.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="ImageManager.cpp">
       <Filter>Main\Manager</Filter>
     </ClCompile>
@@ -87,12 +84,6 @@
     <ClCompile Include="GameNode.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="UI.cpp">
-      <Filter>Main\Main\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="BackGround.cpp">
-      <Filter>Main\Main\UI</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy1.cpp">
       <Filter>Main\Character\Enemy</Filter>
     </ClCompile>
@@ -104,6 +95,12 @@
     </ClCompile>
     <ClCompile Include="EnemyBoss.cpp">
       <Filter>Main\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BackGround.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -155,12 +152,6 @@
     <ClInclude Include="GameNode.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="UI.h">
-      <Filter>Main\Main\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="BackGround.h">
-      <Filter>Main\Main\UI</Filter>
-    </ClInclude>
     <ClInclude Include="Enemy1.h">
       <Filter>Main\Character\Enemy</Filter>
     </ClInclude>
@@ -172,6 +163,12 @@
     </ClInclude>
     <ClInclude Include="Enemy2.h">
       <Filter>Main\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BackGround.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
