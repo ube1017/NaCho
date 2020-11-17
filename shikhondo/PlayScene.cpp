@@ -16,6 +16,7 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("leftBack", "leftBack", { 448, 512 }, { 2, 1 });
 	imageManager->_LoadBitmap("leftCloud", "leftCloud", { 1024 , 512 });
 	imageManager->_LoadBitmap("Player", "player", { 2706 , 141 }, { 22,1 });
+	imageManager->_LoadBitmap("enemy1", "enemy1", { 512 , 512 }, { 3,3 });
 
 	backGround = CreateObject<BackGround>();
 	player = CreateObject<Player>();
