@@ -17,13 +17,6 @@ struct ImageDrawInfo
 	// 몇번째 이미지인지 y축
 	int framey;
 
-	void DrwRectsetting(string name,FPOINT pos, SIZE size)
-	{
-		imageName = name;
-		drwrc = {(LONG)pos.x - (LONG)(size.cx / 2), (LONG)pos.y - (LONG)(size.cy / 2), 
-				 (LONG)pos.x + (LONG)(size.cx / 2), (LONG)pos.y + (LONG)(size.cy / 2) };
-		this->size = size;
-	}
 
 	enum class MovePosType
 	{
@@ -62,6 +55,14 @@ struct ImageDrawInfo
 		default:
 			break;
 		}
+	}
+
+	void DrawRectSetting(std::string imageName, FPOINT pos, SIZE size )
+	{
+		drwrc = { (LONG)pos.x - (size.cx / 2) ,(LONG)pos.y - (size.cy / 2),
+				  (LONG)pos.x + (size.cx / 2) ,(LONG)pos.y + (size.cy / 2) };
+		this->imageName = imageName;
+		this->size = size;
 	}
 
 };

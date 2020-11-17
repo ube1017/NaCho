@@ -26,6 +26,8 @@ HRESULT PlayScene::Init()
 	enemyManager->SetMainGame(this);
 	for (int i = 0 ; i <10 ;i++)
 		enemyManager->CreateEeney<Enemy1>(missileManager);
+	for (int i = 0; i < MAX_MISSILE; i++)
+		missileManager->CreateMissile();
 	return S_OK;
 }
 

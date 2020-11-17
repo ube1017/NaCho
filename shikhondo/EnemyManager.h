@@ -20,7 +20,7 @@ public:
 	{
 		Enemy* enemy = Cast<Enemy>(scene->CreateObject<T>());
 		enemy->SetIsValid(false);
-		enemy->missileManager(missileManager);
+		enemy->SetMissileManager(missileManager);
 		enemyList.push_back(enemy);
 		return enemy;
 	}
@@ -30,7 +30,7 @@ public:
 	{
 		Enemy* enemy = Cast<Enemy>(scene->CreateObject<T>());
 		enemy->SetPos(pos);
-		enemy->missileManager(missileManager);
+		enemy->SetMissileManager(missileManager);
 		enemyList.push_back(enemy);
 		return enemy;
 	}

@@ -3,9 +3,10 @@
 
 HRESULT Player::Init()
 {
+	
 	imageinfo.imageName = "Player";
 	this->pos = { 640.0f ,100.0f };
-	imageinfo.drwrc = { (LONG)pos.x - 61, (LONG)pos.y - 70, (LONG)pos.x + 62,(LONG)pos.y + 71 };
+	imageinfo.DrawRectSetting("Player", this->pos, { 123,141 });
 	TimerManager::GetSingleton()->SetTimer(idleTimer,this,&Player::Idle , 0.035f);
 	speed = 3.0f;
 	return S_OK;

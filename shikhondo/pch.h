@@ -10,9 +10,7 @@
 #include <map>
 #include <deque>
 #include <wincodec.h>
-#include "KeyManager.h"
-#include "ImageManager.h"
-#include "TimerManager.h"
+
 
 #pragma comment(lib, "winmm.lib")
 #pragma comment(lib, "msimg32.lib")
@@ -29,6 +27,7 @@
 #define PlayXSize 650
 #define Play_LeftX 315
 #define Play_RightX Play_LeftX + PlayXSize
+#define MAX_MISSILE 2000
 
 using namespace std;
 
@@ -76,7 +75,6 @@ T Cast(U src)
 {
 	return static_cast<T>(src);
 }
-using namespace std;
 
 struct FPOINT
 {
@@ -93,3 +91,13 @@ enum class Patten
 	PlayerDefulat,
 	PlayerSlowMove,
 };
+
+
+
+
+
+
+
+#include "KeyManager.h"
+#include "ImageManager.h"
+#include "TimerManager.h"
