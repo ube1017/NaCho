@@ -4,9 +4,9 @@ HRESULT Enemy1::Init()
 {
 	hp = 10;
 	damge = 1;
-	speed = 10.0f;
-	size.cx = 10;
-	size.cy = 20;
+	speed = 15.0f;
+	size.cx = 30;
+	size.cy = 60;
 
 	// 시작 위치 설정
 	RandLocation();
@@ -53,7 +53,7 @@ void Enemy1::Render(HDC hdc)
 void Enemy1::RandLocation()
 {
 	RandNum = rand() % 2;
-	RandPos.x = rand() % WINSIZE_X;
+	RandPos.x = rand() % PlayXSize + Play_LeftX;
 	RandPos.y = rand() % (WINSIZE_Y / 2);
 	if (RandNum == 0)
 	{
@@ -63,11 +63,11 @@ void Enemy1::RandLocation()
 	{
 		if (RandPos.x > WINSIZE_X / 2)
 		{
-			RandPos.x *= 2;
+			RandPos.x = 1000;
 		}
 		else
 		{
-			RandPos.x *= -1;
+			RandPos.x = 0;
 		}
 	}
 
@@ -77,6 +77,6 @@ void Enemy1::RandLocation()
 
 void Enemy1::LocationReset()
 {
-	RandPos.x = (rand() % (WINSIZE_X - size.cx)) + (size.cx / 2);
+	RandPos.x = (rand() % (PlayXSize - size.cx)) + (size.cx / 2 + Play_LeftX);
 	RandPos.y = (rand() % (WINSIZE_Y / 2 - size.cy)) + (size.cy /2);
 }
