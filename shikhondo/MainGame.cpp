@@ -8,6 +8,9 @@
 #include "Player.h"
 #include "BackGround.h"
 #include "Enemy1.h"
+#include "Enemy2.h"
+#include "Enemy3.h"
+#include "EnemyBoss.h"
 
 #include <ctime>
 
@@ -31,7 +34,8 @@ HRESULT MainGame::Init()
 
 	player = CreateObject<Player>();
 	backGround = CreateObject<BackGround>();
-	Enemy* a = CreateObject<Enemy1>();
+	Enemy* a = CreateObject<EnemyBoss>();
+
 	return S_OK;
 }
 
