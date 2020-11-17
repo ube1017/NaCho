@@ -39,7 +39,7 @@ HRESULT MainGame::Init()
 	backGround = CreateObject<BackGround>();
 	EnemyManager* sasdf =  CreateObject<EnemyManager>();
 	sasdf->SetMainGame(this);
-	sasdf->SpwanEeney<Enemy1>();
+	sasdf->CreateEeney<Enemy1>();
 
 	return S_OK;
 }

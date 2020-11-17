@@ -16,7 +16,7 @@ public:
 	const list<Enemy*>* GetenemyList() { return &enemyList; }
 
 	template<typename T>
-	Enemy* SpwanEeney()
+	Enemy* CreateEeney()
 	{
 		Enemy* enemy = Cast<Enemy>(mainGame->CreateObject<T>());
 		enemyList.push_back(enemy);
@@ -24,12 +24,33 @@ public:
 	}
 
 	template<typename T>
-	Enemy* SpwanEeney(FPOINT pos)
+	Enemy* CreateEeney(FPOINT pos)
 	{
 		Enemy* enemy = Cast<Enemy>(mainGame->CreateObject<T>());
 		enemy->SetPos(pos);
 		enemyList.push_back(enemy);
 		return enemy;
+	}
+
+	template<typename T>
+	Enemy* SpwanEeney()
+	{
+		list<Enemy*>::iterator eit;
+		for (eit = enemyList.begin(); eit != enemyList.end() eit++)
+		{
+			T* SeletEnemy = Cast<T>(*eit);
+			if (SeletEnemy != nullptr)
+			{
+				Enemy* enemy = *eit;
+				if (!enemy->GetIsValid())
+				{
+					enemy->SetIsValid(true);
+
+					enemyList.splice(enemyList.end(),enemyList,eit);
+					break;
+				}
+			}
+		}
 	}
 
 private:

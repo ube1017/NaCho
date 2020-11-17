@@ -49,7 +49,7 @@ void Timer::Tick()
 	fpsFrameCount++;
 	if (fpsTimeElapsed >= timerDelay)
 	{
-		fpsTimeElapsed -= timerDelay;
+		fpsTimeElapsed = 0;
 		fps = fpsFrameCount;
 		fpsFrameCount = 0;
 		if (isSetTimer)

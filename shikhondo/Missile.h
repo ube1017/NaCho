@@ -12,6 +12,7 @@ public:
 	void Update();
 	void Render(HDC hdc);
 
+	void SetPos(FPOINT pos) { this->pos = pos; }
 	void SetOwner(Character* owner)  { this->owner = owner; }
 	const Character* GetOnwer() const  { return this->owner; }
 private:
