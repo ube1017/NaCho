@@ -14,13 +14,19 @@ public:
 	void Render(HDC hdc);		// 프레임 단위 출력 (이미지, 텍스트 등)
 
 
+	virtual void OnHit(class Missile* hitMissile) {}
 
+	FPOINT Getpos() { return pos; }
+	const int GetDamge() { return damge; }
+
+	void SetIsDead(bool value) { this->isDead = value; }
+	const bool GetIsDead() const { return isDead; }
 protected:
 	int hp;
 	int damge;
 	FPOINT pos;
 	float speed;
 	SIZE size;
-
+	bool isDead;
 };
 

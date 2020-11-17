@@ -8,10 +8,8 @@ struct ImageDrawInfo
 {
 	// 그릴 이미지 사각형 사이즈
 	RECT drwrc;
-	// 애니메이션 한프레임 사이즈 
-	// 애니메이션 사용안하는 다른 이미지일경우 사용안함
-	// 더이상 사용안함
-	SIZE animSize;
+	// 그림 사이즈
+	SIZE size;
 	// 이미지 이름
 	string imageName;
 	// 몇번째 이미지인지 x축

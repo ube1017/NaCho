@@ -31,7 +31,7 @@ HRESULT MainGame::Init()
 
 	player = CreateObject<Player>();
 	backGround = CreateObject<BackGround>();
-	CreateObject<Enemy1>();
+	Enemy* a = CreateObject<Enemy1>();
 	return S_OK;
 }
 

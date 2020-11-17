@@ -224,8 +224,6 @@ void ImageManager::DrawAnimImage(HDC hdc, const ImageDrawInfo& imageDrawInfo)
 void ImageManager::AlphaRender(HDC hdc, const ImageDrawInfo & imageDrawInfo, BYTE alpha)
 {
 	Image* drawImage = this->FindImage(imageDrawInfo.imageName);
-	int animX = (imageDrawInfo.animSize.cx * imageDrawInfo.framex);
-	int animY = (imageDrawInfo.animSize.cy * imageDrawInfo.framey);
 	if (drawImage)
 	{
 		drawImage->blendFun.SourceConstantAlpha = alpha;
