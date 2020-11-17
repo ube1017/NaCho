@@ -26,6 +26,12 @@ struct ImageDrawInfo
 		XY_AIS,
 	};
 
+	void MovePos(FPOINT pos)
+	{
+		drwrc = {	(LONG)pos.x - (size.cx / 2) ,(LONG)pos.y - (size.cy / 2),
+					(LONG)pos.x + (size.cx / 2) ,(LONG)pos.y + (size.cy / 2) };
+	}
+
 	template<typename T>
 	void MovePos(MovePosType type, T value, T XY_AIS_YValue = 0)
 	{
