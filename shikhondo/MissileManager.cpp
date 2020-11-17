@@ -30,7 +30,7 @@ Missile * MissileManager::CreateMissile(FPOINT pos)
 	return spwanMissile;
 }
 
-Missile* MissileManager::SpwanMissile(Character* onwer, FPOINT pos)
+Missile* MissileManager::SpwanMissile(Character* onwer, FPOINT pos, SIZE size)
 {
 	list<Missile*>::iterator mit;
 	Missile* missile;

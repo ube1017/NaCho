@@ -15,7 +15,7 @@ public:
 	//미사일 생성
 	class Missile* CreateMissile(FPOINT pos = { -100.0f,-100.0f });
 	// 생성된 미사일을 가져다 쓰는거
-	class Missile* SpwanMissile(class Character* onwer,FPOINT pos = { 0.0f,0.0f });
+	class Missile* SpwanMissile(class Character* onwer,FPOINT pos, SIZE size);
 
 
 private:

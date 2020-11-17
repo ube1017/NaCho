@@ -13,6 +13,7 @@
 #include "EnemyBoss.h"
 #include "EnemyManager.h"
 #include "GamePlayStatic.h"
+#include "PlayScene.h"
 
 #include <ctime>
 
@@ -21,25 +22,18 @@ HRESULT MainGame::Init()
 {
 	srand((UINT)time(NULL));
 	KeyManager::GetSingleton()->Init();
+	TimerManager::GetSingleton()->Init();
 	ImageManager* imageManager = ImageManager::GetSingleton();
 	imageManager->Init();
+	imageManager->_LoadBitmap("BackBuffer", "mapImage", { 1024, 768 });
 
-	imageManager->_LoadBitmap("BackBuffer", "mapImage", {1024, 768});
-	imageManager->_LoadBitmap("leftBack", "leftBack", { 448, 512 }, { 2, 1 });
-	imageManager->_LoadBitmap("leftCloud", "leftCloud", { 1024 , 512 });
 	backBuffer = new Image;
 	backBuffer->Init(WINSIZE_X, WINSIZE_Y);
 	MemDC = backBuffer->GetMemDC();
 	backbufferInfo.drwrc = { 0,0,WINSIZE_X,WINSIZE_Y };
 	backbufferInfo.imageName = "BackBuffer";
-
 	GamePlayStatic::SetMainGame(this);
-	player = CreateObject<Player>();
-	GamePlayStatic::SetPlayerCharacter(player);
-	backGround = CreateObject<BackGround>();
-	EnemyManager* sasdf =  CreateObject<EnemyManager>();
-	sasdf->SetMainGame(this);
-	sasdf->CreateEeney<Enemy1>();
+	scene = CreateObject<PlayScene>();
 
 	return S_OK;
 }
@@ -54,6 +48,8 @@ void MainGame::Release()
 void MainGame::Update()
 {
 	GameNode::Update();
+	TimerManager::GetSingleton()->Update();
+
 }
 
 void MainGame::Render()
@@ -63,6 +59,7 @@ void MainGame::Render()
 	// ¹é¹öÆÛ
 	imageManager->DrawImage(MemDC, backbufferInfo);
 
+	TimerManager::GetSingleton()->Render(MemDC);
 
 	GameNode::Render(MemDC);
 	HDC hdc = GetDC(g_hWnd);
