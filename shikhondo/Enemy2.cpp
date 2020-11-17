@@ -12,6 +12,10 @@ HRESULT Enemy2::Init()
 	RandLocation();
 	LocationReset();
 
+	////imageinfo.imageName = "enemy1";
+	//imageinfo.DrawRectSetting("enemy1", this->pos, { 145,155 }, true, { 145,155 });
+	//TimerManager::GetSingleton()->SetTimer(idleTimer, this, &Enemy1::Idle, 0.035f);
+
 	return E_NOTIMPL;
 }
 
@@ -43,10 +47,13 @@ void Enemy2::Update()
 			pos.y -= speed;
 		}
 	}
+
+	//imageinfo.MovePos(pos);
 }
 
 void Enemy2::Render(HDC hdc)
 {
+	//ImageManager::GetSingleton()->DrawAnimImage(hdc, imageinfo);
 	Rectangle(hdc, pos.x - (size.cx / 2), pos.y - (size.cy / 2), pos.x + (size.cx / 2), pos.y + (size.cy / 2));
 }
 
@@ -73,6 +80,7 @@ void Enemy2::RandLocation()
 
 	this->pos.x = RandPos.x;
 	this->pos.y = RandPos.y;
+	//imageinfo.MovePos(RandPos);
 }
 
 void Enemy2::LocationReset()
@@ -98,4 +106,11 @@ void Enemy2::LocationReset()
 		}
 		locationCount = 0;
 	}
+}
+
+void Enemy2::Idle()
+{
+	imageinfo.framex++;
+	if (imageinfo.framex > 3)
+		imageinfo.framex = 0;
 }

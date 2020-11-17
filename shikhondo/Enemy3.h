@@ -3,7 +3,7 @@
 class Enemy3 : public Enemy
 {
 private:
-
+	TimerHandle idleTimer;
 
 public:
 
@@ -14,5 +14,9 @@ public:
 
 	void RandLocation();
 	void LocationReset();
+
+private:
+	void Idle();
+
 };
 
