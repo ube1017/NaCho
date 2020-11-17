@@ -1,12 +1,26 @@
 #include "Timer.h"
 
-HRESULT Timer::Init() 
-{
-	timeElapsed = 0.0f;
-	currTime = 0;
-	fpsTimeElapsed = 0.0f;
-	fpsFrameCount = 0;
 
+
+Timer::Timer()
+{
+}
+
+
+Timer::~Timer()
+{
+	this->DelteTimer();
+}
+
+HRESULT Timer::Init()
+{
+	currTime = 0;
+	timeElapsed = 0;
+	fpsTimeElapsed = 0;
+	fpsFrameCount = 0;
+	fps = 0;
+	timerDelay = 1.0f;
+	isSetTimer = false;
 	if (QueryPerformanceFrequency((LARGE_INTEGER*)&periodFrequency))
 	{
 		isHardware = true;
@@ -19,31 +33,37 @@ HRESULT Timer::Init()
 		lastTime = timeGetTime();
 		timeScale = 0.001f;
 	}
-
 	return S_OK;
 }
 
 void Timer::Tick()
 {
 	if (isHardware)
-	{
 		QueryPerformanceCounter((LARGE_INTEGER*)&currTime);
-	}
 	else
-	{
 		currTime = timeGetTime();
-	}
-
+	
 	timeElapsed = (currTime - lastTime) * timeScale;
 
-	fpsFrameCount++;
 	fpsTimeElapsed += timeElapsed;
-	if (fpsTimeElapsed >= 1.0f)
+	fpsFrameCount++;
+	if (fpsTimeElapsed >= timerDelay)
 	{
+		fpsTimeElapsed -= timerDelay;
 		fps = fpsFrameCount;
-		fpsTimeElapsed = 0.0f;
 		fpsFrameCount = 0;
+		if (isSetTimer)
+			timer.Execute();
 	}
+
+
 
 	lastTime = currTime;
 }
+
+void Timer::DelteTimer()
+{
+	fpsTimeElapsed = 1.0f;
+	timer.UnBind();
+}
+

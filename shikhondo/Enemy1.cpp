@@ -10,7 +10,7 @@ HRESULT Enemy1::Init()
 
 	// 시작 위치 설정
 	RandLocation();
-
+	LocationReset();
 
 	return E_NOTIMPL;
 }

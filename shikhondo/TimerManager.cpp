@@ -1,35 +1,48 @@
 #include "TimerManager.h"
 #include "Timer.h"
 
+
+TimerManager::TimerManager()
+{
+}
+
+
+TimerManager::~TimerManager()
+{
+}
+
 HRESULT TimerManager::Init()
 {
-	timer = new Timer();
+	timer = new Timer;
 	timer->Init();
-
-	return S_OK;
+	timerCount = 0;
+	return E_NOTIMPL;
 }
 
 void TimerManager::Release()
 {
+	Const_IteratorTimerMap it;
+	for (it = timers.begin(); it != timers.end(); it++)
+		delete it->second;
 	delete timer;
+
+	timers.clear();
 }
 
 void TimerManager::Update()
 {
-	if (timer)
-		timer->Tick();
+	timer->Tick();
+	Const_IteratorTimerMap it;
+	for (it = timers.begin(); it != timers.end(); it++)
+		it->second->Tick();
+
 }
 
 void TimerManager::Render(HDC hdc)
 {
 	if (timer)
 	{
-		wsprintf(szText, "FPS : %d", timer->GetFPS());
-		TextOut(hdc, WINSIZE_X - 150, 20, szText, strlen(szText));
+		wsprintf(szText,"FPS : %d",timer->GetFPS());
+		TextOut(hdc,0,0,szText , strlen(szText));
 	}
-}
-
-float TimerManager::GetElapsedTime()
-{
-	return timer->GetElapsedTime();
 }

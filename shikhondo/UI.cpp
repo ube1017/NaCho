@@ -15,4 +15,5 @@ void UI::Update()
 
 void UI::Render(HDC hdc)
 {
+	GameNode::Render(hdc);
 }

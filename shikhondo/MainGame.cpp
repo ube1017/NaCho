@@ -7,6 +7,7 @@
 #include "EnemyManager.h"
 #include "Player.h"
 #include "BackGround.h"
+#include "Enemy1.h"
 
 #include <ctime>
 
@@ -18,48 +19,45 @@ HRESULT MainGame::Init()
 	ImageManager* imageManager = ImageManager::GetSingleton();
 	imageManager->Init();
 
-	imageManager->AddImage("BackBuffer","Image/mapImage.bmp",WINSIZE_X, WINSIZE_Y);
-	imageManager->AddImage("leftBack", "Image/leftBack.bmp", 448, 512, 2, 1, true, RGB(255, 0, 255));
-	imageManager->AddImage("leftCloud", "Image/leftCloud.bmp", 1024/3 * 2, 512/3 * 2, true, RGB(255, 0, 255));
-	//leftCloud
-	Image* backBuffer = imageManager->FindImage("BackBuffer");
-	Memdc = backBuffer->GetMemDC();
+	imageManager->_LoadBitmap("BackBuffer", "mapImage", {1024, 768});
+	imageManager->_LoadBitmap("leftBack", "leftBack", { 448, 512 }, { 2, 1 });
+	imageManager->_LoadBitmap("leftCloud", "leftCloud", { 1024 , 512 });
+	backBuffer = new Image;
+	backBuffer->Init(WINSIZE_X, WINSIZE_Y);
+	MemDC = backBuffer->GetMemDC();
+	backbufferInfo.drwrc = { 0,0,WINSIZE_X,WINSIZE_Y };
+	backbufferInfo.imageName = "BackBuffer";
 
 
-	player = new Player;
-	player->Init();
-	bk = new BackGround;
-	bk->Init();
-
+	player = CreateObject<Player>();
+	backGround = CreateObject<BackGround>();
+	CreateObject<Enemy1>();
 	return S_OK;
 }
 
 void MainGame::Release()
 {
-	ImageManager::GetSingleton()->Release();
-	player->Release();
-	delete player;
+	GameNode::Release();
+	backBuffer->Release();
+	delete backBuffer;
 }
 
 void MainGame::Update()
 {
-	player->Update();
-	bk->Update();
-	InvalidateRect(g_hWnd, NULL, false);
+	GameNode::Update();
 }
 
 void MainGame::Render()
 {
 	ImageManager* imageManager = ImageManager::GetSingleton();
-	Image* backBuffer =	imageManager->FindImage("BackBuffer");
-	if (backBuffer)
-		backBuffer->Render(Memdc,0,0);
+	
+	// ¹é¹öÆÛ
+	imageManager->DrawImage(MemDC, backbufferInfo);
 
-	Rectangle(Memdc,0,0,100,100);
-	bk->Render(Memdc);
 
+	GameNode::Render(MemDC);
 	HDC hdc = GetDC(g_hWnd);
-	BitBlt(hdc,0,0,WINSIZE_X,WINSIZE_Y , Memdc, 0,0, SRCCOPY);
+	BitBlt(hdc,0,0,WINSIZE_X,WINSIZE_Y , MemDC, 0,0, SRCCOPY);
 	DeleteDC(hdc);
 }
 

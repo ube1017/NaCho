@@ -138,7 +138,7 @@ int APIENTRY WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance,
 	// 타이머 해제
 	//KillTimer(g_hWnd, 0);
 
-	return message.wParam;
+	return Cast<int>(message.wParam);
 }
 
 // 콜백함수 : 윈도우 메시지(이벤트)를 처리하는 함수

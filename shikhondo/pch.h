@@ -1,11 +1,21 @@
 #pragma once
 
 #include <Windows.h>
-#include <math.h>
+#include <iostream>
 #include <string>
 #include <ctime>
+#include <cmath>
+#include <vector>
+#include <list>
+#include <map>
+#include <deque>
+#include <wincodec.h>
+#include "KeyManager.h"
+#include "ImageManager.h"
+#include "TimerManager.h"
 
-using namespace std;
+#pragma comment(lib, "winmm.lib")
+#pragma comment(lib, "msimg32.lib")
 
 #define WINSIZE_X	1280
 #define WINSIZE_Y	720
@@ -20,6 +30,53 @@ using namespace std;
 #define Play_LeftX 315
 #define Play_RightX Play_LeftX + PlayXSize
 
+using namespace std;
+
+extern HWND g_hWnd;
+extern HINSTANCE	g_hInstance;
+
+
+#pragma region typedefs
+
+typedef UINT ZOrder;
+#define SUPER(x) typedef x Super;
+
+#pragma endregion
+
+
+
+#pragma region CMD 설정
+//디버깅모드일 때 CMD 창 켜기
+#ifdef _DEBUG
+#ifdef UNICODE
+#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
+#else
+#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
+#endif
+#endif
+#pragma endregion
+
+// 디버깅 메세지
+#ifdef _DEBUG
+#define DEBUG_MASSAGE(msg ,... )  printf(msg,##__VA_ARGS__) 
+#else
+#define DEBUG_MASSAGE(msg ,... )
+#endif
+
+// 다이나믹 캐스트
+template<typename T, typename U>
+T* Cast(U* src)
+{
+	return dynamic_cast<T*>(src);
+}
+
+// 스타틱 캐스트
+template<typename T, typename U>
+T Cast(U src)
+{
+	return static_cast<T>(src);
+}
+using namespace std;
 
 struct FPOINT
 {

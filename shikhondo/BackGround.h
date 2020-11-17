@@ -9,9 +9,10 @@ public:
 	void Render(HDC hdc)	override;		// 프레임 단위 출력 (이미지, 텍스트 등)
 
 private:
-	class Image* leftBack;
-
 	FPOINT leftBack2pos;
 	FPOINT leftBack1pos;
+
+	ImageDrawInfo leftBack1;
+	ImageDrawInfo leftBack2;
 };
 

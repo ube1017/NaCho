@@ -31,11 +31,11 @@
     <Filter Include="Main\Image">
       <UniqueIdentifier>{4f402a4d-a616-4e35-912f-174032d85c74}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Main\NewFilter1">
-      <UniqueIdentifier>{d6b9a66c-b6b6-40a5-9da2-7aee492e84bf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Main\Character\Enemy">
       <UniqueIdentifier>{9da97222-5e9c-4ddb-88e7-4b9ce627f136}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Time">
+      <UniqueIdentifier>{11e7d8b4-e7f0-481c-a996-43e085b94f38}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -69,9 +69,6 @@
     <ClCompile Include="Image.cpp">
       <Filter>Main\Image</Filter>
     </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>Main\Image</Filter>
-    </ClCompile>
     <ClCompile Include="KeyManager.cpp">
       <Filter>Main\Manager</Filter>
     </ClCompile>
@@ -101,6 +98,9 @@
     </ClCompile>
     <ClCompile Include="UI.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Main\Time</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -134,9 +134,6 @@
     <ClInclude Include="Missile.h">
       <Filter>Main\Missile</Filter>
     </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Main\Image</Filter>
-    </ClInclude>
     <ClInclude Include="Image.h">
       <Filter>Main\Image</Filter>
     </ClInclude>
@@ -169,6 +166,9 @@
     </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Main\Time</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

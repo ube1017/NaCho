@@ -13,13 +13,14 @@ class Image;
 class MainGame : public GameNode
 {
 private:
-	HDC Memdc;
+	HDC MemDC;
 
 	Image* backBuffer;
-	Image* backGround;
+	ImageDrawInfo backbufferInfo;
+	//Image* backGround;
 
 	class Player* player;
-	class BackGround* bk;
+	class BackGround* backGround;
 public:
 	HRESULT Init();				// 멤버 변수 초기화, 메모리 할당
 	void Release();				// 메모리 해제
@@ -30,8 +31,7 @@ public:
 	float GetDistance(FPOINT pos1, FPOINT pos2);
 	float GetAngle(FPOINT pos1, FPOINT pos2);
 
-	LRESULT MainProc(HWND hWnd, UINT iMessage,
-		WPARAM wParam, LPARAM lParam);
+	LRESULT MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam);
 
 	MainGame();
 	~MainGame();
