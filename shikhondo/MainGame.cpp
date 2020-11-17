@@ -12,6 +12,7 @@
 #include "Enemy3.h"
 #include "EnemyBoss.h"
 #include "EnemyManager.h"
+#include "GamePlayStatic.h"
 
 #include <ctime>
 
@@ -32,10 +33,10 @@ HRESULT MainGame::Init()
 	backbufferInfo.drwrc = { 0,0,WINSIZE_X,WINSIZE_Y };
 	backbufferInfo.imageName = "BackBuffer";
 
-
+	GamePlayStatic::SetMainGame(this);
 	player = CreateObject<Player>();
+	GamePlayStatic::SetPlayerCharacter(player);
 	backGround = CreateObject<BackGround>();
-	Enemy* a = CreateObject<EnemyBoss>();
 	EnemyManager* sasdf =  CreateObject<EnemyManager>();
 	sasdf->SetMainGame(this);
 	sasdf->SpwanEeney<Enemy1>();

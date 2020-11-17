@@ -28,8 +28,8 @@ public:
 	inline T* CreateObject(bool isRender = true)
 	{
 		GameNode* newObject = new T;
-		newObject->Init();
 		newObject->SetParentsObject(this);
+		newObject->Init();
 		if (isRender)
 			object.insert(pair<ZOrder,GameNode*>(zOrder , newObject));
 		newObject->UPdateListAdd(this->object_UPdateList);
