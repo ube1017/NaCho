@@ -16,19 +16,21 @@ public:
 	const list<Enemy*>* GetenemyList() { return &enemyList; }
 
 	template<typename T>
-	Enemy* CreateEeney()
+	Enemy* CreateEeney(MissileManager* missileManager = nullptr)
 	{
 		Enemy* enemy = Cast<Enemy>(scene->CreateObject<T>());
 		enemy->SetIsValid(false);
+		enemy->missileManager(missileManager);
 		enemyList.push_back(enemy);
 		return enemy;
 	}
 
 	template<typename T>
-	Enemy* CreateEeney(FPOINT pos)
+	Enemy* CreateEeney(FPOINT pos, MissileManager* missileManager = nullptr)
 	{
 		Enemy* enemy = Cast<Enemy>(scene->CreateObject<T>());
 		enemy->SetPos(pos);
+		enemy->missileManager(missileManager);
 		enemyList.push_back(enemy);
 		return enemy;
 	}
@@ -46,8 +48,7 @@ public:
 				if (!enemy->GetIsValid())
 				{
 					enemy->SetIsValid(true);
-					enemy->RandLocation();
-					enemy->LocationReset();
+					enemy->Init();
 					enemyList.splice(enemyList.end(),enemyList,eit);
 					return enemy;
 				}

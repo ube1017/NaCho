@@ -15,6 +15,7 @@ private:
 
 	class Player* player;
 	class BackGround* backGround;
-	class EnemyManager* sasdf;
+	class EnemyManager* enemyManager;
+	class MissileManager* missileManager;
 };
 

@@ -16,7 +16,7 @@ HRESULT TimerManager::Init()
 	timer = new Timer;
 	timer->Init();
 	timerCount = 0;
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 void TimerManager::Release()
