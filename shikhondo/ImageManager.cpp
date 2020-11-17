@@ -186,15 +186,19 @@ void ImageManager::DrawImage(HDC hdc, const ImageDrawInfo& imageDrawInfo)
 void ImageManager::DrawAnimImage(HDC hdc, string imageName, const ImageDrawInfo& imageDrawInfo)
 {
 	Image* drawImage = this->FindImage(imageName);
-	//int animX = (imageDrawInfo.animSize.cx * imageDrawInfo.framex);
-	//int animY = (imageDrawInfo.animSize.cy * imageDrawInfo.framey);
+	int animX = (imageDrawInfo.animSize.cx * imageDrawInfo.framex);
+	int animY = (imageDrawInfo.animSize.cy * imageDrawInfo.framey);
 	if (drawImage)
+	{ 
+		if (!imageDrawInfo.isAnimSizeReset)
 		drawImage->AnimRender(hdc, imageDrawInfo.drwrc.left, imageDrawInfo.drwrc.top, 
-											imageDrawInfo.drwrc.right - imageDrawInfo.drwrc.left, imageDrawInfo.drwrc.bottom - imageDrawInfo.drwrc.top,
-											imageDrawInfo.framex, imageDrawInfo.framey);
-		//drawImage->AnimRender(hdc, imageDrawInfo.drwrc.left, imageDrawInfo.drwrc.top, 
-		//								imageDrawInfo.drwrc.right - imageDrawInfo.drwrc.left, imageDrawInfo.drwrc.bottom - imageDrawInfo.drwrc.top,
-		//								animX, animY, imageDrawInfo.animSize.cx, imageDrawInfo.animSize.cy);
+								imageDrawInfo.drwrc.right - imageDrawInfo.drwrc.left, imageDrawInfo.drwrc.bottom - imageDrawInfo.drwrc.top,
+								imageDrawInfo.framex, imageDrawInfo.framey);
+		else
+		drawImage->AnimRender(hdc, imageDrawInfo.drwrc.left, imageDrawInfo.drwrc.top,
+								imageDrawInfo.drwrc.right - imageDrawInfo.drwrc.left, imageDrawInfo.drwrc.bottom - imageDrawInfo.drwrc.top,
+								animX, animY, imageDrawInfo.animSize.cx, imageDrawInfo.animSize.cy);
+	}
 	else
 	{
 		string errorString = "Not Find '" + imageName + "''";
@@ -205,15 +209,19 @@ void ImageManager::DrawAnimImage(HDC hdc, string imageName, const ImageDrawInfo&
 void ImageManager::DrawAnimImage(HDC hdc, const ImageDrawInfo& imageDrawInfo)
 {
 	Image* drawImage = this->FindImage(imageDrawInfo.imageName);
-	//int animX = (imageDrawInfo.animSize.cx * imageDrawInfo.framex);
-	//int animY = (imageDrawInfo.animSize.cy * imageDrawInfo.framey);
+	int animX = (imageDrawInfo.animSize.cx * imageDrawInfo.framex);
+	int animY = (imageDrawInfo.animSize.cy * imageDrawInfo.framey);
 	if (drawImage)
+	{ 
+		if (!imageDrawInfo.isAnimSizeReset)
 		drawImage->AnimRender(hdc, imageDrawInfo.drwrc.left, imageDrawInfo.drwrc.top, 
-											imageDrawInfo.drwrc.right - imageDrawInfo.drwrc.left, imageDrawInfo.drwrc.bottom - imageDrawInfo.drwrc.top,
-											imageDrawInfo.framex, imageDrawInfo.framey);
-		//drawImage->AnimRender(hdc, imageDrawInfo.drwrc.left, imageDrawInfo.drwrc.top,
-		//	imageDrawInfo.drwrc.right - imageDrawInfo.drwrc.left, imageDrawInfo.drwrc.bottom - imageDrawInfo.drwrc.top,
-		//	animX, animY, imageDrawInfo.animSize.cx, imageDrawInfo.animSize.cy);
+								imageDrawInfo.drwrc.right - imageDrawInfo.drwrc.left, imageDrawInfo.drwrc.bottom - imageDrawInfo.drwrc.top,
+								imageDrawInfo.framex, imageDrawInfo.framey);
+		else
+		drawImage->AnimRender(hdc, imageDrawInfo.drwrc.left, imageDrawInfo.drwrc.top,
+								imageDrawInfo.drwrc.right - imageDrawInfo.drwrc.left, imageDrawInfo.drwrc.bottom - imageDrawInfo.drwrc.top,
+								animX, animY, imageDrawInfo.animSize.cx, imageDrawInfo.animSize.cy);
+	}
 	else
 	{
 		string errorString = "Not Find '" + imageDrawInfo.imageName + "''";

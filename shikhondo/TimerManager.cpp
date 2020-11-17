@@ -43,6 +43,6 @@ void TimerManager::Render(HDC hdc)
 	if (timer)
 	{
 		wsprintf(szText,"FPS : %d",timer->GetFPS());
-		TextOut(hdc,0,0,szText , strlen(szText));
+		TextOut(hdc,0,0,szText , (int)strlen(szText));
 	}
 }

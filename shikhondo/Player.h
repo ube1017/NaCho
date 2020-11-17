@@ -30,7 +30,7 @@ private:
 private:
 	void Idle();
 private:
-	ImageDrawInfo imageinfo;
+
 	MoveState moveState;
 	// ÆøÅº °¹¼ö
 	int boomCount;

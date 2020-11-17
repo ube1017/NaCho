@@ -16,8 +16,9 @@ struct ImageDrawInfo
 	int framex;
 	// 몇번째 이미지인지 y축
 	int framey;
-
-
+	// 애니메이션 사이즈
+	SIZE animSize;
+	bool isAnimSizeReset = false;
 	enum class MovePosType
 	{
 		X_AIS,
@@ -57,12 +58,14 @@ struct ImageDrawInfo
 		}
 	}
 
-	void DrawRectSetting(std::string imageName, FPOINT pos, SIZE size )
+	void DrawRectSetting(std::string imageName, FPOINT pos, SIZE size,bool isAnimSizeReset = false ,SIZE animSize = {0,0})
 	{
 		drwrc = { (LONG)pos.x - (size.cx / 2) ,(LONG)pos.y - (size.cy / 2),
 				  (LONG)pos.x + (size.cx / 2) ,(LONG)pos.y + (size.cy / 2) };
 		this->imageName = imageName;
 		this->size = size;
+		this->isAnimSizeReset = isAnimSizeReset;
+		this->animSize = animSize;
 	}
 
 };
