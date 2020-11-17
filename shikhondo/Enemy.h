@@ -13,6 +13,7 @@ public:
 	virtual void RandLocation() {}
 	virtual void LocationReset() {}
 
+	float GetAngle();
 protected:
 	FPOINT RandPos;
 	int RandNum;
