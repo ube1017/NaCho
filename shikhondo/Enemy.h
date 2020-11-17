@@ -12,5 +12,6 @@ public:
 protected:
 	FPOINT RandPos;
 	int RandNum;
+	int locationCount;
 };
 

@@ -37,6 +37,4 @@ void EnemyBoss::RandLocation()
 
 void EnemyBoss::LocationReset()
 {
-	RandPos.x = (rand() % (PlayXSize - size.cx)) + (size.cx / 2 + Play_LeftX);
-	RandPos.y = (rand() % (WINSIZE_Y / 2 - size.cy)) + (size.cy / 2);
 }

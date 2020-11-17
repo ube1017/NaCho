@@ -7,7 +7,7 @@ HRESULT Enemy2::Init()
 	speed = 10.0f;
 	size.cx = 50;
 	size.cy = 50;
-
+	locationCount = 0;
 	// 시작 위치 설정
 	RandLocation();
 	LocationReset();
@@ -77,6 +77,25 @@ void Enemy2::RandLocation()
 
 void Enemy2::LocationReset()
 {
-	RandPos.x = (rand() % (PlayXSize - size.cx)) + (size.cx / 2 + Play_LeftX);
-	RandPos.y = (rand() % (WINSIZE_Y / 2 - size.cy)) + (size.cy / 2);
+	locationCount++;
+	if (locationCount < 3)
+	{
+		RandPos.x = (rand() % (PlayXSize - size.cx)) + (size.cx / 2 + Play_LeftX);
+		RandPos.y = (rand() % (WINSIZE_Y / 2 - size.cy)) + (size.cy / 2);
+	}
+	else
+	{
+		RandPos.x = rand() % PlayXSize + Play_LeftX;
+		RandPos.y = rand() % (WINSIZE_Y / 2) + 50;
+
+		if (RandPos.x > WINSIZE_X / 2)
+		{
+			RandPos.x = 1200;
+		}
+		else
+		{
+			RandPos.x = -100;
+		}
+		locationCount = 0;
+	}
 }
