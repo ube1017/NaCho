@@ -1,10 +1,10 @@
 #pragma once
 #include "pch.h"
-#include "Singleton.h"
-class MainGame;
-class Enemy;
+#include "GameNode.h"
+#include "MainGame.h"
+#include "Enemy.h"
 
-class EnemyManager : public Singleton<EnemyManager>
+class EnemyManager : public GameNode
 {
 public:
 	HRESULT Init();
@@ -18,8 +18,18 @@ public:
 	template<typename T>
 	Enemy* SpwanEeney()
 	{
-		Enemy* enemy = mainGame->CreateObject<T>();
+		Enemy* enemy = Cast<Enemy>(mainGame->CreateObject<T>());
 		enemyList.push_back(enemy);
+		return enemy;
+	}
+
+	template<typename T>
+	Enemy* SpwanEeney(FPOINT pos)
+	{
+		Enemy* enemy = Cast<Enemy>(mainGame->CreateObject<T>());
+		enemy->SetPos(pos);
+		enemyList.push_back(enemy);
+		return enemy;
 	}
 
 private:

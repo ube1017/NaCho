@@ -11,6 +11,7 @@
 #include "Enemy2.h"
 #include "Enemy3.h"
 #include "EnemyBoss.h"
+#include "EnemyManager.h"
 
 #include <ctime>
 
@@ -35,6 +36,9 @@ HRESULT MainGame::Init()
 	player = CreateObject<Player>();
 	backGround = CreateObject<BackGround>();
 	Enemy* a = CreateObject<EnemyBoss>();
+	EnemyManager* sasdf =  CreateObject<EnemyManager>();
+	sasdf->SetMainGame(this);
+	sasdf->SpwanEeney<Enemy1>();
 
 	return S_OK;
 }

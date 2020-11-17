@@ -16,6 +16,7 @@ public:
 
 	virtual void OnHit(class Missile* hitMissile) {}
 
+	void SetPos(FPOINT pos) { this->pos = pos; }
 	FPOINT Getpos() { return pos; }
 	const int GetDamge() { return damge; }
 

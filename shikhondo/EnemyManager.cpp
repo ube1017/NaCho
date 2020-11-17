@@ -2,7 +2,8 @@
 
 HRESULT EnemyManager::Init()
 {
-	return E_NOTIMPL;
+	SetIsValid(false);
+	return S_OK;
 }
 
 void EnemyManager::Release()
