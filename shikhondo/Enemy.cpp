@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "GamePlayStatic.h"
 
 HRESULT Enemy::Init()
 {
@@ -15,4 +16,10 @@ void Enemy::Update()
 
 void Enemy::Render(HDC hdc)
 {
+}
+
+float Enemy::GetAngle()
+{
+	FPOINT pos = GamePlayStatic::GetPlayerCharacter()->Getpos();
+	return atan2f((pos.y - this->pos.y), (pos.x - this->pos.x));
 }

@@ -4,7 +4,7 @@ HRESULT Enemy1::Init()
 {
 	hp = 10;
 	damge = 1;
-	speed = 15.0f;
+	speed = 1.0f;
 	size.cx = 30;
 	size.cy = 60;
 	locationCount = 0;
@@ -21,28 +21,8 @@ void Enemy1::Release()
 
 void Enemy1::Update()
 {
-	if (RandPos.x != pos.x)
-	{
-		if (RandPos.x > pos.x)
-		{
-			pos.x += speed;
-		}
-		else if (RandPos.x < pos.x)
-		{
-			pos.x -= speed;
-		}
-	}
-	if (RandPos.y != pos.x)
-	{
-		if (RandPos.y > pos.y)
-		{
-			pos.y += speed;
-		}
-		else if (RandPos.y < pos.y)
-		{
-			pos.y -= speed;
-		}
-	}
+	pos.x += cosf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
+	pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 }
 
 void Enemy1::Render(HDC hdc)

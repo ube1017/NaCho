@@ -2,7 +2,7 @@
 #include "pch.h"
 #include "GameNode.h"
 
-
+class MissileManager;
 
 class Character : public GameNode
 {
@@ -13,8 +13,9 @@ public:
 	void Update();				// 프레임 단위 게임 로직 실행 (데이터 변경)
 	void Render(HDC hdc);		// 프레임 단위 출력 (이미지, 텍스트 등)
 
-
 	virtual void OnHit(class Missile* hitMissile) {}
+
+	void SetMissileManager(MissileManager* manager) { this->missileManager = manager; }
 
 	void SetPos(FPOINT pos) { this->pos = pos; }
 	FPOINT Getpos() { return pos; }
@@ -29,5 +30,6 @@ protected:
 	float speed;
 	SIZE size;
 	bool isDead;
+	MissileManager* missileManager;
 };
 

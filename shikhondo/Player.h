@@ -28,8 +28,14 @@ private:
 	void Boom();
 
 private:
+	void Idle();
+private:
+	ImageDrawInfo imageinfo;
 	MoveState moveState;
 	// ÆøÅº °¹¼ö
 	int boomCount;
+
+
+	TimerHandle idleTimer;
 };
 
