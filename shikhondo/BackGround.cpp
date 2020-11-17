@@ -42,6 +42,8 @@ void BackGround::Render(HDC hdc)
 
 	imageManager->DrawAnimImage(hdc, leftBack1);
 	imageManager->DrawAnimImage(hdc, leftBack2);
+
+	Rectangle(hdc, Play_LeftX, 0, Play_RightX, WINSIZE_Y);
 	//leftCloud
 	//leftBack->FrameRender(hdc, leftBack1pos.x, leftBack1pos.y,224, WINSIZE_Y ,0,0);
 	//leftBack->FrameRender(hdc, leftBack2pos.x, leftBack2pos.y, 224, WINSIZE_Y , 1, 0);

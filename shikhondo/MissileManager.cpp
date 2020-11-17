@@ -43,7 +43,9 @@ Missile* MissileManager::SpwanMissile(Character* onwer, FPOINT pos)
 			missile->SetOwner(onwer);
 			missile->SetPos(pos);
 			missileList.splice(missileList.end(), missileList, mit);
-			break;
+
+			return missile;
 		}
 	}
+	return nullptr;
 }

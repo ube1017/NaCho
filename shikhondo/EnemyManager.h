@@ -19,6 +19,7 @@ public:
 	Enemy* CreateEeney()
 	{
 		Enemy* enemy = Cast<Enemy>(mainGame->CreateObject<T>());
+		enemy->SetIsValid(false);
 		enemyList.push_back(enemy);
 		return enemy;
 	}
@@ -36,7 +37,7 @@ public:
 	Enemy* SpwanEeney()
 	{
 		list<Enemy*>::iterator eit;
-		for (eit = enemyList.begin(); eit != enemyList.end() eit++)
+		for (eit = enemyList.begin(); eit != enemyList.end() ;eit++)
 		{
 			T* SeletEnemy = Cast<T>(*eit);
 			if (SeletEnemy != nullptr)
@@ -45,13 +46,18 @@ public:
 				if (!enemy->GetIsValid())
 				{
 					enemy->SetIsValid(true);
-
+					enemy->RandLocation();
+					enemy->LocationReset();
 					enemyList.splice(enemyList.end(),enemyList,eit);
-					break;
+					return enemy;
 				}
 			}
 		}
+		return nullptr;
 	}
+
+	void DieEnemy(Enemy* enemy);
+
 
 private:
 	// 객체를 만들 메인 게임.
