@@ -34,7 +34,7 @@ void Enemy1::Update()
 	pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 	imageinfo.MovePos(pos);
 
-	checkTime += TimerManager::GetSingleton()->GettimeElapsed();
+	
 
 	if (!AutomaticMissile)
 	{
@@ -52,6 +52,17 @@ void Enemy1::Update()
 				checkTime = 0;
 				AutomaticMissile = true;
 			}
+		}
+	}
+	else if (AutomaticMissile)
+	{
+		checkTime += TimerManager::GetSingleton()->GettimeElapsed();
+		if (checkTime >= 2.0f)
+		{
+			LocationReset();
+
+			checkTime = 0;
+			AutomaticMissile = false;
 		}
 	}
 	//else if (checkTime >= 1.3f && AutomaticMissile)
@@ -98,25 +109,28 @@ void Enemy1::RandLocation()
 void Enemy1::LocationReset()
 {
 	locationCount++;
-	if (locationCount < 3)
+	if (locationCount < 4)
 	{
 		RandPos.x = (rand() % (PlayXSize - size.cx)) + (size.cx / 2 + Play_LeftX);
 		RandPos.y = (rand() % (WINSIZE_Y / 2 - size.cy)) + (size.cy / 2);
 	}
-	else
+	else if (locationCount < 5)
 	{
 		RandPos.x = rand() % PlayXSize + Play_LeftX;
 		RandPos.y = rand() % (WINSIZE_Y / 2) + 50;
 
 		if (RandPos.x > WINSIZE_X / 2)
 		{
-			RandPos.x = 1200;
+			RandPos.x = 2000;
 		}
 		else
 		{
 			RandPos.x = -100;
 		}
-		locationCount = 0;
+	}
+	else
+	{
+		//죽이고 싶으면 여기서 주기면댐
 	}
 }
 
