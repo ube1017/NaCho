@@ -15,10 +15,17 @@ public:
 	//미사일 생성
 	class Missile* CreateMissile(FPOINT pos = { -100.0f,-100.0f });
 	// 생성된 미사일을 가져다 쓰는거
-	class Missile* SpwanMissile(class Character* onwer,FPOINT pos, SIZE size);
+	class Missile* SpawnMissile(class Character* onwer, string imageName, FPOINT pos, SIZE size);
+	// 플레이어가 미사일 생성하는 함수
+	class Missile* SpawnPlayerMissile(class Character* onwer, string imageName, FPOINT pos, SIZE size);
 
 
+	const list<Missile*>* GetMissileList() { return &missileList; }
+	const list<Missile*>* GetSpawnMissileList() { return &SpawnMissileList; }
+	const list<Missile*>* GetSpawnPlayerMissileList() { return &SpawnPlayerMissileList; }
 private:
 	list<Missile*> missileList;
+	list<Missile*> SpawnMissileList;
+	list<Missile*> SpawnPlayerMissileList;
 };
 

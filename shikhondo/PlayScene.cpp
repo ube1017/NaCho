@@ -10,6 +10,7 @@
 #include "MissileManager.h"
 #include "BackGround.h"
 #include "Missile.h"
+#include "CollisionManager.h"
 
 HRESULT PlayScene::Init()
 {
@@ -42,6 +43,10 @@ HRESULT PlayScene::Init()
 		missile = missileManager->SpwanMissile(player, ppos, {20,20});
 		missile->MissileSetting("21",ppos, { 20,20 });
 	}
+
+
+	collsionManager = CreateObject<CollisionManager>();
+	collsionManager->ManagerSetting(enemyManager,missileManager);
 	return S_OK;
 }
 
@@ -69,4 +74,11 @@ void PlayScene::Update()
 void PlayScene::Render(HDC hdc)
 {
 	GameNode::Render(hdc);
+}
+
+Missile* PlayScene::SpawnMissile(Character* owner, string imageName, FPOINT missilePos, SIZE MissileSize)
+{
+	Missile* missile;
+	missile = missileManager->SpwanMissile(owner, imageName, missilePos, MissileSize);
+	return missile;
 }
