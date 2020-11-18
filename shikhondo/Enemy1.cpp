@@ -1,4 +1,6 @@
 #include "Enemy1.h"
+#include "PlayScene.h"
+#include "GamePlayStatic.h"
 
 HRESULT Enemy1::Init()
 {
@@ -12,8 +14,11 @@ HRESULT Enemy1::Init()
 	RandLocation();
 	LocationReset();
 
+	checkTime = 0;
+	AutomaticMissile = false;
+
 	//imageinfo.imageName = "enemy1";
-	imageinfo.DrawRectSetting("enemy1", this->pos, { 145,155 }, true, {145,155});
+	imageinfo.DrawRectSetting("enemy1", this->pos, { 145,155 }, true, { 145,158 });
 	TimerManager::GetSingleton()->SetTimer(idleTimer, this, &Enemy1::Idle, 0.070f);
 
 	return E_NOTIMPL;
@@ -28,6 +33,44 @@ void Enemy1::Update()
 	pos.x += cosf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 	pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 	imageinfo.MovePos(pos);
+
+	
+
+	if (!AutomaticMissile)
+	{
+		if (pos.x < RandPos.x + 5 && pos.x >= RandPos.x - 5)
+		{
+			if (pos.y < RandPos.y + 5 && pos.y >= RandPos.y - 5)
+			{// 탄 발사전 좌표지정
+				PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
+				// 각도를 받고
+				playScene->SpawnMissile(this, "21", this->pos, { 10, 10 });
+				//cosf(this->GetAngle()) * speed;
+				//sinf(this->GetAngle()) * speed;
+
+			   //그 각도로 움직이는 코드
+				checkTime = 0;
+				AutomaticMissile = true;
+			}
+		}
+	}
+	else if (AutomaticMissile)
+	{
+		checkTime += TimerManager::GetSingleton()->GettimeElapsed();
+		if (checkTime >= 2.0f)
+		{
+			LocationReset();
+
+			checkTime = 0;
+			AutomaticMissile = false;
+		}
+	}
+	//else if (checkTime >= 1.3f && AutomaticMissile)
+	//{
+	//	checkTime = 0;
+	//}
+
+	// 위치 초기화할때 위에꺼도 초기화
 }
 
 void Enemy1::Render(HDC hdc)
@@ -57,7 +100,7 @@ void Enemy1::RandLocation()
 		}
 	}
 
-	
+
 	this->pos.x = RandPos.x;
 	this->pos.y = RandPos.y;
 	imageinfo.MovePos(RandPos);
@@ -66,25 +109,28 @@ void Enemy1::RandLocation()
 void Enemy1::LocationReset()
 {
 	locationCount++;
-	if (locationCount < 3)
+	if (locationCount < 4)
 	{
 		RandPos.x = (rand() % (PlayXSize - size.cx)) + (size.cx / 2 + Play_LeftX);
 		RandPos.y = (rand() % (WINSIZE_Y / 2 - size.cy)) + (size.cy / 2);
 	}
-	else
+	else if (locationCount < 5)
 	{
 		RandPos.x = rand() % PlayXSize + Play_LeftX;
 		RandPos.y = rand() % (WINSIZE_Y / 2) + 50;
 
 		if (RandPos.x > WINSIZE_X / 2)
 		{
-			RandPos.x = 1200;
+			RandPos.x = 2000;
 		}
 		else
 		{
 			RandPos.x = -100;
 		}
-		locationCount = 0;
+	}
+	else
+	{
+		//죽이고 싶으면 여기서 주기면댐
 	}
 }
 

@@ -8,7 +8,7 @@
 
 HRESULT CollisionManager::Init()
 {
-
+	
 	return S_OK;
 }
 
@@ -25,6 +25,7 @@ void CollisionManager::Update()
 
 void CollisionManager::Render(HDC hdc)
 {
+	GameNode::Render(hdc);
 	FPOINT playerPos = player->Getpos();
 	SIZE playerSize = player->GetSize();
 	Rectangle(hdc,  playerPos.x - playerSize.cx /2, playerPos.y - playerSize.cy/2, 
