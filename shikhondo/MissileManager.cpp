@@ -90,7 +90,7 @@ void MissileManager::MissileRelease(Character* onwer, Missile* missile)
 		{
 			if (*mit == missile)
 			{
-				missile->SetIsValid(false);
+				//missile->SetIsValid(false);
 				missile->SetOwner(nullptr);
 				missile->SetPos({ -10,-10 });
 				missile->SetSize({ 0,0 });

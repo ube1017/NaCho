@@ -4,7 +4,8 @@ GameNode::GameNode() :
 	isValid(true),
 	zOrder(10),
 	parentsObject(nullptr),
-	isNotUPdate(false)
+	isNotUPdate(false),
+	isActivation(true)
 {
 }
 
@@ -48,8 +49,17 @@ void GameNode::Update()
 	{
 		object = *it;
 		if (object != nullptr)
+		{
 			object->Update();
+			if (!object->GetisActivation())
+				Removelist.push_back(it);
+		}
 	}
+
+	for (int i = 0; i < Removelist.size(); i++)
+		(*(Removelist[i]))->SetIsValid(false);
+	if (Removelist.size() != 0)
+		Removelist.clear();
 }
 
 void GameNode::Render(HDC hdc)
@@ -125,7 +135,7 @@ void GameNode::SetIsValid(bool value)
 				break;
 			}
 		}
-		
+		isActivation = false;
 	}
 	else if (value && !this->isValid)
 	{
@@ -136,6 +146,7 @@ void GameNode::SetIsValid(bool value)
 		if (!this->isNotUPdate)
 			childsUpdateList->push_back(this);
 		childs->insert(pair<ZOrder, GameNode*>(zOrder, this));
+		isActivation = true;
 		
 	}
 }

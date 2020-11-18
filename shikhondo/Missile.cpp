@@ -35,6 +35,7 @@ void Missile::Update()
 		pos.y <= 0 || pos.y >= WINSIZE_Y)
 	{
 		this->MissileRelease();
+		this->isActivation = false;
 	}
 
 }

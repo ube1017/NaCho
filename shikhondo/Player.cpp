@@ -15,7 +15,7 @@ HRESULT Player::Init()
 	imageinfo.DrawRectSetting("Player", this->pos, { 123,141 });
 	idleTimer.timerName = "플레이어 아이들 애니메이션타이머";
 	TimerManager::GetSingleton()->SetTimer(idleTimer,this,&Player::Idle , 0.035f);
-	TimerManager::GetSingleton()->SetTimer(fireTimer, this, &Player::FireDelay, 0.50f);
+	TimerManager::GetSingleton()->SetTimer(fireTimer, this, &Player::FireDelay, 0.10f);
 	isFire = true;
 	speed = 3.0f;
 	return S_OK;
@@ -101,12 +101,13 @@ void Player::Fire()
 	{
 		Missile* missile;
 		FPOINT missilePos = this->pos;
-		missilePos.x += 3.0f;
+		missilePos.x += 5.0f;
+		missilePos.y -= 20.0f;
 		PlayScene* playscene = Cast<PlayScene>(GamePlayStatic::GetScene());
 		MissileManager* missileManager = playscene->GetMissileManager();
 		for (int i = 0; i < 3; i++)
 		{
-			missilePos.x -= (3.0f * i);
+			missilePos.x -= (5.0f * i);
 			missile = missileManager->SpawnPlayerMissile(this, "21", missilePos, { 20,20 });
 			missile->SetSpeed(-3.0f);
 			missile->SetMovePatten(Patten::NORMALMOVE);

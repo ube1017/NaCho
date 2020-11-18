@@ -42,6 +42,7 @@ public:
 		if (!isNotUPdate) 
 			object_UPdateList->push_back(this);
 	}
+	bool GetisActivation() { return this->isActivation; }
 	// z 버퍼 설정
 	void SetZOrder(ZOrder z);
 	ZOrder GetZOrder() { return zOrder; }
@@ -77,6 +78,7 @@ protected:
 	bool isNotUPdate;
 	//렌더링할지 말지
 	bool isRender;
-
+	//
+	bool isActivation;
 };
 
