@@ -11,11 +11,14 @@ public:
 	void Update();
 	// 프레임 단위 출력 (이미지, 텍스트)
 	void Render(HDC hdc);
+
+	class Missile* SpawnMissile(class Character* owner,string imageName, FPOINT missilePos, SIZE MissileSize);
 private:
 
 	class Player* player;
 	class BackGround* backGround;
 	class EnemyManager* enemyManager;
 	class MissileManager* missileManager;
+	class CollisionManager* collsionManager;
 };
 

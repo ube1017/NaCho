@@ -72,6 +72,8 @@ struct ImageDrawInfo
 		this->size = size;
 		this->isAnimSizeReset = isAnimSizeReset;
 		this->animSize = animSize;
+		this->framex = 0;
+		this->framey = 0;
 	}
 
 };

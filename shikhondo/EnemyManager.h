@@ -13,7 +13,8 @@ public:
 	void Render(HDC hdc);		// 프레임 단위 출력 (이미지, 텍스트 등)
 
 	void SetMainGame(Scene* scene) { this->scene = scene; }
-	const list<Enemy*>* GetenemyList() { return &enemyList; }
+	const list<Enemy*>* GetEnemyList() { return &enemyList; }
+	const list<Enemy*>* GetSpawnEnemyList() { return &spawnEnemyList; }
 
 	template<typename T>
 	Enemy* CreateEeney(MissileManager* missileManager = nullptr)
@@ -36,7 +37,7 @@ public:
 	}
 
 	template<typename T>
-	Enemy* SpwanEeney()
+	Enemy* SpawnEeney()
 	{
 		list<Enemy*>::iterator eit;
 		for (eit = enemyList.begin(); eit != enemyList.end() ;eit++)
@@ -50,6 +51,7 @@ public:
 					enemy->SetIsValid(true);
 					enemy->Init();
 					enemyList.splice(enemyList.end(),enemyList,eit);
+					spawnEnemyList.push_back(enemy);
 					return enemy;
 				}
 			}
@@ -64,5 +66,6 @@ private:
 	// 객체를 만들 메인 게임.
 	Scene* scene;
 	list<Enemy*> enemyList;
+	list<Enemy*> spawnEnemyList;
 };
 

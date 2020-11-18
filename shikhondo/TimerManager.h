@@ -38,6 +38,8 @@ public:
 	void Update();
 	void Render(HDC hdc);
 
+	float GettimeElapsed();
+
 public:
 	template<typename UserClass>
 	void SetTimer(TimerHandle& timerHandle, UserClass* object, typename Memptr<UserClass>::Type fun, float delay = 1.0f)
@@ -46,11 +48,21 @@ public:
 		it = timers.find(timerHandle);
 		if (it == timers.end())
 		{
-			Timer* newTimer = new Timer;
-			newTimer->Init();
-			timerHandle.timerNum = ++timerCount;
-			newTimer->SetTimer(object, fun, delay);
-			timers.insert(make_pair(timerHandle, newTimer));
+			if (timerHandle.timerNum == -1)
+			{
+				Timer* newTimer = new Timer;
+				newTimer->Init();
+				timerHandle.timerNum = ++timerCount;
+				newTimer->SetTimer(object, fun, delay);
+				timers.insert(make_pair(timerHandle, newTimer));
+			}
+			else
+			{
+				Timer* newTimer = new Timer;
+				newTimer->Init();
+				newTimer->SetTimer(object, fun, delay);
+				timers.insert(make_pair(timerHandle, newTimer));
+			}
 		}
 		else
 		{
@@ -59,6 +71,8 @@ public:
 			newTimer->SetTimer(object, fun, delay);
 		}
 	}
+
+	void DeleteTimer(TimerHandle& timerHandle);
 private:
 	Timer* timer;
 	std::map<TimerHandle, Timer*> timers;

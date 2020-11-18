@@ -19,10 +19,19 @@ public:
 
 	void SetPos(FPOINT pos) { this->pos = pos; }
 	FPOINT Getpos() { return pos; }
+
+	SIZE GetSize() { return size; }
 	const int GetDamge() { return damge; }
 
 	void SetIsDead(bool value) { this->isDead = value; }
 	const bool GetIsDead() const { return isDead; }
+
+	const RECT GetHitBox() { return hitBox; }
+
+	// 캐릭터 사망함수
+	virtual void Death();
+protected:
+	virtual void Fire() {}
 protected:
 	int hp;
 	int damge;
@@ -30,6 +39,7 @@ protected:
 	float speed;
 	SIZE size;
 	bool isDead;
+	RECT hitBox;
 	MissileManager* missileManager;
 	// 이미지 그릴때 필요한 정보
 	ImageDrawInfo imageinfo;

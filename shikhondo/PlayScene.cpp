@@ -9,6 +9,8 @@
 #include "EnemyManager.h"
 #include "MissileManager.h"
 #include "BackGround.h"
+#include "Missile.h"
+#include "CollisionManager.h"
 
 HRESULT PlayScene::Init()
 {
@@ -17,7 +19,9 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("leftCloud", "leftCloud", { 1024 , 512 });
 	imageManager->_LoadBitmap("Player", "player", { 2706 , 141 }, { 22,1 });
 	imageManager->_LoadBitmap("enemy1", "enemy1", { 512 , 512 }, { 3,3 });
+	imageManager->_LoadBitmap("21", "21", { 400,100 }, { 4,1 });
 
+	GamePlayStatic::SetScene(this);
 	backGround = CreateObject<BackGround>();
 	player = CreateObject<Player>();
 	GamePlayStatic::SetPlayerCharacter(player);
@@ -29,6 +33,19 @@ HRESULT PlayScene::Init()
 		enemyManager->CreateEeney<Enemy1>(missileManager);
 	for (int i = 0; i < MAX_MISSILE; i++)
 		missileManager->CreateMissile();
+	FPOINT ppos;
+	Missile* missile;
+	for (int i = 0; i < 300; i++)
+	{
+		ppos.x = (float)(rand() % PlayXSize + Play_LeftX);
+		ppos.y = (float)(rand() % WINSIZE_X);
+
+		missile = this->SpawnMissile(player, "21", ppos, { 20,20 });
+	}
+
+
+	collsionManager = CreateObject<CollisionManager>();
+	collsionManager->ManagerSetting(enemyManager,missileManager);
 	return S_OK;
 }
 
@@ -45,7 +62,7 @@ void PlayScene::Update()
 	static int i = 0;
 	static int j = 0;
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_DOWN))
-		test[i++] = enemyManager->SpwanEeney<Enemy1>();
+		test[i++] = enemyManager->SpawnEeney<Enemy1>();
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_UP))
 	{
 		enemyManager->DieEnemy(test[j++]);
@@ -56,4 +73,11 @@ void PlayScene::Update()
 void PlayScene::Render(HDC hdc)
 {
 	GameNode::Render(hdc);
+}
+
+Missile* PlayScene::SpawnMissile(Character* owner, string imageName, FPOINT missilePos, SIZE MissileSize)
+{
+	Missile* missile;
+	missile = missileManager->SpawnMissile(owner, imageName, missilePos, MissileSize);
+	return missile;
 }
