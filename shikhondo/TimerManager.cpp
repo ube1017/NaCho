@@ -51,7 +51,7 @@ void TimerManager::DeleteTimer(TimerHandle & timerHandle)
 {
 	map<TimerHandle, Timer*>::iterator it;
 	it = timers.find(timerHandle);
-	if (it == timers.end())
+	if (it != timers.end())
 	{
 		Timer* newTimer = it->second;
 		newTimer->timer.UnBind();

@@ -26,7 +26,8 @@ void EnemyManager::DieEnemy(Enemy* enemy)
 		if (enemy == *eit)
 		{
 			Enemy* enemy = *eit;
-			enemy->SetIsValid(false);
+			enemy->Death();
+			//enemy->SetIsValid(false);
 			enemyList.splice(enemyList.begin(), enemyList, eit);
 			break;
 		}

@@ -117,7 +117,7 @@ void GameNode::SetIsValid(bool value)
 				break;
 			}
 		}
-
+		
 		for (uit = childsUpdateList->begin(); uit != childsUpdateList->end(); uit++)
 		{
 			if (*uit == this)
@@ -125,7 +125,8 @@ void GameNode::SetIsValid(bool value)
 				childsUpdateList->erase(uit);
 				break;
 			}
- 		}
+		}
+		
 	}
 	else if (value && !this->isValid)
 	{
@@ -133,7 +134,8 @@ void GameNode::SetIsValid(bool value)
 		multimap<ZOrder, GameNode*, greater<ZOrder>>* childs = this->parentsObject->GetRenderChilds();
 		GameNodeList* childsUpdateList = this->parentsObject->GetUpdateChilds();
 
-		childsUpdateList->push_back(this);
+		if (!this->isNotUPdate)
+			childsUpdateList->push_back(this);
 		childs->insert(pair<ZOrder, GameNode*>(zOrder, this));
 		
 	}

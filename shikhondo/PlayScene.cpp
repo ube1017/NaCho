@@ -9,6 +9,7 @@
 #include "EnemyManager.h"
 #include "MissileManager.h"
 #include "BackGround.h"
+#include "Missile.h"
 
 HRESULT PlayScene::Init()
 {
@@ -17,7 +18,9 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("leftCloud", "leftCloud", { 1024 , 512 });
 	imageManager->_LoadBitmap("Player", "player", { 2706 , 141 }, { 22,1 });
 	imageManager->_LoadBitmap("enemy1", "enemy1", { 512 , 512 }, { 3,3 });
+	imageManager->_LoadBitmap("21", "21", { 400,100 }, { 4,1 });
 
+	GamePlayStatic::SetScene(this);
 	backGround = CreateObject<BackGround>();
 	player = CreateObject<Player>();
 	GamePlayStatic::SetPlayerCharacter(player);
@@ -29,6 +32,16 @@ HRESULT PlayScene::Init()
 		enemyManager->CreateEeney<Enemy1>(missileManager);
 	for (int i = 0; i < MAX_MISSILE; i++)
 		missileManager->CreateMissile();
+	FPOINT ppos;
+	Missile* missile;
+	for (int i = 0; i < 300; i++)
+	{
+		ppos.x = (float)(rand() % PlayXSize + Play_LeftX);
+		ppos.y = (float)(rand() % WINSIZE_X);
+
+		missile = missileManager->SpwanMissile(player, ppos, {20,20});
+		missile->MissileSetting("21",ppos, { 20,20 });
+	}
 	return S_OK;
 }
 

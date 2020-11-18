@@ -27,6 +27,7 @@
 #define PlayXSize 650
 #define Play_LeftX 315
 #define Play_RightX Play_LeftX + PlayXSize
+// 미사일은 300발정도 가좋다
 #define MAX_MISSILE 2000
 
 using namespace std;

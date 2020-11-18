@@ -7,6 +7,7 @@ HRESULT Player::Init()
 	imageinfo.imageName = "Player";
 	this->pos = { 640.0f ,100.0f };
 	imageinfo.DrawRectSetting("Player", this->pos, { 123,141 });
+	idleTimer.timerName = "플레이어 아이들 애니메이션타이머";
 	TimerManager::GetSingleton()->SetTimer(idleTimer,this,&Player::Idle , 0.035f);
 	speed = 3.0f;
 	return S_OK;

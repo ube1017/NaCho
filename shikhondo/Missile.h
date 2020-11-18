@@ -21,5 +21,5 @@ private:
 	FPOINT pos;
 	SIZE size;
 	ImageDrawInfo imaginfo;
-
+	TimerHandle moveTimerHandle;
 };

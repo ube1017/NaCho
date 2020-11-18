@@ -3,6 +3,7 @@
 #include "MainGame.h"
 #include "GamePlayStatic.h"
 #include "Character.h"
+#include "Scene.h"
 
 HRESULT MissileManager::Init()
 {
@@ -24,9 +25,10 @@ void MissileManager::Render(HDC hdc)
 
 Missile * MissileManager::CreateMissile(FPOINT pos)
 {
-	Missile* spwanMissile = GamePlayStatic::GetMainGame()->CreateObject<Missile>();
+	Missile* spwanMissile = GamePlayStatic::GetScene()->CreateObject<Missile>();
 	spwanMissile->SetPos(pos);
 	spwanMissile->SetIsValid(false);
+	missileList.push_back(spwanMissile);
 	return spwanMissile;
 }
 

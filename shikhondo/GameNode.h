@@ -32,11 +32,16 @@ public:
 		newObject->Init();
 		if (isRender)
 			object.insert(pair<ZOrder,GameNode*>(zOrder , newObject));
-		newObject->UPdateListAdd(this->object_UPdateList);
+		GameNode* pObject = const_cast<GameNode*>(newObject->GetParentsObject());
+		newObject->UPdateListAdd(pObject->GetUpdateChilds());
 		allClass.push_back(newObject);
 		return Cast<T>(newObject);
 	}
-	inline void UPdateListAdd(list<GameNode*>& object_UPdateList) {if (!isNotUPdate) object_UPdateList.push_back(this);}
+	inline void UPdateListAdd(list<GameNode*>* object_UPdateList) 
+	{
+		if (!isNotUPdate) 
+			object_UPdateList->push_back(this);
+	}
 	// z 버퍼 설정
 	void SetZOrder(ZOrder z);
 	// 자식들의 렌더 오브젝트 얻어 오기
@@ -50,6 +55,8 @@ public:
 	inline bool GetIsValid()					{ return isValid; }
 
 	void SetIsRender(bool value);
+
+	const GameNode* GetParentsObject() { return parentsObject; }
 private:
 	void SetParentsObject(GameNode* object) { parentsObject = object; }
 protected:
