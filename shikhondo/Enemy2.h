@@ -15,6 +15,7 @@ public:
 	void RandLocation();
 	void LocationReset();
 
+	void Death() override;
 private:
 	void Idle();
 };

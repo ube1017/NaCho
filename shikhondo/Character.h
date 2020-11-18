@@ -23,6 +23,9 @@ public:
 
 	void SetIsDead(bool value) { this->isDead = value; }
 	const bool GetIsDead() const { return isDead; }
+
+	// 캐릭터 사망함수
+	virtual void Death();
 protected:
 	int hp;
 	int damge;

@@ -105,6 +105,12 @@ void Enemy3::LocationReset()
 	}
 }
 
+void Enemy3::Death()
+{
+	Character::Death();
+	TimerManager::GetSingleton()->DeleteTimer(idleTimer);
+}
+
 void Enemy3::Idle()
 {
 	imageinfo.framex++;

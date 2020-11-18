@@ -35,7 +35,7 @@ void EnemyBoss::Render(HDC hdc)
 void EnemyBoss::RandLocation()
 {
 	this->pos.x = Play_LeftX +200;
-	this->pos.y = 20
+	this->pos.y = 20;
 	//imageinfo.MovePos(this->pos);
 }
 

@@ -14,7 +14,7 @@ HRESULT Enemy1::Init()
 
 	//imageinfo.imageName = "enemy1";
 	imageinfo.DrawRectSetting("enemy1", this->pos, { 145,155 }, true, {145,155});
-	 TimerManager::GetSingleton()->SetTimer(idleTimer, this, &Enemy1::Idle, 0.035f);
+	TimerManager::GetSingleton()->SetTimer(idleTimer, this, &Enemy1::Idle, 0.035f);
 
 	return E_NOTIMPL;
 }
@@ -86,6 +86,12 @@ void Enemy1::LocationReset()
 		}
 		locationCount = 0;
 	}
+}
+
+void Enemy1::Death()
+{
+	Character::Death();
+	TimerManager::GetSingleton()->DeleteTimer(idleTimer);
 }
 
 void Enemy1::Idle()

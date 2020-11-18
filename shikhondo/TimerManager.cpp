@@ -46,3 +46,17 @@ void TimerManager::Render(HDC hdc)
 		TextOut(hdc,0,0,szText , (int)strlen(szText));
 	}
 }
+
+void TimerManager::DeleteTimer(TimerHandle & timerHandle)
+{
+	map<TimerHandle, Timer*>::iterator it;
+	it = timers.find(timerHandle);
+	if (it == timers.end())
+	{
+		Timer* newTimer = it->second;
+		newTimer->timer.UnBind();
+		delete newTimer;
+		timers.erase(it);
+	}
+
+}

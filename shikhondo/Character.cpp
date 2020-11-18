@@ -17,3 +17,9 @@ void Character::Render(HDC hdc)
 {
 }
 
+void Character::Death()
+{
+	this->isDead = true;
+	this->SetIsValid(false);
+}
+
