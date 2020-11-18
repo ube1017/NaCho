@@ -12,6 +12,8 @@ public:
 	void Release();
 	void Update();
 	void Render(HDC hdc);
+	
+	void OnHit();
 
 	void MissileSetting(string imageName, FPOINT pos, SIZE size);
 	void MissileRelease();

@@ -3,6 +3,7 @@
 HRESULT EnemyManager::Init()
 {
 	SetIsValid(false);
+	isNotUPdate = true;
 	return S_OK;
 }
 

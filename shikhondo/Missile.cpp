@@ -46,6 +46,12 @@ void Missile::Render(HDC hdc)
 	ImageManager::GetSingleton()->DrawAnimImage(hdc, imaginfo);
 }
 
+void Missile::OnHit()
+{
+	this->MissileRelease();
+	this->isActivation = false;
+}
+
 void Missile::MissileSetting(string imageName, FPOINT pos, SIZE size)
 {
 	this->pos = pos;
