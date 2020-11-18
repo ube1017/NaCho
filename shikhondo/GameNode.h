@@ -31,7 +31,7 @@ public:
 		newObject->SetParentsObject(this);
 		newObject->Init();
 		if (isRender)
-			object.insert(pair<ZOrder,GameNode*>(zOrder , newObject));
+			object.insert(pair<ZOrder,GameNode*>(newObject->GetZOrder(), newObject));
 		GameNode* pObject = const_cast<GameNode*>(newObject->GetParentsObject());
 		newObject->UPdateListAdd(pObject->GetUpdateChilds());
 		allClass.push_back(newObject);
@@ -44,6 +44,7 @@ public:
 	}
 	// z 버퍼 설정
 	void SetZOrder(ZOrder z);
+	ZOrder GetZOrder() { return zOrder; }
 	// 자식들의 렌더 오브젝트 얻어 오기
 	multimap<ZOrder, GameNode*, greater<ZOrder>>* GetRenderChilds() { return &object; };
 	// 자식들의 업데이트 오브젝트 얻어 오기

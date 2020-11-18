@@ -5,6 +5,7 @@ class CollisionManager : public GameNode
 public:
 	CollisionManager() 
 	{ 
+		zOrder = 12;
 #ifdef _DEBUG
 		this->isRender = true;
 #else

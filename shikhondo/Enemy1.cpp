@@ -13,7 +13,7 @@ HRESULT Enemy1::Init()
 	LocationReset();
 
 	//imageinfo.imageName = "enemy1";
-	imageinfo.DrawRectSetting("enemy1", this->pos, { 145,155 }, true, {145,155});
+	imageinfo.DrawRectSetting("enemy1", this->pos, { 145,155 }, true, {145,158});
 	TimerManager::GetSingleton()->SetTimer(idleTimer, this, &Enemy1::Idle, 0.070f);
 
 	return E_NOTIMPL;
