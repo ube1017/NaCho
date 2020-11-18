@@ -18,5 +18,7 @@ protected:
 	FPOINT RandPos;
 	int RandNum;
 	int locationCount;
+	float checkTime;
+	bool AutomaticMissile;
 };
 
