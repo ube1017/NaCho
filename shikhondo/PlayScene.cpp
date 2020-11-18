@@ -62,13 +62,8 @@ void PlayScene::Update()
 	static Enemy* test[10];
 	static int i = 0;
 	static int j = 0;
-	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_DOWN))
+	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_SPACE))
 		test[i++] = enemyManager->SpawnEeney<Enemy1>();
-	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_UP))
-	{
-		enemyManager->DieEnemy(test[j++]);
-		i = 0;
-	}
 }
 
 void PlayScene::Render(HDC hdc)
