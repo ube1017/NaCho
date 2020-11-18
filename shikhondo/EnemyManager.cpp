@@ -9,13 +9,6 @@ HRESULT EnemyManager::Init()
 void EnemyManager::Release()
 {
 	GameNode::Release();
-	list<Enemy*>::iterator eit;
-	for (eit = enemyList.begin(); eit != enemyList.end(); eit++)
-	{
-		Enemy* enemy = *eit;
-		enemy->Release();
-		delete enemy;
-	}
 	enemyList.clear();
 	spawnEnemyList.clear();
 }

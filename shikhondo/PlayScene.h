@@ -12,7 +12,7 @@ public:
 	// 프레임 단위 출력 (이미지, 텍스트)
 	void Render(HDC hdc);
 
-	Missile* SpawnMissile(class Character* owner,string imageName, FPOINT missilePos, SIZE MissileSize);
+	class Missile* SpawnMissile(class Character* owner,string imageName, FPOINT missilePos, SIZE MissileSize);
 private:
 
 	class Player* player;

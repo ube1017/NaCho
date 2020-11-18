@@ -40,8 +40,7 @@ HRESULT PlayScene::Init()
 		ppos.x = (float)(rand() % PlayXSize + Play_LeftX);
 		ppos.y = (float)(rand() % WINSIZE_X);
 
-		missile = missileManager->SpwanMissile(player, ppos, {20,20});
-		missile->MissileSetting("21",ppos, { 20,20 });
+		missile = this->SpawnMissile(player, "21", ppos, { 20,20 });
 	}
 
 
@@ -63,7 +62,7 @@ void PlayScene::Update()
 	static int i = 0;
 	static int j = 0;
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_DOWN))
-		test[i++] = enemyManager->SpwanEeney<Enemy1>();
+		test[i++] = enemyManager->SpawnEeney<Enemy1>();
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_UP))
 	{
 		enemyManager->DieEnemy(test[j++]);
@@ -79,6 +78,6 @@ void PlayScene::Render(HDC hdc)
 Missile* PlayScene::SpawnMissile(Character* owner, string imageName, FPOINT missilePos, SIZE MissileSize)
 {
 	Missile* missile;
-	missile = missileManager->SpwanMissile(owner, imageName, missilePos, MissileSize);
+	missile = missileManager->SpawnMissile(owner, imageName, missilePos, MissileSize);
 	return missile;
 }
