@@ -19,13 +19,14 @@ public:
 	// 플레이어가 미사일 생성하는 함수
 	class Missile* SpawnPlayerMissile(class Character* onwer, string imageName, FPOINT pos, SIZE size);
 
+	void MissileRelease(Character* onwer,Missile* missile);
 
 	const list<Missile*>* GetMissileList() { return &missileList; }
-	const list<Missile*>* GetSpawnMissileList() { return &SpawnMissileList; }
-	const list<Missile*>* GetSpawnPlayerMissileList() { return &SpawnPlayerMissileList; }
+	const list<Missile*>* GetSpawnMissileList() { return &spawnMissileList; }
+	const list<Missile*>* GetSpawnPlayerMissileList() { return &spawnPlayerMissileList; }
 private:
 	list<Missile*> missileList;
-	list<Missile*> SpawnMissileList;
-	list<Missile*> SpawnPlayerMissileList;
+	list<Missile*> spawnMissileList;
+	list<Missile*> spawnPlayerMissileList;
 };
 

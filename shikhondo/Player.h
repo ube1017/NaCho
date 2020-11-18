@@ -22,6 +22,8 @@ private:
 	void KeyChack();
 	// zÅ°ÇÔ¼ö
 	void Fire();
+	// zÅ°ÇÔ¼ö
+	void FireDelay();
 	// ´À¸° ¿òÁ÷ÀÓ
 	void SlowMove();
 	// ÆøÅº
@@ -35,7 +37,8 @@ private:
 	// ÆøÅº °¹¼ö
 	int boomCount;
 
-
+	bool isFire;
 	TimerHandle idleTimer;
+	TimerHandle fireTimer;
 };
 

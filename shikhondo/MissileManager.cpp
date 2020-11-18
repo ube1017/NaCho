@@ -4,6 +4,8 @@
 #include "GamePlayStatic.h"
 #include "Character.h"
 #include "Scene.h"
+#include "Player.h"
+#include "Enemy.h"
 
 HRESULT MissileManager::Init()
 {
@@ -45,7 +47,7 @@ Missile* MissileManager::SpawnMissile(Character* onwer, string imageName, FPOINT
 			missile->SetOwner(onwer);
 			missile->SetPos(pos);
 			missile->MissileSetting(imageName,pos,size);
-			SpawnMissileList.push_back(missile);
+			spawnMissileList.push_back(missile);
 			missileList.splice(missileList.end(), missileList, mit);
 			return missile;
 		}
@@ -70,11 +72,49 @@ Missile * MissileManager::SpawnPlayerMissile(Character* onwer, string imageName,
 			missile->SetPos(pos);
 			// 미사일의 이미지 값 설정
 			missile->MissileSetting(imageName, pos, size);
-			SpawnPlayerMissileList.push_back(missile);
+			spawnPlayerMissileList.push_back(missile);
 			// 리스트에서 위치변경
 			missileList.splice(missileList.end(), missileList, mit);
 			return missile;
 		}
 	}
 	return nullptr;
+}
+
+void MissileManager::MissileRelease(Character* onwer, Missile* missile)
+{
+	if (Cast<Player>(onwer))
+	{
+		list<Missile*>::iterator mit;
+		for (mit = spawnPlayerMissileList.begin(); mit != spawnPlayerMissileList.end(); mit++)
+		{
+			if (*mit == missile)
+			{
+				missile->SetIsValid(false);
+				missile->SetOwner(nullptr);
+				missile->SetPos({ -10,-10 });
+				missile->SetSize({ 0,0 });
+				missile->MissileSetting("", { -10,-10 }, { 0,0 });
+				return;
+			}
+		}
+	}
+	else
+	{
+		list<Missile*>::iterator mit;
+		for (mit = spawnMissileList.begin(); mit != spawnMissileList.end(); mit++)
+		{
+			if (*mit == missile)
+			{
+				missile->SetIsValid(false);
+				missile->SetOwner(nullptr);
+				missile->SetPos({ -10,-10 });
+				missile->SetSize({ 0,0 });
+				missile->MissileSetting("", { -10,-10 }, { 0,0 });
+				return;
+			}
+		}
+	}
+
+
 }

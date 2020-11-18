@@ -41,6 +41,7 @@ void GameNode::Release()
 void GameNode::Update()
 {
 	GameNodeListiterator it;
+	deque<GameNodeListiterator> Removelist;
 	//multimap<ZOrder, GameNode*, greater<ZOrder>>::const_iterator it;
 	GameNode* object = nullptr;
 	for (it = this->object_UPdateList.begin(); it != this->object_UPdateList.end(); it++)
@@ -48,8 +49,6 @@ void GameNode::Update()
 		object = *it;
 		if (object != nullptr)
 			object->Update();
-		else
-			this->object_UPdateList.erase(it);
 	}
 }
 

@@ -1,5 +1,9 @@
 #include "Player.h"
 #include "KeyManager.h"
+#include "GamePlayStatic.h"
+#include "PlayScene.h"
+#include "MissileManager.h"
+#include "Missile.h"
 
 HRESULT Player::Init()
 {
@@ -11,6 +15,8 @@ HRESULT Player::Init()
 	imageinfo.DrawRectSetting("Player", this->pos, { 123,141 });
 	idleTimer.timerName = "플레이어 아이들 애니메이션타이머";
 	TimerManager::GetSingleton()->SetTimer(idleTimer,this,&Player::Idle , 0.035f);
+	TimerManager::GetSingleton()->SetTimer(fireTimer, this, &Player::FireDelay, 0.50f);
+	isFire = true;
 	speed = 3.0f;
 	return S_OK;
 }
@@ -91,6 +97,27 @@ void Player::KeyChack()
 
 void Player::Fire()
 {
+	if (isFire)
+	{
+		Missile* missile;
+		FPOINT missilePos = this->pos;
+		missilePos.x += 3.0f;
+		PlayScene* playscene = Cast<PlayScene>(GamePlayStatic::GetScene());
+		MissileManager* missileManager = playscene->GetMissileManager();
+		for (int i = 0; i < 3; i++)
+		{
+			missilePos.x -= (3.0f * i);
+			missile = missileManager->SpawnPlayerMissile(this, "21", missilePos, { 20,20 });
+			missile->SetSpeed(-3.0f);
+			missile->SetMovePatten(Patten::NORMALMOVE);
+		}
+		isFire = false;
+	}
+}
+
+void Player::FireDelay()
+{
+	isFire = true;
 }
 
 void Player::SlowMove()

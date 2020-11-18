@@ -89,13 +89,22 @@ extern HINSTANCE g_hInstance;
 
 enum class Patten
 {
-	PlayerDefulat,
-	PlayerSlowMove,
+	NORMALMOVE,
+	HOMINGMOVE,
+
+
+
+
+
+
+
+
+	MaX,
 };
 
 
 
-
+#define MISSILEPATTEN(x) static_cast<int>(x)
 
 
 

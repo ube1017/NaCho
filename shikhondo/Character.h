@@ -30,8 +30,7 @@ public:
 
 	// 캐릭터 사망함수
 	virtual void Death();
-protected:
-	virtual void Fire() {}
+
 protected:
 	int hp;
 	int damge;
