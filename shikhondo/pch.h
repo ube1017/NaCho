@@ -111,3 +111,4 @@ enum class Patten
 #include "KeyManager.h"
 #include "ImageManager.h"
 #include "TimerManager.h"
+
