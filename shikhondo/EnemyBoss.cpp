@@ -41,6 +41,7 @@ void EnemyBoss::RandLocation()
 
 void EnemyBoss::LocationReset()
 {
+
 }
 
 void EnemyBoss::Idle()
