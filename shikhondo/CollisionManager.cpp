@@ -29,10 +29,19 @@ void CollisionManager::CollisinCheck()
 	list<Missile*>* missile = const_cast<list<Missile*>*>(missileManager->GetSpawnMissileList());
 	player;
 
-
+	Missile* emissile;
 	list<Missile*>::iterator missileit = missile->begin();
+	FPOINT playerPos = player->Getpos();
+	SIZE playerSize = player->GetSize();
+	FPOINT otherPos;
 	for (; missileit != missile->end(); missileit++)
 	{
+		emissile = *missileit;
+		otherPos = emissile->GetPos();
+		if (playerPos.x  <= otherPos.x)
+		{
+
+		}
 
 	}
 

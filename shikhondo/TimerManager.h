@@ -38,6 +38,8 @@ public:
 	void Update();
 	void Render(HDC hdc);
 
+	float GettimeElapsed();
+
 public:
 	template<typename UserClass>
 	void SetTimer(TimerHandle& timerHandle, UserClass* object, typename Memptr<UserClass>::Type fun, float delay = 1.0f)

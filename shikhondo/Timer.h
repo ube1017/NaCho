@@ -28,6 +28,7 @@ public:
 		this->isSetTimer = true;
 	}
 	void DelteTimer();
+	const float GettimeElapsed() { return timeElapsed; }
 	const ULONG GetFPSFrameCount() { return fpsFrameCount; }
 	const ULONG GetFPS() { return fps; }
 private:
