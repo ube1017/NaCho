@@ -47,6 +47,11 @@ void TimerManager::Render(HDC hdc)
 	}
 }
 
+float TimerManager::GettimeElapsed()
+{
+	return timer->GettimeElapsed();
+}
+
 void TimerManager::DeleteTimer(TimerHandle & timerHandle)
 {
 	map<TimerHandle, Timer*>::iterator it;

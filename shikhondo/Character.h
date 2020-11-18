@@ -19,6 +19,8 @@ public:
 
 	void SetPos(FPOINT pos) { this->pos = pos; }
 	FPOINT Getpos() { return pos; }
+
+	SIZE GetSize() { return size; }
 	const int GetDamge() { return damge; }
 
 	void SetIsDead(bool value) { this->isDead = value; }
@@ -26,6 +28,8 @@ public:
 
 	// 캐릭터 사망함수
 	virtual void Death();
+protected:
+	virtual void Fire() {}
 protected:
 	int hp;
 	int damge;
