@@ -47,13 +47,13 @@ typedef UINT ZOrder;
 
 #pragma region CMD 설정
 //디버깅모드일 때 CMD 창 켜기
-//#ifdef _DEBUG
-//#ifdef UNICODE
-//#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
-//#else
-//#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
-//#endif
-//#endif
+#ifdef _DEBUG
+#ifdef UNICODE
+#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
+#else
+#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
+#endif
+#endif
 #pragma endregion
 
 // 디버깅 메세지

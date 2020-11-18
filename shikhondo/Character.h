@@ -40,6 +40,7 @@ protected:
 	SIZE size;
 	bool isDead;
 	RECT hitBox;
+	SIZE hitBoxSize;
 	MissileManager* missileManager;
 	// 이미지 그릴때 필요한 정보
 	ImageDrawInfo imageinfo;

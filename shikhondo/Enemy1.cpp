@@ -14,7 +14,7 @@ HRESULT Enemy1::Init()
 
 	//imageinfo.imageName = "enemy1";
 	imageinfo.DrawRectSetting("enemy1", this->pos, { 145,155 }, true, {145,155});
-	TimerManager::GetSingleton()->SetTimer(idleTimer, this, &Enemy1::Idle, 0.035f);
+	TimerManager::GetSingleton()->SetTimer(idleTimer, this, &Enemy1::Idle, 0.070f);
 
 	return E_NOTIMPL;
 }
@@ -97,6 +97,21 @@ void Enemy1::Death()
 void Enemy1::Idle()
 {
 	imageinfo.framex++;
-	if (imageinfo.framex > 3)
-		imageinfo.framex = 0;
+	if (imageinfo.framey < 2)
+	{
+		if (imageinfo.framex > 2)
+		{
+			imageinfo.framex = 0;
+			imageinfo.framey++;
+		}
+	}
+	else
+	{
+		if (imageinfo.framex > 1)
+		{
+			imageinfo.framex = 0;
+			imageinfo.framey = 0;
+
+		}
+	}
 }

@@ -46,6 +46,7 @@ HRESULT PlayScene::Init()
 
 	collsionManager = CreateObject<CollisionManager>();
 	collsionManager->ManagerSetting(enemyManager,missileManager);
+	collsionManager->PlayerSetting(player);
 	return S_OK;
 }
 

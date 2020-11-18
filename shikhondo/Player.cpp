@@ -6,6 +6,8 @@ HRESULT Player::Init()
 	
 	imageinfo.imageName = "Player";
 	this->pos = { 640.0f ,100.0f };
+	this->size = { 123,141 };
+	this->hitBoxSize = { 20,20 };
 	imageinfo.DrawRectSetting("Player", this->pos, { 123,141 });
 	idleTimer.timerName = "플레이어 아이들 애니메이션타이머";
 	TimerManager::GetSingleton()->SetTimer(idleTimer,this,&Player::Idle , 0.035f);
@@ -22,12 +24,17 @@ void Player::Update()
 {
 	GameNode::Update();
 	this->KeyChack();
+	hitBox = {	(LONG)pos.x - hitBoxSize.cx/2 -3, (LONG)pos.y - hitBoxSize.cy - 4,
+				(LONG)pos.x + hitBoxSize.cx/2 -3, (LONG)pos.y - 4 };
+
+	
 }
 
 void Player::Render(HDC hdc)
 {
 	Character::Render(hdc);
 	ImageManager::GetSingleton()->DrawAnimImage(hdc, imageinfo);
+	Rectangle(hdc, hitBox.left, hitBox.top, hitBox.right, hitBox.bottom);
 }
 
 
