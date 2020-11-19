@@ -5,7 +5,9 @@ class Enemy2 : public Enemy
 private:
 	TimerHandle idleTimer;
 	ImageDrawInfo CircleImage;
-
+	float ImageNum;
+	int countSize;
+	int ShootCount;
 public:
 
 	HRESULT Init();				// 멤버 변수 초기화, 메모리 할당

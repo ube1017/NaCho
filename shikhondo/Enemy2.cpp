@@ -11,15 +11,19 @@ HRESULT Enemy2::Init()
 	size.cx = 150;
 	size.cy = 150;
 	locationCount = 0;
+	countSize = 0;
+	ShootCount = 0;
+	ImageNum = -1.0f;
+
 	// 시작 위치 설정
 	RandLocation();
 	LocationReset();
 
 	////imageinfo.imageName = "enemy1";
 	CircleImage.DrawRectSetting("enemy2_1", this->pos, size, true, { 400,400 });
-	TimerManager::GetSingleton()->SetTimer(idleTimer, this, &Enemy2::Idle, 0.035f);
+	TimerManager::GetSingleton()->SetTimer(idleTimer, this, &Enemy2::Idle, 0.07f);
 	imageinfo.DrawRectSetting("enemy2_2", this->pos, size, true, { 500,500 });
-	TimerManager::GetSingleton()->SetTimer(idleTimer, this, &Enemy2::Idle, 0.035f);
+	TimerManager::GetSingleton()->SetTimer(idleTimer, this, &Enemy2::Idle, 0.07f);
 	return E_NOTIMPL;
 }
 
@@ -31,43 +35,68 @@ void Enemy2::Update()
 {
 	pos.x += cosf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 	pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
-	
+
 	CircleImage.MovePos(pos);
 	imageinfo.MovePos(pos);
 
-	if (!AutomaticMissile)
+	checkTime += TimerManager::GetSingleton()->GettimeElapsed();
+	if (checkTime >= 0.1f)
 	{
-		if (pos.x < RandPos.x + 5 && pos.x >= RandPos.x - 5)
+		if (!AutomaticMissile)
 		{
-			if (pos.y < RandPos.y + 5 && pos.y >= RandPos.y - 5)
-			{// 탄 발사전 좌표지정
-				PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
-				// 각도를 받고
-				Missile* Em1 = playScene->SpawnMissile(this, "21", this->pos, { 10, 10 });
+			if (pos.x < RandPos.x + 5 && pos.x >= RandPos.x - 5)
+			{
+				if (pos.y < RandPos.y + 5 && pos.y >= RandPos.y - 5)
+				{// 탄 발사전 좌표지정
+					PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
+					// 각도를 받고
+					Missile* Em1 = playScene->SpawnMissile(this, "21", { pos.x - (CircleImage.size.cx / 2), pos.y }, { 20, 20 });
+					Missile* Em2 = playScene->SpawnMissile(this, "21", { pos.x + (CircleImage.size.cx / 2), pos.y }, { 20, 20 });
+					Em1->SetAngle(this->GetAngle());		// 각도 값
+					Em1->SetSpeed(speed);					// 총알 스피드
+					Em1->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
+					Em2->SetAngle(this->GetAngle());		// 각도 값
+					Em2->SetSpeed(speed);					// 총알 스피드
+					Em2->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
 
-				Em1->SetAngle(this->GetAngle());		// 각도 값
-				Em1->SetSpeed(speed);					// 총알 스피드
-				Em1->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
-			   //그 각도로 움직이는 코드
+					ShootCount++;
+					//그 각도로 움직이는 코드
+					checkTime = 0;
+
+					if (ShootCount > 3)
+					{
+						checkTime = 0;
+						AutomaticMissile = true;
+						speed = 0;
+					}
+				}
+			}
+		}
+		else if (AutomaticMissile)
+		{
+			if (checkTime >= 2.0f)
+			{
+				LocationReset();
+				ShootCount = 0;
 				checkTime = 0;
-				AutomaticMissile = true;
-				speed = 0;
+				AutomaticMissile = false;
+				speed = 1.0f;
 			}
 		}
 	}
-	else if (AutomaticMissile)
+	// 이미지 조정
+	countSize++;
+	if (countSize == 5)
 	{
-		checkTime += TimerManager::GetSingleton()->GettimeElapsed();
-		if (checkTime >= 2.0f)
+		CircleImage.size.cx += (LONG)ImageNum;
+		CircleImage.size.cy += (LONG)ImageNum;
+
+		if (CircleImage.size.cx == 150 || CircleImage.size.cx == 100)
 		{
-			LocationReset();
-
-			checkTime = 0;
-			AutomaticMissile = false;
-			speed = 1.0f;
+			ImageNum *= -1;
 		}
+		countSize = 0;
 	}
-
 }
 
 void Enemy2::Render(HDC hdc)
