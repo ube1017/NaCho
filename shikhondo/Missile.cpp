@@ -71,6 +71,12 @@ void Missile::SetMovePatten(Patten movePatten)
 	nowMovePatten = movePatten;
 }
 
+void Missile::OnHit()
+{
+	this->MissileRelease();
+	this->isActivation = false;
+}
+
 void Missile::NormalMove()
 {
 	this->pos.y += speed;
