@@ -5,7 +5,8 @@ class EnemyBoss : public Enemy
 private:
 	TimerHandle idleTimer;
 	int angleNum;
-	int ShootCount;
+	int angleNum2;
+	float ShootCount;
 	bool pattenCheck;
 
 	class Missile* Em[8];

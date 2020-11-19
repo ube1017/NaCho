@@ -66,6 +66,7 @@ void BackGround::Update()
 
 void BackGround::Render(HDC hdc)
 {
+	return;
 	UI::Render(hdc);
 	ImageManager* imageManager = ImageManager::GetSingleton();
 
