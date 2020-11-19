@@ -1,6 +1,7 @@
 #include "Enemy1.h"
 #include "PlayScene.h"
 #include "GamePlayStatic.h"
+#include "Missile.h"
 
 HRESULT Enemy1::Init()
 {
@@ -18,7 +19,7 @@ HRESULT Enemy1::Init()
 	AutomaticMissile = false;
 
 	//imageinfo.imageName = "enemy1";
-	imageinfo.DrawRectSetting("enemy1", this->pos, { 145,155 }, true, { 145,158 });
+	imageinfo.DrawRectSetting("enemy1", this->pos, { 100,100 }, true, { 100,100 });
 	TimerManager::GetSingleton()->SetTimer(idleTimer, this, &Enemy1::Idle, 0.070f);
 
 	return E_NOTIMPL;
@@ -44,10 +45,11 @@ void Enemy1::Update()
 			{// 탄 발사전 좌표지정
 				PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
 				// 각도를 받고
-				playScene->SpawnMissile(this, "21", this->pos, { 10, 10 });
-				//cosf(this->GetAngle()) * speed;
-				//sinf(this->GetAngle()) * speed;
-
+				Missile* Em1 = playScene->SpawnMissile(this, "21", this->pos, { 10, 10 });
+			
+				Em1->SetAngle(this->GetAngle());		// 각도 값
+				Em1->SetSpeed(speed);					// 총알 스피드
+				Em1->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
 			   //그 각도로 움직이는 코드
 				checkTime = 0;
 				AutomaticMissile = true;
@@ -143,21 +145,8 @@ void Enemy1::Death()
 void Enemy1::Idle()
 {
 	imageinfo.framex++;
-	if (imageinfo.framey < 2)
+	if(imageinfo.framex > 12)
 	{
-		if (imageinfo.framex > 2)
-		{
-			imageinfo.framex = 0;
-			imageinfo.framey++;
-		}
-	}
-	else
-	{
-		if (imageinfo.framex > 1)
-		{
-			imageinfo.framex = 0;
-			imageinfo.framey = 0;
-
-		}
+		imageinfo.framex = 0;
 	}
 }

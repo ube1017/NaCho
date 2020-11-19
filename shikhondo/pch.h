@@ -91,7 +91,7 @@ enum class Patten
 {
 	NORMALMOVE,
 	HOMINGMOVE,
-
+	ANGLEMOVE,
 
 
 

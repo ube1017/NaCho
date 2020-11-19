@@ -38,6 +38,7 @@ public:
 private:
 	void NormalMove();
 	void HomingMove();
+	void AngleMove();
 private:
 	Character* owner;
 	Character* taget;
