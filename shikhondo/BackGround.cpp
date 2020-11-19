@@ -66,15 +66,15 @@ void BackGround::Update()
 
 void BackGround::Render(HDC hdc)
 {
-	return;
+	//return;
 	UI::Render(hdc);
 	ImageManager* imageManager = ImageManager::GetSingleton();
 
 	
 	imageManager->DrawAnimImage(hdc, Background5);
 	imageManager->DrawAnimImage(hdc, Background3);
-	//imageManager->DrawAnimImage(hdc, leftBack1);  //ÁÂ¿ì¹®¿ÀÇÁ´×
-	//imageManager->DrawAnimImage(hdc, leftBack2);
+	imageManager->DrawAnimImage(hdc, leftBack1);  //ÁÂ¿ì¹®¿ÀÇÁ´×
+	imageManager->DrawAnimImage(hdc, leftBack2);
 	imageManager->DrawAnimImage(hdc, LeftBackground);
 	imageManager->DrawAnimImage(hdc, LeftSideDownBackground);
 	imageManager->DrawAnimImage(hdc, LeftUpBackground);
