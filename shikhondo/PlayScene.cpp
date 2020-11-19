@@ -69,7 +69,7 @@ HRESULT PlayScene::Init()
 	nowPatten = SpawnPatten::ENEMY1;
 	spawnCount = 0;
 
-	TimerManager::GetSingleton()->SetTimer(spawnTimer,this,&PlayScene::StageSpawn , 2.0f);
+	//TimerManager::GetSingleton()->SetTimer(spawnTimer,this,&PlayScene::StageSpawn , 2.0f);
 	return S_OK;
 }
 
