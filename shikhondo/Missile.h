@@ -31,7 +31,7 @@ public:
 	FPOINT GetPos()						{ return pos; }
 
 	void SetOwner(Character* owner)		{ this->owner = owner; }
-	const Character* GetOnwer() const	{ return this->owner; }
+	Character* GetOnwer() const	{ return this->owner; }
 
 	void SetMovePatten(Patten movePatten);
 

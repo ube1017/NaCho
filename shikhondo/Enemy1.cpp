@@ -12,6 +12,7 @@ HRESULT Enemy1::Init()
 	size.cy = 60;
 	hitBoxSize = size;
 	locationCount = 0;
+
 	// 시작 위치 설정
 	RandLocation();
 	LocationReset();

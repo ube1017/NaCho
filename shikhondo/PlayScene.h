@@ -13,6 +13,7 @@ public:
 	void Render(HDC hdc);
 
 	class MissileManager* GetMissileManager() { return missileManager; }
+	class EnemyManager* GetEnemyManager() { return enemyManager; }
 
 	class Missile* SpawnMissile(class Character* owner,string imageName, FPOINT missilePos, SIZE MissileSize);
 private:
