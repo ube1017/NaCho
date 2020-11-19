@@ -11,9 +11,14 @@ public:
 private:
 	FPOINT leftBack2pos;
 	FPOINT leftBack1pos;
-	FPOINT LeftBackground;
+	
+	
 
 	ImageDrawInfo leftBack1;
 	ImageDrawInfo leftBack2;
+	ImageDrawInfo  Background2;
+	ImageDrawInfo  Background5;
+	ImageDrawInfo  Background3;
+	ImageDrawInfo  Background4;
 };
 
