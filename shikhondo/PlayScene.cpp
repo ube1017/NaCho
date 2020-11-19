@@ -30,7 +30,17 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("Background3", "Background3", { 512,1024 }, { 1,1 });
 	imageManager->_LoadBitmap("Background4", "Background4", { 512,1024 }, { 1,1 });
 	imageManager->_LoadBitmap("PlayerMissile", "PlayerMissile", { 128,128 }, { 1,1 });
+	imageManager->_LoadBitmap("LeftSideDownBackground", "LeftSideDownBackground", { 512,512 }, { 1,1 });
+	imageManager->_LoadBitmap("LeftBackground", "LeftBackground", { 512,512 }, { 1,1 });
+	imageManager->_LoadBitmap("LeftUpBackground", "LeftUpBackground", { 1024,512 }, { 1,1 });
+	imageManager->_LoadBitmap("RightBackground", "RightBackground", { 512,512 }, { 1,1 });
+	imageManager->_LoadBitmap("RightSideDownBackground", "RightSideDownBackground", { 512,512 }, { 1,1 });
+	imageManager->_LoadBitmap("RightUpBackground", "RightUpBackground", { 1024,512 }, { 1,1 });
+	
+		
+		
 
+	
 	GamePlayStatic::SetScene(this);
 	backGround = CreateObject<BackGround>();
 	player = CreateObject<Player>();
@@ -46,6 +56,8 @@ HRESULT PlayScene::Init()
 		enemyManager->CreateEeney<Enemy2>(missileManager);
 	for (int i = 0; i < 2;i++)
 		enemyManager->CreateEeney<Enemy3>(missileManager);
+	for (int i = 0; i < 1; i++)
+		enemyManager->CreateEeney<EnemyBoss>(missileManager);
 	for (int i = 0; i < MAX_MISSILE; i++)
 		missileManager->CreateMissile();
 
@@ -76,6 +88,8 @@ void PlayScene::Update()
 		enemyManager->SpawnEeney<Enemy2>();
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(0x45)) //e~
 		enemyManager->SpawnEeney<Enemy3>();
+	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_SPACE))
+		enemyManager->SpawnEeney<EnemyBoss>();
 }
 
 void PlayScene::Render(HDC hdc)

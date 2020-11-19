@@ -29,6 +29,7 @@ public:
 	void SetPos(FPOINT pos)				{ this->pos = pos; }
 
 	FPOINT GetPos()						{ return pos; }
+	float GetAngle()					{ return angle; }
 
 	void SetOwner(Character* owner)		{ this->owner = owner; }
 	Character* GetOnwer() const	{ return this->owner; }
@@ -41,6 +42,8 @@ private:
 	void NormalMove();
 	void HomingMove();
 	void AngleMove();
+	void SevenMove();
+
 private:
 	Character* owner;
 	Character* taget;

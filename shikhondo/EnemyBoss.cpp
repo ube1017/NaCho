@@ -10,7 +10,9 @@ HRESULT EnemyBoss::Init()
 	speed = 1.0f;
 	size.cx = 80;
 	size.cy = 160;
-
+	ShootCount = 0;
+	angleNum = 20;
+	pattenCheck = false;
 	// 시작 위치 설정
 	RandLocation();
 	////imageinfo.imageName = "enemy1";
@@ -21,17 +23,62 @@ HRESULT EnemyBoss::Init()
 
 void EnemyBoss::Release()
 {
-	
+
 }
 
 void EnemyBoss::Update()
 {
 	imageinfo.MovePos(pos);
+
+	checkTime += TimerManager::GetSingleton()->GettimeElapsed();
+	if (checkTime >= 0.5f)
+	{
+		if (!AutomaticMissile)
+		{
+			// 탄 발사전 좌표지정
+			PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
+			// 각도를 받고
+			for (int i = 0; i < 8; i++)
+			{
+				Em[i] = playScene->SpawnMissile(this, "21", this->pos, { 25, 25 });
+				Em[i]->SetAngle(DegreeToRadian(angleNum));		// 각도 값
+				Em[i]->SetSpeed(speed);					// 총알 스피드
+				Em[i]->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
+				angleNum += 45;
+			}
+			angleNum = 20;
+			
+
+			ShootCount++;
+			//그 각도로 움직이는 코드
+			checkTime = 0;
+			AutomaticMissile = true;
+			pattenCheck = true;
+		}
+		else if (AutomaticMissile)
+		{
+			if (checkTime >= 0.5f && pattenCheck)
+			{
+				for (int i = 0; i < 8; i++)
+				{
+					patten1(Em[i]->GetPos(), Em[i]->GetAngle());
+				}
+				pattenCheck = false;
+			}
+			if (checkTime >= 5.0f)
+			{
+				ShootCount = 0;
+				checkTime = 0;
+				AutomaticMissile = false;
+				speed = 1.0f;
+			}
+		}
+	}
 }
 
 void EnemyBoss::Render(HDC hdc)
 {
-	Rectangle(hdc, pos.x - (size.cx / 2), pos.y - (size.cy / 2), pos.x + (size.cx / 2), pos.y + (size.cy /2));
+	Rectangle(hdc, pos.x - (size.cx / 2), pos.y - (size.cy / 2), pos.x + (size.cx / 2), pos.y + (size.cy / 2));
 	ImageManager::GetSingleton()->DrawAnimImage(hdc, imageinfo);
 }
 
@@ -45,6 +92,24 @@ void EnemyBoss::RandLocation()
 void EnemyBoss::LocationReset()
 {
 
+}
+
+void EnemyBoss::patten1(FPOINT MPos, float MAngle)
+{
+	PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
+	for (int i = 0; i < 7; i++)
+	{
+		Missile* Em = playScene->SpawnMissile(this, "21", MPos, { 25, 25 });
+		Em->SetAngle(MAngle);		// 각도 값
+		Em->SetSpeed(speed);					// 총알 스피드
+		Em->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
+		speed += 0.06f;
+		if (speed > 1.06f)
+		{
+			speed += 0.1f;
+		}
+	}
+	speed = 1.0;
 }
 
 void EnemyBoss::Idle()

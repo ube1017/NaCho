@@ -4,6 +4,11 @@ class EnemyBoss : public Enemy
 {
 private:
 	TimerHandle idleTimer;
+	int angleNum;
+	int ShootCount;
+	bool pattenCheck;
+
+	class Missile* Em[8];
 
 public:
 
@@ -15,6 +20,7 @@ public:
 	void RandLocation();
 	void LocationReset();
 
+	void patten1(FPOINT MPos, float MAngle);
 private:
 	void Idle();
 
