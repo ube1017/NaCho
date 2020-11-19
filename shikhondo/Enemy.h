@@ -14,6 +14,8 @@ public:
 	virtual void LocationReset() {}
 
 	float GetAngle();
+
+	void OnHit(class Missile* hitMissile) override;
 protected:
 	FPOINT RandPos;
 	int RandNum;
