@@ -35,8 +35,6 @@ public:
 
 	void SetMovePatten(Patten movePatten);
 
-	void OnHit();
-
 private:
 	void NormalMove();
 	void HomingMove();

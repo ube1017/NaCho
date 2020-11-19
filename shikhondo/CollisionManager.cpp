@@ -59,8 +59,6 @@ void CollisionManager::CollisinCheck()
 				pos = { (LONG)otherPos.x,(LONG)otherPos.y };
 				if (PtInRect(&playerHitBox, pos))
 				{
-					player->OnHit(emissile);
-					emissile->OnHit();
 					DEBUG_MASSAGE("Ãæµ¹\n");
 				}
 
