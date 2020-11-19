@@ -19,7 +19,8 @@ HRESULT Missile::Init()
 	this->imaginfo.size = {0,0};
 	this->imaginfo.framex = 0;
 	this->imaginfo.framey = 0;
-	isNotUPdate = false;
+	this->isNotUPdate = false;
+	this->taget = nullptr;
 	return S_OK;
 }
 
@@ -80,12 +81,20 @@ void Missile::NormalMove()
 
 void Missile::HomingMove()
 {
-	FPOINT tagetPos = taget->Getpos();
-	angle = atan2f((tagetPos.y - pos.y), (tagetPos.x - pos.x));
-	pos.x += speed * cosf(angle);
-	pos.y += speed * sinf(angle);
-	imaginfo.MovePos(pos);
-	
+	if (taget->GetisActivation())
+	{
+		FPOINT tagetPos = taget->Getpos();
+		angle = atan2f((tagetPos.y - pos.y), (tagetPos.x - pos.x));
+		pos.x += speed * cosf(angle);
+		pos.y += speed * sinf(angle);
+		imaginfo.MovePos(pos);
+	}
+	else
+	{
+		pos.x += speed * cosf(angle);
+		pos.y += speed * sinf(angle);
+		imaginfo.MovePos(pos);
+	}
 }
 
 void Missile::AngleMove()

@@ -4,6 +4,7 @@
 #include "PlayScene.h"
 #include "MissileManager.h"
 #include "Missile.h"
+#include "EnemyManager.h"
 
 HRESULT Player::Init()
 {
@@ -33,7 +34,8 @@ void Player::Update()
 	this->KeyChack();
 	hitBox = {	(LONG)pos.x - hitBoxSize.cx/2 -3, (LONG)pos.y - hitBoxSize.cy - 4,
 				(LONG)pos.x + hitBoxSize.cx/2 -3, (LONG)pos.y - 4 };
-
+	homingShooterPos[0] = { (float)hitBox.left - 50, (float)hitBox.top + 10};
+	homingShooterPos[1] = { (float)hitBox.right + 50, (float)hitBox.top + 10};
 	
 }
 
@@ -41,7 +43,12 @@ void Player::Render(HDC hdc)
 {
 	Character::Render(hdc);
 	ImageManager::GetSingleton()->DrawAnimImage(hdc, imageinfo);
+#ifdef _DEBUG
 	Rectangle(hdc, hitBox.left, hitBox.top, hitBox.right, hitBox.bottom);
+#endif // _DEBUG
+	Rectangle(hdc, (LONG)homingShooterPos[0].x -25 , (LONG)homingShooterPos[0].y - 25, (LONG)homingShooterPos[0].x + 25, (LONG)homingShooterPos[0].y + 25);
+	Rectangle(hdc, (LONG)homingShooterPos[1].x -25 , (LONG)homingShooterPos[1].y - 25, (LONG)homingShooterPos[1].x + 25, (LONG)homingShooterPos[1].y + 25);
+	
 }
 
 
@@ -122,6 +129,37 @@ void Player::Fire()
 		missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, { 30,30 });
 		missile->SetSpeed(-missileSpeed);
 		missile->SetMovePatten(Patten::NORMALMOVE);
+
+
+		EnemyManager* enemyManger = Cast<EnemyManager>(playscene->GetEnemyManager());
+		const list<Enemy*>* spawnEnemyList = enemyManger->GetSpawnEnemyList();
+		list<Enemy*>::const_iterator const_it;
+		Missile* homing[2];
+
+
+		
+		
+		for (const_it = spawnEnemyList->begin(); const_it != spawnEnemyList->end(); const_it++)
+		{
+
+			missilePos = homingShooterPos[0];
+			homing[0] = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, { 30,30 });
+
+			missilePos = homingShooterPos[1];
+			homing[1] = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, { 30,30 });
+			homing[0]->SetTaget(*const_it);
+			homing[0]->SetMovePatten(Patten::HOMINGMOVE);
+			homing[0]->SetSpeed(missileSpeed);
+
+
+			homing[1]->SetTaget(*const_it);
+			homing[1]->SetMovePatten(Patten::HOMINGMOVE);
+			homing[1]->SetSpeed(missileSpeed);
+			
+			
+			break;
+		}
+		
 
 		//for (int i = 0; i < 3; i++)
 		//{

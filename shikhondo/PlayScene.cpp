@@ -34,7 +34,7 @@ HRESULT PlayScene::Init()
 	player->SetMissileManager(missileManager);
 	enemyManager->SetMainGame(this);
 	for (int i = 0 ; i <10 ;i++)
-		enemyManager->CreateEeney<Enemy3>(missileManager);
+		enemyManager->CreateEeney<Enemy1>(missileManager);
 	for (int i = 0; i < MAX_MISSILE; i++)
 		missileManager->CreateMissile();
 	/*FPOINT ppos;*/
@@ -62,12 +62,11 @@ void PlayScene::Release()
 void PlayScene::Update()
 {
 	GameNode::Update();
-	// 테스트 용
-	static Enemy* test[10];
-	static int i = 0;
-	static int j = 0;
+	// 테스트용
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_SPACE))
-		enemyManager->SpawnEeney<Enemy3>();
+		enemyManager->SpawnEeney<Enemy1>();
+
+	
 }
 
 void PlayScene::Render(HDC hdc)
