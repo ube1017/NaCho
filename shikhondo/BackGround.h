@@ -26,6 +26,11 @@ private:
 	ImageDrawInfo RightBackground;
 	ImageDrawInfo RightSideDownBackground;
 	ImageDrawInfo RightUpBackground;
+	ImageDrawInfo Soulgeiji;
+	ImageDrawInfo SkillGeiji;
+
+			
+
 
 };
 
