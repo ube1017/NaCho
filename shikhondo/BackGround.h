@@ -16,9 +16,16 @@ private:
 
 	ImageDrawInfo leftBack1;
 	ImageDrawInfo leftBack2;
-	ImageDrawInfo  Background2;
-	ImageDrawInfo  Background5;
-	ImageDrawInfo  Background3;
-	ImageDrawInfo  Background4;
+	ImageDrawInfo Background2;
+	ImageDrawInfo Background5;
+	ImageDrawInfo Background3;
+	ImageDrawInfo Background4;
+	ImageDrawInfo LeftSideDownBackground;
+	ImageDrawInfo LeftBackground;
+	ImageDrawInfo LeftUpBackground;
+	ImageDrawInfo RightBackground;
+	ImageDrawInfo RightSideDownBackground;
+	ImageDrawInfo RightUpBackground;
+
 };
 
