@@ -5,7 +5,7 @@
 
 HRESULT EnemyBoss::Init()
 {
-	hp = 1000;
+	hp = 3000;
 	damge = 1;
 	speed = 1.0f;
 	size.cx = 80;
@@ -13,7 +13,7 @@ HRESULT EnemyBoss::Init()
 	hitBoxSize = size;
 	ShootCount = 0;
 	angleNum = 20;
-	angleNum2 = 9;
+	angleNum2 = 14;
 
 	pattenCheck = false;
 	// 시작 위치 설정
@@ -31,6 +31,7 @@ void EnemyBoss::Release()
 
 void EnemyBoss::Update()
 {
+	Enemy::Update();
 	imageinfo.MovePos(pos);
 
 	checkTime += TimerManager::GetSingleton()->GettimeElapsed();
@@ -105,13 +106,13 @@ void EnemyBoss::Update()
 	{
 		PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
 		// 각도를 받고
-		for (int i = 0; i < 18; i++)
+		for (int i = 0; i < 14; i++)
 		{
 			Missile* Em = playScene->SpawnMissile(this, "21", this->pos, { 25, 25 });
 			Em->SetAngle(DegreeToRadian(angleNum2));		// 각도 값
 			Em->SetSpeed(2.5f);					// 총알 스피드
 			Em->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
-			angleNum2 += 9;
+			angleNum2 += 14;
 			if (angleNum2 == 81)
 			{
 				//angleNum2 = 99;

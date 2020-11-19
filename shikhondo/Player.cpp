@@ -42,6 +42,7 @@ void Player::Update()
 		const list<Enemy*>* spawnEnemyList = enemyManger->GetSpawnEnemyList();
 		list<Enemy*>::const_iterator const_it;
 		Enemy* homingTager = nullptr;
+		RECT erect;
 		//homingShooterPos[0] = { (float)hitBox.left - 50, (float)hitBox.top + 10 };
 		int i = 0;
 		for (const_it = spawnEnemyList->begin(); const_it != spawnEnemyList->end(); const_it++)
@@ -50,9 +51,14 @@ void Player::Update()
 			{
 				homingTager = *const_it;
 				FPOINT enemypos = (*const_it)->Getpos();
-				float angle = atan2f((enemypos.y - homingShooterPos[i].y), (enemypos.x - 60.0f - homingShooterPos[i].x));
-				homingShooterPos[i].x += missileSpeed * cosf(angle);
-				homingShooterPos[i].y += missileSpeed * sinf(angle);
+				float angle = atan2f((enemypos.y - homingShooterPos[i].y), (enemypos.x - 70.0f - homingShooterPos[i].x));
+
+				erect = { (LONG)enemypos.x - 70 , (LONG)enemypos.y - 10 , (LONG)enemypos.x  - 50, (LONG)enemypos.y + 10 };
+				if (!PtInRect(&erect, { (LONG)homingShooterPos[i].x, (LONG)homingShooterPos[i].y }))
+				{
+					homingShooterPos[i].x += missileSpeed * cosf(angle);
+					homingShooterPos[i].y += missileSpeed * sinf(angle);
+				}
 				i++;
 				if (i == 2)
 					break;
@@ -64,8 +70,13 @@ void Player::Update()
 		{
 			FPOINT enemypos = homingTager->Getpos();
 			float angle = atan2f((enemypos.y - homingShooterPos[i].y), (enemypos.x + 110.0f - homingShooterPos[i].x));
-			homingShooterPos[1].x += missileSpeed * cosf(angle);
-			homingShooterPos[1].y += missileSpeed * sinf(angle);
+
+			erect = { (LONG)enemypos.x + 90 , (LONG)enemypos.y - 10 , (LONG)enemypos.x + 120, (LONG)enemypos.y + 10 };
+			if (!PtInRect(&erect, { (LONG)homingShooterPos[1].x, (LONG)homingShooterPos[1].y }))
+			{
+				homingShooterPos[1].x += missileSpeed * cosf(angle);
+				homingShooterPos[1].y += missileSpeed * sinf(angle);
+			}
 			//homingShooterPos[1] = { homingShooterPos[0].x + 110.0f,homingShooterPos[0].y };
 		}
 	}
