@@ -36,6 +36,8 @@ void CollisionManager::CollisinCheck()
 {
 	list<Enemy*>* enemy = const_cast<list<Enemy*>*>(enemyManager->GetSpawnEnemyList());
 	list<Missile*>* missile = const_cast<list<Missile*>*>(missileManager->GetSpawnMissileList());
+	deque<list<Missile*>::iterator> releaseMissiles;
+	deque<list<Enemy*>::iterator> releaseEnemy;
 
 	Missile* emissile;
 	list<Missile*>::iterator missileit = missile->begin();
@@ -60,6 +62,7 @@ void CollisionManager::CollisinCheck()
 				{
 					player->OnHit(emissile);
 					emissile->OnHit();
+					releaseMissiles.push_back(missileit);
 					DEBUG_MASSAGE("플레이어 충돌\n");
 				}
 
@@ -72,12 +75,11 @@ void CollisionManager::CollisinCheck()
 	FPOINT enemyPos;
 	SIZE enemySize;
 	RECT enemyRect;
-	missileit = playerMissile->begin();
 	for (; eiter != enemy->end(); eiter++)
 	{
 		enemyPos = (*eiter)->Getpos();
 		enemySize = (*eiter)->GetSize();
-		for (; missileit != playerMissile->end(); missileit++)
+		for (missileit = playerMissile->begin(); missileit != playerMissile->end(); missileit++)
 		{
 			emissile = *missileit;
 			otherPos = emissile->GetPos();
@@ -93,6 +95,12 @@ void CollisionManager::CollisinCheck()
 					{
 						(*eiter)->OnHit(emissile);
 						emissile->OnHit();
+						releaseMissiles.push_back(missileit);
+						if (!(*eiter)->GetisActivation())
+						{
+							releaseEnemy.push_back(eiter);
+							break;
+						}
 						DEBUG_MASSAGE("적충돌 충돌\n");
 					}
 
@@ -100,6 +108,16 @@ void CollisionManager::CollisinCheck()
 			}
 		}
 
+
 	}
+
+
+	for (int i = 0; i < releaseMissiles.size();i++)
+		missileManager->MissileRelease((*releaseMissiles[i])->GetOnwer(), *releaseMissiles[i]);
+
+	for (int i = 0; i < releaseEnemy.size();i++)
+		enemyManager->DieEnemy(*releaseEnemy[i]);
+	releaseMissiles.clear();
+	releaseEnemy.clear();
 }
 
