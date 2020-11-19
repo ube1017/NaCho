@@ -4,6 +4,7 @@
 #include "Enemy1.h"
 #include "Enemy2.h"
 #include "Enemy3.h"
+#include "EnemyBoss.h"
 #include "GamePlayStatic.h"
 #include "Player.h"
 #include "EnemyManager.h"
@@ -22,6 +23,7 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("enemy2_1", "enemy2_1", { 3600 , 400 }, { 9,1 });
 	imageManager->_LoadBitmap("enemy2_2", "enemy2_2", { 6000 , 500 }, { 12,1 });
 	imageManager->_LoadBitmap("enemy3", "enemy3", { 512 , 512 }, { 3,3 });
+	imageManager->_LoadBitmap("Boss", "Boss", { 204 , 403 }, { 1,1 });
 	imageManager->_LoadBitmap("21", "21", { 400,100 }, { 4,1 });
 	imageManager->_LoadBitmap("Background2", "Background2", { 512,512 }, { 1,1 });
 	imageManager->_LoadBitmap("Background5", "Background5", { 512,1024 }, { 1,1 });
