@@ -38,7 +38,7 @@ HRESULT PlayScene::Init()
 	player->SetMissileManager(missileManager);
 	enemyManager->SetMainGame(this);
 	for (int i = 0; i < 10; i++)
-		enemyManager->CreateEeney<Enemy2>(missileManager);
+		enemyManager->CreateEeney<Enemy3>(missileManager);
 	for (int i = 0; i < MAX_MISSILE; i++)
 		missileManager->CreateMissile();
 	/*FPOINT ppos;*/
