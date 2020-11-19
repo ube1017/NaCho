@@ -1,10 +1,13 @@
 #include "EnemyBoss.h"
+#include "PlayScene.h"
+#include "GamePlayStatic.h"
+#include "Missile.h"
 
 HRESULT EnemyBoss::Init()
 {
-	hp = 10000;
+	hp = 1000;
 	damge = 1;
-	speed = 10.0f;
+	speed = 1.0f;
 	size.cx = 250;
 	size.cy = 200;
 

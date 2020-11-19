@@ -53,6 +53,7 @@ void Enemy1::Update()
 			   //그 각도로 움직이는 코드
 				checkTime = 0;
 				AutomaticMissile = true;
+				speed = 0;
 			}
 		}
 	}
@@ -65,6 +66,7 @@ void Enemy1::Update()
 
 			checkTime = 0;
 			AutomaticMissile = false;
+			speed = 1.0f;
 		}
 	}
 	//else if (checkTime >= 1.3f && AutomaticMissile)

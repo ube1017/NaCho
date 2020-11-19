@@ -4,6 +4,7 @@ class Enemy2 : public Enemy
 {
 private:
 	TimerHandle idleTimer;
+	ImageDrawInfo CircleImage;
 
 public:
 

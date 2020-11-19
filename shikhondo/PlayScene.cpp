@@ -19,6 +19,9 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("leftCloud", "leftCloud", { 1024 , 512 });
 	imageManager->_LoadBitmap("Player", "player", { 2706 , 141 }, { 22,1 });
 	imageManager->_LoadBitmap("enemy1", "enemy1", { 1300 , 100 }, { 13,1 });
+	imageManager->_LoadBitmap("enemy2_1", "enemy2_1", { 3600 , 400 }, { 9,1 });
+	imageManager->_LoadBitmap("enemy2_2", "enemy2_2", { 6000 , 500 }, { 12,1 });
+	imageManager->_LoadBitmap("enemy3", "enemy3", { 512 , 512 }, { 3,3 });
 	imageManager->_LoadBitmap("21", "21", { 400,100 }, { 4,1 });
 
 	GamePlayStatic::SetScene(this);
@@ -30,7 +33,7 @@ HRESULT PlayScene::Init()
 	player->SetMissileManager(missileManager);
 	enemyManager->SetMainGame(this);
 	for (int i = 0 ; i <10 ;i++)
-		enemyManager->CreateEeney<Enemy1>(missileManager);
+		enemyManager->CreateEeney<Enemy3>(missileManager);
 	for (int i = 0; i < MAX_MISSILE; i++)
 		missileManager->CreateMissile();
 	/*FPOINT ppos;*/
@@ -63,12 +66,7 @@ void PlayScene::Update()
 	static int i = 0;
 	static int j = 0;
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_DOWN))
-		test[i++] = enemyManager->SpawnEeney<Enemy1>();
-	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_UP))
-	{
-		enemyManager->DieEnemy(test[j++]);
-		i = 0;
-	}
+		test[i++] = enemyManager->SpawnEeney<Enemy3>();
 }
 
 void PlayScene::Render(HDC hdc)

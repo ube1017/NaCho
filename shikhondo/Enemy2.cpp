@@ -1,21 +1,25 @@
 #include "Enemy2.h"
+#include "PlayScene.h"
+#include "GamePlayStatic.h"
+#include "Missile.h"
 
 HRESULT Enemy2::Init()
 {
-	hp = 50;
+	hp = 30;
 	damge = 1;
-	speed = 10.0f;
-	size.cx = 50;
-	size.cy = 50;
+	speed = 1.0f;
+	size.cx = 150;
+	size.cy = 150;
 	locationCount = 0;
 	// 시작 위치 설정
 	RandLocation();
 	LocationReset();
 
 	////imageinfo.imageName = "enemy1";
-	//imageinfo.DrawRectSetting("enemy1", this->pos, { 145,155 }, true, { 145,155 });
-	//TimerManager::GetSingleton()->SetTimer(idleTimer, this, &Enemy1::Idle, 0.035f);
-
+	CircleImage.DrawRectSetting("enemy2_1", this->pos, size, true, { 400,400 });
+	TimerManager::GetSingleton()->SetTimer(idleTimer, this, &Enemy2::Idle, 0.035f);
+	imageinfo.DrawRectSetting("enemy2_2", this->pos, size, true, { 500,500 });
+	TimerManager::GetSingleton()->SetTimer(idleTimer, this, &Enemy2::Idle, 0.035f);
 	return E_NOTIMPL;
 }
 
@@ -25,36 +29,52 @@ void Enemy2::Release()
 
 void Enemy2::Update()
 {
-	if (RandPos.x != pos.x)
+	pos.x += cosf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
+	pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
+	
+	CircleImage.MovePos(pos);
+	imageinfo.MovePos(pos);
+
+	if (!AutomaticMissile)
 	{
-		if (RandPos.x > pos.x)
+		if (pos.x < RandPos.x + 5 && pos.x >= RandPos.x - 5)
 		{
-			pos.x += speed;
-		}
-		else if (RandPos.x < pos.x)
-		{
-			pos.x -= speed;
+			if (pos.y < RandPos.y + 5 && pos.y >= RandPos.y - 5)
+			{// 탄 발사전 좌표지정
+				PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
+				// 각도를 받고
+				Missile* Em1 = playScene->SpawnMissile(this, "21", this->pos, { 10, 10 });
+
+				Em1->SetAngle(this->GetAngle());		// 각도 값
+				Em1->SetSpeed(speed);					// 총알 스피드
+				Em1->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
+			   //그 각도로 움직이는 코드
+				checkTime = 0;
+				AutomaticMissile = true;
+				speed = 0;
+			}
 		}
 	}
-	if (RandPos.y != pos.x)
+	else if (AutomaticMissile)
 	{
-		if (RandPos.y > pos.y)
+		checkTime += TimerManager::GetSingleton()->GettimeElapsed();
+		if (checkTime >= 2.0f)
 		{
-			pos.y += speed;
-		}
-		else if (RandPos.y < pos.y)
-		{
-			pos.y -= speed;
+			LocationReset();
+
+			checkTime = 0;
+			AutomaticMissile = false;
+			speed = 1.0f;
 		}
 	}
 
-	//imageinfo.MovePos(pos);
 }
 
 void Enemy2::Render(HDC hdc)
 {
-	//ImageManager::GetSingleton()->DrawAnimImage(hdc, imageinfo);
-	Rectangle(hdc, pos.x - (size.cx / 2), pos.y - (size.cy / 2), pos.x + (size.cx / 2), pos.y + (size.cy / 2));
+	ImageManager::GetSingleton()->DrawAnimImage(hdc, CircleImage);
+	ImageManager::GetSingleton()->DrawAnimImage(hdc, imageinfo);
+	//Rectangle(hdc, pos.x - (size.cx / 2), pos.y - (size.cy / 2), pos.x + (size.cx / 2), pos.y + (size.cy / 2));
 }
 
 void Enemy2::RandLocation()
@@ -80,7 +100,8 @@ void Enemy2::RandLocation()
 
 	this->pos.x = RandPos.x;
 	this->pos.y = RandPos.y;
-	//imageinfo.MovePos(RandPos);
+	imageinfo.MovePos(RandPos);
+	CircleImage.MovePos(RandPos);
 }
 
 void Enemy2::LocationReset()
@@ -117,6 +138,13 @@ void Enemy2::Death()
 void Enemy2::Idle()
 {
 	imageinfo.framex++;
-	if (imageinfo.framex > 3)
+	CircleImage.framex++;
+	if (CircleImage.framex > 8)
+	{
+		CircleImage.framex = 0;
+	}
+	if (imageinfo.framex > 11)
+	{
 		imageinfo.framex = 0;
+	}
 }
