@@ -32,6 +32,12 @@ HRESULT BackGround::Init()
 	RightBackground.drwrc = { (LONG)650 , (LONG)150 , (LONG)WINSIZE_X , 700 };
 	RightSideDownBackground.imageName = "RightSideDownBackground";
 	RightSideDownBackground.drwrc = { (LONG)850 , (LONG)400 , (LONG)WINSIZE_X , WINSIZE_Y };
+	Soulgeiji.imageName = "Soulgeiji";
+	Soulgeiji.drwrc = { (LONG)500 , (LONG)400 , (LONG)600 , WINSIZE_Y };
+	SkillGeiji.imageName = "SkillGeiji";
+	SkillGeiji.drwrc = { (LONG)0 , (LONG)300 , (LONG)1600 , 500 };
+	
+		
 	
 	
 	
@@ -74,9 +80,11 @@ void BackGround::Render(HDC hdc)
 	imageManager->DrawAnimImage(hdc, RightBackground);
 	imageManager->DrawAnimImage(hdc, RightSideDownBackground);
 	imageManager->DrawAnimImage(hdc, RightUpBackground);
+	imageManager->DrawAnimImage(hdc, Soulgeiji);
+	imageManager->DrawAnimImage(hdc, SkillGeiji);
 	
 	
-		
+	
 		
 	//imageManager->DrawAnimImage(hdc, Background2);   
 	//imageManager->DrawAnimImage(hdc, Background4);

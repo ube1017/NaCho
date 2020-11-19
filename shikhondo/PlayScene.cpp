@@ -36,8 +36,9 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("RightBackground", "RightBackground", { 512,512 }, { 1,1 });
 	imageManager->_LoadBitmap("RightSideDownBackground", "RightSideDownBackground", { 512,512 }, { 1,1 });
 	imageManager->_LoadBitmap("RightUpBackground", "RightUpBackground", { 1024,512 }, { 1,1 });
+	imageManager->_LoadBitmap("Soulgeiji", "Soulgeiji", { 512,1024 }, { 1,1 });
+	imageManager->_LoadBitmap("SkillGeiji", "SkillGeiji", { 2048,128 }, { 1,1 });
 	
-		
 		
 
 	
