@@ -48,20 +48,16 @@ HRESULT PlayScene::Init()
 		enemyManager->CreateEeney<Enemy3>(missileManager);
 	for (int i = 0; i < MAX_MISSILE; i++)
 		missileManager->CreateMissile();
-	/*FPOINT ppos;*/
-	/*Missile* missile;*/
-	//for (int i = 0; i < 300; i++)
-	//{
-	//	ppos.x = (float)(rand() % PlayXSize + Play_LeftX);
-	//	ppos.y = (float)(rand() % WINSIZE_X);
-
-	//	missile = this->SpawnMissile(player, "21", ppos, { 20,20 });
-	//}
-
 
 	collsionManager = CreateObject<CollisionManager>();
 	collsionManager->ManagerSetting(enemyManager, missileManager);
 	collsionManager->PlayerSetting(player);
+
+
+	nowPatten = SpawnPatten::ENEMY1;
+	spawnCount = 0;
+
+	TimerManager::GetSingleton()->SetTimer(spawnTimer,this,&PlayScene::StageSpawn , 2.0f);
 	return S_OK;
 }
 
@@ -93,4 +89,59 @@ Missile* PlayScene::SpawnMissile(Character* owner, string imageName, FPOINT miss
 	Missile* missile;
 	missile = missileManager->SpawnMissile(owner, imageName, missilePos, MissileSize);
 	return missile;
+}
+
+void PlayScene::StageSpawn()
+{
+	switch (nowPatten)
+	{
+	case SpawnPatten::ENEMY1:
+		TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::SpawnPatten1, 0.5f);
+		break;
+	case SpawnPatten::ENEMY2:
+		TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::SpawnPatten2, 1.0f);
+		break;
+	case SpawnPatten::ENEMY3:
+		TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::SpawnPatten3, 1.0f);
+		break;
+	default:
+		break;
+	}
+}
+
+void PlayScene::SpawnPatten1()
+{
+	enemyManager->SpawnEeney<Enemy1>();
+	spawnCount++;
+	if (spawnCount == 10)
+	{
+		spawnCount = 0;
+		TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
+		nowPatten = SpawnPatten::ENEMY2;
+	}
+
+}
+
+void PlayScene::SpawnPatten2()
+{
+	enemyManager->SpawnEeney<Enemy2>();
+	spawnCount++;
+	if (spawnCount == 2)
+	{
+		spawnCount = 0;
+		TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
+		nowPatten = SpawnPatten::ENEMY3;
+	}
+}
+
+void PlayScene::SpawnPatten3()
+{
+	enemyManager->SpawnEeney<Enemy3>();
+	spawnCount++;
+	if (spawnCount == 1)
+	{
+		spawnCount = 0;
+		TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 10.0f);
+		nowPatten = SpawnPatten::ENEMY1;
+	}
 }
