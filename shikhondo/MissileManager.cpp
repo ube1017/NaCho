@@ -10,6 +10,7 @@
 HRESULT MissileManager::Init()
 {
 	SetIsValid(false);
+	isNotUPdate = true;
 	return E_NOTIMPL;
 }
 
@@ -106,7 +107,7 @@ void MissileManager::MissileRelease(Character* onwer, Missile* missile)
 		{
 			if (*mit == missile)
 			{
-				missile->SetIsValid(false);
+				//missile->SetIsValid(false);
 				missile->SetOwner(nullptr);
 				missile->SetPos({ -10,-10 });
 				missile->SetSize({ 0,0 });

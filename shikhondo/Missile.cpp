@@ -9,6 +9,7 @@ Missile::Missile()
 	nowMovePatten = Patten::NORMALMOVE;
 	movePatten[MISSILEPATTEN(Patten::NORMALMOVE)] = &Missile::NormalMove;
 	movePatten[MISSILEPATTEN(Patten::HOMINGMOVE)] = &Missile::HomingMove;
+	movePatten[MISSILEPATTEN(Patten::ANGLEMOVE)] = &Missile::AngleMove;
 }
 
 HRESULT Missile::Init()
@@ -44,6 +45,12 @@ void Missile::Render(HDC hdc)
 {
 	GameNode::Render(hdc);
 	ImageManager::GetSingleton()->DrawAnimImage(hdc, imaginfo);
+}
+
+void Missile::OnHit()
+{
+	this->MissileRelease();
+	this->isActivation = false;
 }
 
 void Missile::MissileSetting(string imageName, FPOINT pos, SIZE size)
@@ -83,5 +90,13 @@ void Missile::HomingMove()
 	angle = atan2f((tagetPos.y - pos.y), (tagetPos.x - pos.x));
 	pos.x += speed * cosf(angle);
 	pos.y += speed * sinf(angle);
+	imaginfo.MovePos(pos);
+	
+}
+
+void Missile::AngleMove()
+{
+	pos.x += cosf(this->angle) * speed;
+	pos.y += sinf(this->angle) * speed;
 	imaginfo.MovePos(pos);
 }
