@@ -49,7 +49,7 @@ void Missile::Render(HDC hdc)
 
 void Missile::OnHit()
 {
-	this->MissileRelease();
+	// this->MissileRelease();
 	this->isActivation = false;
 }
 

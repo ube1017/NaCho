@@ -7,6 +7,8 @@ enum class MoveState
 	SLOW,
 };
 
+const float missileSpeed = 4.0f;
+
 class Player : public Character
 {
 public:

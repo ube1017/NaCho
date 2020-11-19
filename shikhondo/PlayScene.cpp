@@ -27,6 +27,8 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("Background5", "Background5", { 512,1024 }, { 1,1 });
 	imageManager->_LoadBitmap("Background3", "Background3", { 512,1024 }, { 1,1 });
 	imageManager->_LoadBitmap("Background4", "Background4", { 512,1024 }, { 1,1 });
+	imageManager->_LoadBitmap("PlayerMissile", "PlayerMissile", { 128,128 }, { 1,1 });
+
 	GamePlayStatic::SetScene(this);
 	backGround = CreateObject<BackGround>();
 	player = CreateObject<Player>();
@@ -35,7 +37,7 @@ HRESULT PlayScene::Init()
 	missileManager = CreateObject<MissileManager>(false);
 	player->SetMissileManager(missileManager);
 	enemyManager->SetMainGame(this);
-	for (int i = 0 ; i <10 ;i++)
+	for (int i = 0; i < 10; i++)
 		enemyManager->CreateEeney<Enemy2>(missileManager);
 	for (int i = 0; i < MAX_MISSILE; i++)
 		missileManager->CreateMissile();
@@ -51,7 +53,7 @@ HRESULT PlayScene::Init()
 
 
 	collsionManager = CreateObject<CollisionManager>();
-	collsionManager->ManagerSetting(enemyManager,missileManager);
+	collsionManager->ManagerSetting(enemyManager, missileManager);
 	collsionManager->PlayerSetting(player);
 	return S_OK;
 }
@@ -69,7 +71,7 @@ void PlayScene::Update()
 	static int i = 0;
 	static int j = 0;
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_SPACE))
-		test[i++] = enemyManager->SpawnEeney<Enemy2>();
+		enemyManager->SpawnEeney<Enemy3>();
 
 }
 
