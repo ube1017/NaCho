@@ -103,3 +103,8 @@ void Missile::AngleMove()
 	pos.y += sinf(this->angle) * speed;
 	imaginfo.MovePos(pos);
 }
+
+void Missile::SevenMove()
+{
+
+}

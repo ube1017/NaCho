@@ -46,6 +46,8 @@ HRESULT PlayScene::Init()
 		enemyManager->CreateEeney<Enemy2>(missileManager);
 	for (int i = 0; i < 2;i++)
 		enemyManager->CreateEeney<Enemy3>(missileManager);
+	for (int i = 0; i < 1; i++)
+		enemyManager->CreateEeney<EnemyBoss>(missileManager);
 	for (int i = 0; i < MAX_MISSILE; i++)
 		missileManager->CreateMissile();
 	/*FPOINT ppos;*/
@@ -80,6 +82,8 @@ void PlayScene::Update()
 		enemyManager->SpawnEeney<Enemy2>();
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(0x45)) //e~
 		enemyManager->SpawnEeney<Enemy3>();
+	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_SPACE))
+		enemyManager->SpawnEeney<EnemyBoss>();
 }
 
 void PlayScene::Render(HDC hdc)
