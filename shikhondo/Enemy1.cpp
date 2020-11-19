@@ -10,6 +10,7 @@ HRESULT Enemy1::Init()
 	speed = 1.0f;
 	size.cx = 30;
 	size.cy = 60;
+	hitBoxSize = size;
 	locationCount = 0;
 	// 시작 위치 설정
 	RandLocation();
@@ -34,7 +35,8 @@ void Enemy1::Update()
 	pos.x += cosf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 	pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 	imageinfo.MovePos(pos);
-
+	hitBox = {	(LONG)pos.x - hitBoxSize.cx / 2, (LONG)pos.y - hitBoxSize.cy / 2, 
+				(LONG)pos.x + hitBoxSize.cx / 2, (LONG)pos.y + hitBoxSize.cy / 2 };
 	
 
 	if (!AutomaticMissile)
@@ -52,6 +54,7 @@ void Enemy1::Update()
 				Em1->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
 			   //그 각도로 움직이는 코드
 				checkTime = 0;
+				speed = 0;
 				AutomaticMissile = true;
 			}
 		}
@@ -65,6 +68,7 @@ void Enemy1::Update()
 
 			checkTime = 0;
 			AutomaticMissile = false;
+			speed = 1.0f;
 		}
 	}
 	//else if (checkTime >= 1.3f && AutomaticMissile)
@@ -78,7 +82,8 @@ void Enemy1::Update()
 void Enemy1::Render(HDC hdc)
 {
 	ImageManager::GetSingleton()->DrawAnimImage(hdc, imageinfo);
-	Rectangle(hdc, pos.x - (size.cx / 2), pos.y - (size.cy / 2), pos.x + (size.cx / 2), pos.y + (size.cy / 2));
+	Rectangle(hdc, hitBox.left, hitBox.top, hitBox.right, hitBox.bottom);
+	//Rectangle(hdc, pos.x - (size.cx / 2), pos.y - (size.cy / 2), pos.x + (size.cx / 2), pos.y + (size.cy / 2));
 }
 
 void Enemy1::RandLocation()

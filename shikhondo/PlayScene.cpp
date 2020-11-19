@@ -69,6 +69,7 @@ void PlayScene::Update()
 void PlayScene::Render(HDC hdc)
 {
 	GameNode::Render(hdc);
+
 }
 
 Missile* PlayScene::SpawnMissile(Character* owner, string imageName, FPOINT missilePos, SIZE MissileSize)

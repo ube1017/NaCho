@@ -35,7 +35,7 @@ public:
 
 	void SetMovePatten(Patten movePatten);
 
-	void OnHit();
+	void SetHitBox(RECT rect) { this->hitBox = rect; }
 
 private:
 	void NormalMove();
@@ -46,6 +46,7 @@ private:
 	Character* taget;
 	FPOINT pos;
 	SIZE size;
+	RECT hitBox;
 
 	ImageDrawInfo imaginfo;
 
