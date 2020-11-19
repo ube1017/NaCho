@@ -4,6 +4,7 @@
 #include "Enemy1.h"
 #include "Enemy2.h"
 #include "Enemy3.h"
+#include "EnemyBoss.h"
 #include "GamePlayStatic.h"
 #include "Player.h"
 #include "EnemyManager.h"
@@ -22,6 +23,7 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("enemy2_1", "enemy2_1", { 3600 , 400 }, { 9,1 });
 	imageManager->_LoadBitmap("enemy2_2", "enemy2_2", { 6000 , 500 }, { 12,1 });
 	imageManager->_LoadBitmap("enemy3", "enemy3", { 512 , 512 }, { 3,3 });
+	imageManager->_LoadBitmap("Boss", "Boss", { 204 , 403 }, { 1,1 });
 	imageManager->_LoadBitmap("21", "21", { 400,100 }, { 4,1 });
 	imageManager->_LoadBitmap("Background2", "Background2", { 512,512 }, { 1,1 });
 	imageManager->_LoadBitmap("Background5", "Background5", { 512,1024 }, { 1,1 });
@@ -37,7 +39,12 @@ HRESULT PlayScene::Init()
 	missileManager = CreateObject<MissileManager>(false);
 	player->SetMissileManager(missileManager);
 	enemyManager->SetMainGame(this);
-	for (int i = 0; i < 10; i++)
+
+	for (int i = 0 ; i <20 ;i++)
+		enemyManager->CreateEeney<Enemy1>(missileManager);
+	for (int i = 0; i < 5;i++)
+		enemyManager->CreateEeney<Enemy2>(missileManager);
+	for (int i = 0; i < 2;i++)
 		enemyManager->CreateEeney<Enemy3>(missileManager);
 	for (int i = 0; i < MAX_MISSILE; i++)
 		missileManager->CreateMissile();
@@ -66,13 +73,13 @@ void PlayScene::Release()
 void PlayScene::Update()
 {
 	GameNode::Update();
-	// 테스트 용
-	static Enemy* test[10];
-	static int i = 0;
-	static int j = 0;
-	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_SPACE))
+	// 테스트용
+	if (KeyManager::GetSingleton()->IsOnceKeyDown(0x51)) //q
+		enemyManager->SpawnEeney<Enemy1>();
+	if (KeyManager::GetSingleton()->IsOnceKeyDown(0x57)) //w
+		enemyManager->SpawnEeney<Enemy2>();
+	if (KeyManager::GetSingleton()->IsOnceKeyDown(0x45)) //e~
 		enemyManager->SpawnEeney<Enemy3>();
-
 }
 
 void PlayScene::Render(HDC hdc)

@@ -28,12 +28,18 @@ void Enemy::Update()
 	}
 	else if (mapInCheck && !mapOutCheck)
 	{
-		if (pos.x < Play_LeftX || pos.x > Play_RightX)
+		if (pos.x < Play_LeftX - size.cx / 2|| pos.x > Play_RightX + size.cx / 2)
 		{
+			PlayScene* plsyScene = Cast<PlayScene>(GamePlayStatic::GetScene());
+			plsyScene->GetEnemyManager()->DieEnemy(this);
+			isActivation = false;
 			mapOutCheck = true;
 		}
-		if (pos.y < 0 || pos.y > WINSIZE_Y)
+		if (pos.y < -size.cy / 2|| pos.y > WINSIZE_Y + size.cy / 2)
 		{
+			PlayScene* plsyScene = Cast<PlayScene>(GamePlayStatic::GetScene());
+			plsyScene->GetEnemyManager()->DieEnemy(this);
+			isActivation = false;
 			mapOutCheck = true;
 		}
 	}

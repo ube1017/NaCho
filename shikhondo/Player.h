@@ -34,7 +34,7 @@ private:
 private:
 	void Idle();
 private:
-
+	FPOINT homingShooterPos[2];
 	MoveState moveState;
 	// ÆøÅº °¹¼ö
 	int boomCount;

@@ -8,14 +8,14 @@ HRESULT EnemyBoss::Init()
 	hp = 1000;
 	damge = 1;
 	speed = 1.0f;
-	size.cx = 250;
-	size.cy = 200;
+	size.cx = 80;
+	size.cy = 160;
 
 	// 시작 위치 설정
 	RandLocation();
 	////imageinfo.imageName = "enemy1";
-	   //imageinfo.DrawRectSetting("enemy1", this->pos, { 145,155 }, true, { 145,155 });
-	   //TimerManager::GetSingleton()->SetTimer(idleTimer, this, &Enemy1::Idle, 0.035f);
+	imageinfo.DrawRectSetting("Boss", this->pos, { 110,220 }, true, { 204,403 });
+	//TimerManager::GetSingleton()->SetTimer(idleTimer, this, &EnemyBoss::Idle, 0.035f);
 	return E_NOTIMPL;
 }
 
@@ -26,20 +26,20 @@ void EnemyBoss::Release()
 
 void EnemyBoss::Update()
 {
-	//imageinfo.MovePos(pos);
+	imageinfo.MovePos(pos);
 }
 
 void EnemyBoss::Render(HDC hdc)
 {
-	//ImageManager::GetSingleton()->DrawAnimImage(hdc, imageinfo);
-	Rectangle(hdc, pos.x, pos.y, pos.x + (size.cx), pos.y + (size.cy));
+	Rectangle(hdc, pos.x - (size.cx / 2), pos.y - (size.cy / 2), pos.x + (size.cx / 2), pos.y + (size.cy /2));
+	ImageManager::GetSingleton()->DrawAnimImage(hdc, imageinfo);
 }
 
 void EnemyBoss::RandLocation()
 {
-	this->pos.x = Play_LeftX +200;
-	this->pos.y = 20;
-	//imageinfo.MovePos(this->pos);
+	this->pos.x = WINSIZE_X / 2;
+	this->pos.y = 150;
+	imageinfo.MovePos(this->pos);
 }
 
 void EnemyBoss::LocationReset()
