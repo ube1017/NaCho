@@ -23,6 +23,7 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("enemy2_2", "enemy2_2", { 6000 , 500 }, { 12,1 });
 	imageManager->_LoadBitmap("enemy3", "enemy3", { 512 , 512 }, { 3,3 });
 	imageManager->_LoadBitmap("21", "21", { 400,100 }, { 4,1 });
+	imageManager->_LoadBitmap("PlayerMissile", "PlayerMissile", { 128,128 }, {1,1});
 
 	GamePlayStatic::SetScene(this);
 	backGround = CreateObject<BackGround>();
@@ -66,8 +67,7 @@ void PlayScene::Update()
 	static int i = 0;
 	static int j = 0;
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_SPACE))
-		test[i++] = enemyManager->SpawnEeney<Enemy3>();
-
+		enemyManager->SpawnEeney<Enemy3>();
 }
 
 void PlayScene::Render(HDC hdc)

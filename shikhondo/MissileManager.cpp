@@ -84,6 +84,8 @@ Missile * MissileManager::SpawnPlayerMissile(Character* onwer, string imageName,
 
 void MissileManager::MissileRelease(Character* onwer, Missile* missile)
 {
+	if (missile == nullptr)
+		return;
 	if (Cast<Player>(onwer))
 	{
 		list<Missile*>::iterator mit;
@@ -96,6 +98,7 @@ void MissileManager::MissileRelease(Character* onwer, Missile* missile)
 				missile->SetPos({ -10,-10 });
 				missile->SetSize({ 0,0 });
 				missile->MissileSetting("", { -10,-10 }, { 0,0 });
+				spawnPlayerMissileList.erase(mit);
 				return;
 			}
 		}
@@ -112,6 +115,7 @@ void MissileManager::MissileRelease(Character* onwer, Missile* missile)
 				missile->SetPos({ -10,-10 });
 				missile->SetSize({ 0,0 });
 				missile->MissileSetting("", { -10,-10 }, { 0,0 });
+				spawnMissileList.erase(mit);
 				return;
 			}
 		}
