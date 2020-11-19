@@ -10,6 +10,7 @@ HRESULT Enemy2::Init()
 	speed = 1.0f;
 	size.cx = 150;
 	size.cy = 150;
+	hitBoxSize = size;
 	locationCount = 0;
 	countSize = 0;
 	ShootCount = 0;
@@ -37,7 +38,8 @@ void Enemy2::Update()
 	Enemy::Update();
 	pos.x += cosf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 	pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
-
+	hitBox = { (LONG)pos.x - hitBoxSize.cx / 2, (LONG)pos.y - hitBoxSize.cy / 2,
+			(LONG)pos.x + hitBoxSize.cx / 2, (LONG)pos.y + hitBoxSize.cy / 2 };
 	CircleImage.MovePos(pos);
 	imageinfo.MovePos(pos);
 

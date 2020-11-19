@@ -19,7 +19,7 @@ HRESULT Player::Init()
 	fireTimer.timerName = "플레이어 발사딜레이 간격";
 	TimerManager::GetSingleton()->SetTimer(fireTimer, this, &Player::FireDelay, 0.085f);
 	isFire = true;
-	speed = 3.0f;
+	speed = 4.0f;
 	return S_OK;
 }
 
@@ -34,8 +34,47 @@ void Player::Update()
 	this->KeyChack();
 	hitBox = {	(LONG)pos.x - hitBoxSize.cx/2 -3, (LONG)pos.y - hitBoxSize.cy - 4,
 				(LONG)pos.x + hitBoxSize.cx/2 -3, (LONG)pos.y - 4 };
-	homingShooterPos[0] = { (float)hitBox.left - 50, (float)hitBox.top + 10};
-	homingShooterPos[1] = { (float)hitBox.right + 50, (float)hitBox.top + 10};
+
+	if (moveState == MoveState::SLOW)
+	{
+		PlayScene* playscene = Cast<PlayScene>(GamePlayStatic::GetScene());
+		EnemyManager* enemyManger = Cast<EnemyManager>(playscene->GetEnemyManager());
+		const list<Enemy*>* spawnEnemyList = enemyManger->GetSpawnEnemyList();
+		list<Enemy*>::const_iterator const_it;
+		Enemy* homingTager = nullptr;
+		//homingShooterPos[0] = { (float)hitBox.left - 50, (float)hitBox.top + 10 };
+		int i = 0;
+		for (const_it = spawnEnemyList->begin(); const_it != spawnEnemyList->end(); const_it++)
+		{
+			if ((*const_it)->GetMapInCheck())
+			{
+				homingTager = *const_it;
+				FPOINT enemypos = (*const_it)->Getpos();
+				float angle = atan2f((enemypos.y - homingShooterPos[i].y), (enemypos.x - 60.0f - homingShooterPos[i].x));
+				homingShooterPos[i].x += missileSpeed * cosf(angle);
+				homingShooterPos[i].y += missileSpeed * sinf(angle);
+				i++;
+				if (i == 2)
+					break;
+				else
+					continue;
+			}
+		}
+		if (i == 1)
+		{
+			FPOINT enemypos = homingTager->Getpos();
+			float angle = atan2f((enemypos.y - homingShooterPos[i].y), (enemypos.x + 110.0f - homingShooterPos[i].x));
+			homingShooterPos[1].x += missileSpeed * cosf(angle);
+			homingShooterPos[1].y += missileSpeed * sinf(angle);
+			//homingShooterPos[1] = { homingShooterPos[0].x + 110.0f,homingShooterPos[0].y };
+		}
+	}
+	else
+	{
+
+		homingShooterPos[0] = { (float)hitBox.left - 50, (float)hitBox.top + 10 };
+		homingShooterPos[1] = { (float)hitBox.right + 50, (float)hitBox.top + 10 };
+	}
 	
 }
 
@@ -48,6 +87,7 @@ void Player::Render(HDC hdc)
 #endif // _DEBUG
 	Rectangle(hdc, (LONG)homingShooterPos[0].x -25 , (LONG)homingShooterPos[0].y - 25, (LONG)homingShooterPos[0].x + 25, (LONG)homingShooterPos[0].y + 25);
 	Rectangle(hdc, (LONG)homingShooterPos[1].x -25 , (LONG)homingShooterPos[1].y - 25, (LONG)homingShooterPos[1].x + 25, (LONG)homingShooterPos[1].y + 25);
+
 	
 }
 
@@ -135,31 +175,42 @@ void Player::Fire()
 		const list<Enemy*>* spawnEnemyList = enemyManger->GetSpawnEnemyList();
 		list<Enemy*>::const_iterator const_it;
 		Missile* homing[2];
-
-
-		
-		
+		Enemy* homingTaget = nullptr;
+		int i = 0;
 		for (const_it = spawnEnemyList->begin(); const_it != spawnEnemyList->end(); const_it++)
 		{
+			if ((*const_it)->GetMapInCheck())
+			{
 
-			missilePos = homingShooterPos[0];
-			homing[0] = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, { 30,30 });
-
-			missilePos = homingShooterPos[1];
-			homing[1] = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, { 30,30 });
-			homing[0]->SetTaget(*const_it);
-			homing[0]->SetMovePatten(Patten::HOMINGMOVE);
-			homing[0]->SetSpeed(missileSpeed);
+				missilePos = homingShooterPos[i];
+				homing[i] = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, { 30,30 });
 
 
-			homing[1]->SetTaget(*const_it);
-			homing[1]->SetMovePatten(Patten::HOMINGMOVE);
-			homing[1]->SetSpeed(missileSpeed);
-			
+				homing[i]->SetTaget(*const_it);
+				homing[i]->SetMovePatten(Patten::HOMINGMOVE);
+				homing[i]->SetSpeed(missileSpeed);
+				i++;
+
+				homingTaget = *const_it;
+				if (i == 2)
+					break;
+				else
+					continue;
+			}
 			
 			break;
 		}
 		
+
+		if (i == 1)
+		{
+			missilePos = homingShooterPos[1];
+			homing[1] = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, { 30,30 });
+
+			homing[1]->SetTaget(homingTaget);
+			homing[1]->SetMovePatten(Patten::HOMINGMOVE);
+			homing[1]->SetSpeed(missileSpeed);
+		}
 
 		//for (int i = 0; i < 3; i++)
 		//{
@@ -182,12 +233,12 @@ void Player::SlowMove()
 	if (moveState == MoveState::NORMAL)
 	{
 		moveState = MoveState::SLOW;
-		speed = 1.0f;
+		speed = 2.0f;
 	}
 	else
 	{
 		moveState = MoveState::NORMAL;
-		speed = 3.0f;
+		speed = 5.0f;
 	}
 }
 

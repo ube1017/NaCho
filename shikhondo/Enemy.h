@@ -11,7 +11,8 @@ public:
 
 	virtual void RandLocation() {}
 	virtual void LocationReset() {}
-	virtual bool GetMapOutCheck() { return mapOutCheck; }
+	bool GetMapOutCheck() { return mapOutCheck; }
+	bool GetMapInCheck() { return mapInCheck; }
 
 	float GetAngle();
 	float GetAngle(FPOINT GetPos);

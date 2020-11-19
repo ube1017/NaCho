@@ -79,6 +79,8 @@ void CollisionManager::CollisinCheck()
 	RECT enemyRect;
 	for (; eiter != enemy->end(); eiter++)
 	{
+		if (!(*eiter)->GetMapInCheck())
+			continue;
 		enemyPos = (*eiter)->Getpos();
 		enemySize = (*eiter)->GetSize();
 		for (missileit = playerMissile->begin(); missileit != playerMissile->end(); missileit++)

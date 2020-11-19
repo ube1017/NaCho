@@ -10,6 +10,7 @@ HRESULT Enemy3::Init()
 	speed = 1.0f;
 	size.cx = 40;
 	size.cy = 70;
+	hitBoxSize = size;
 	locationCount = 0;
 	ShootCount = 0;
 	angleNum = 50;
@@ -33,7 +34,8 @@ void Enemy3::Update()
 	Enemy::Update();
 	pos.x += cosf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 	pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
-
+	hitBox = { (LONG)pos.x - hitBoxSize.cx / 2, (LONG)pos.y - hitBoxSize.cy / 2,
+			(LONG)pos.x + hitBoxSize.cx / 2, (LONG)pos.y + hitBoxSize.cy / 2 };
 	imageinfo.MovePos(pos);
 
 	checkTime += TimerManager::GetSingleton()->GettimeElapsed();
