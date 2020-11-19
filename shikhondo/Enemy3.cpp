@@ -13,6 +13,8 @@ HRESULT Enemy3::Init()
 	locationCount = 0;
 	ShootCount = 0;
 	angleNum = 50;
+	mapInCheck = false;
+	mapOutCheck = false;
 	// 시작 위치 설정
 	RandLocation();
 	LocationReset();
@@ -28,6 +30,7 @@ void Enemy3::Release()
 
 void Enemy3::Update()
 {
+	Enemy::Update();
 	pos.x += cosf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 	pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 

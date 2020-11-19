@@ -15,6 +15,8 @@ HRESULT Enemy2::Init()
 	ShootCount = 0;
 	ImageSize1 = -1.0f;
 	ImageSize2 = 1.0f;
+	mapInCheck = false;
+	mapOutCheck = false;
 	// 시작 위치 설정
 	RandLocation();
 	LocationReset();
@@ -32,6 +34,7 @@ void Enemy2::Release()
 
 void Enemy2::Update()
 {
+	Enemy::Update();
 	pos.x += cosf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 	pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 

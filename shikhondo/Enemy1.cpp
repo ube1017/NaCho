@@ -13,6 +13,8 @@ HRESULT Enemy1::Init()
 	hitBoxSize = size;
 	locationCount = 0;
 
+	mapInCheck = false;
+	mapOutCheck = false;
 	// 시작 위치 설정
 	RandLocation();
 	LocationReset();
@@ -33,12 +35,12 @@ void Enemy1::Release()
 
 void Enemy1::Update()
 {
+	Enemy::Update();
 	pos.x += cosf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 	pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 	imageinfo.MovePos(pos);
-	hitBox = {	(LONG)pos.x - hitBoxSize.cx / 2, (LONG)pos.y - hitBoxSize.cy / 2, 
+	hitBox = { (LONG)pos.x - hitBoxSize.cx / 2, (LONG)pos.y - hitBoxSize.cy / 2,
 				(LONG)pos.x + hitBoxSize.cx / 2, (LONG)pos.y + hitBoxSize.cy / 2 };
-	
 
 	if (!AutomaticMissile)
 	{
@@ -49,7 +51,7 @@ void Enemy1::Update()
 				PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
 				// 각도를 받고
 				Missile* Em1 = playScene->SpawnMissile(this, "21", this->pos, { 10, 10 });
-			
+
 				Em1->SetAngle(this->GetAngle());		// 각도 값
 				Em1->SetSpeed(speed);					// 총알 스피드
 				Em1->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
@@ -73,6 +75,7 @@ void Enemy1::Update()
 			speed = 1.0f;
 		}
 	}
+
 	//else if (checkTime >= 1.3f && AutomaticMissile)
 	//{
 	//	checkTime = 0;
@@ -152,7 +155,7 @@ void Enemy1::Death()
 void Enemy1::Idle()
 {
 	imageinfo.framex++;
-	if(imageinfo.framex > 12)
+	if (imageinfo.framex > 12)
 	{
 		imageinfo.framex = 0;
 	}

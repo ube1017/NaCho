@@ -16,6 +16,27 @@ void Enemy::Release()
 
 void Enemy::Update()
 {
+	if (!mapInCheck && !mapOutCheck)
+	{
+		if (pos.y > 0 && pos.y < WINSIZE_Y)
+		{
+			if (pos.x > Play_LeftX && pos.x < Play_RightX)
+			{
+				mapInCheck = true;
+			}
+		}
+	}
+	else if (mapInCheck && !mapOutCheck)
+	{
+		if (pos.x < Play_LeftX || pos.x > Play_RightX)
+		{
+			mapOutCheck = true;
+		}
+		if (pos.y < 0 || pos.y > WINSIZE_Y)
+		{
+			mapOutCheck = true;
+		}
+	}
 }
 
 void Enemy::Render(HDC hdc)
