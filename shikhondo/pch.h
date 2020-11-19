@@ -16,7 +16,7 @@
 #pragma comment(lib, "msimg32.lib")
 
 #define WINSIZE_X	1280
-#define WINSIZE_Y	720
+#define WINSIZE_Y	900
 #define PI			3.141592f
 #define DegreeToRadian(x)	(x * PI / 180.0f)
 #define RadianToDegree(x)	(x * 180.0f / PI)
