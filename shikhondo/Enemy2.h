@@ -5,7 +5,8 @@ class Enemy2 : public Enemy
 private:
 	TimerHandle idleTimer;
 	ImageDrawInfo CircleImage;
-	float ImageNum;
+	float ImageSize1;
+	float ImageSize2;
 	int countSize;
 	int ShootCount;
 public:
@@ -19,6 +20,7 @@ public:
 	void LocationReset();
 
 	void Death() override;
+
 private:
 	void Idle();
 };

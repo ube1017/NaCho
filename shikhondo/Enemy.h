@@ -14,6 +14,7 @@ public:
 	virtual void LocationReset() {}
 
 	float GetAngle();
+	float GetAngle(FPOINT GetPos);
 protected:
 	FPOINT RandPos;
 	int RandNum;
