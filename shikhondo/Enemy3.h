@@ -4,7 +4,8 @@ class Enemy3 : public Enemy
 {
 private:
 	TimerHandle idleTimer;
-
+	int angleNum;
+	int ShootCount;
 public:
 
 	HRESULT Init();				// 멤버 변수 초기화, 메모리 할당

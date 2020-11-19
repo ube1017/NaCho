@@ -11,6 +11,8 @@ HRESULT Enemy3::Init()
 	size.cx = 40;
 	size.cy = 70;
 	locationCount = 0;
+	ShootCount = 0;
+	angleNum = 50;
 	// 시작 위치 설정
 	RandLocation();
 	LocationReset();
@@ -26,29 +28,57 @@ void Enemy3::Release()
 
 void Enemy3::Update()
 {
-	if (RandPos.x != pos.x)
-	{
-		if (RandPos.x > pos.x)
-		{
-			pos.x += speed;
-		}
-		else if (RandPos.x < pos.x)
-		{
-			pos.x -= speed;
-		}
-	}
-	if (RandPos.y != pos.x)
-	{
-		if (RandPos.y > pos.y)
-		{
-			pos.y += speed;
-		}
-		else if (RandPos.y < pos.y)
-		{
-			pos.y -= speed;
-		}
-	}
+	pos.x += cosf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
+	pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
+
 	imageinfo.MovePos(pos);
+
+	checkTime += TimerManager::GetSingleton()->GettimeElapsed();
+	if (checkTime >= 0.5f)
+	{
+		if (!AutomaticMissile)
+		{
+			if (pos.x < RandPos.x + 5 && pos.x >= RandPos.x - 5)
+			{
+				if (pos.y < RandPos.y + 5 && pos.y >= RandPos.y - 5)
+				{// 탄 발사전 좌표지정
+					PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
+					// 각도를 받고
+					for (int i = 0; i < 5; i++)
+					{
+						Missile* Em = playScene->SpawnMissile(this, "21", this->pos, { 25, 25 });
+						Em->SetAngle(DegreeToRadian(angleNum));		// 각도 값
+						Em->SetSpeed(speed);					// 총알 스피드
+						Em->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
+						angleNum += 20;
+					}
+					angleNum = 50;
+					ShootCount++;
+					//그 각도로 움직이는 코드
+					checkTime = 0;
+
+					if (ShootCount > 3)
+					{
+						checkTime = 0;
+						AutomaticMissile = true;
+						speed = 0;
+					}
+				}
+			}
+		}
+		else if (AutomaticMissile)
+		{
+			if (checkTime >= 2.0f)
+			{
+				LocationReset();
+				ShootCount = 0;
+				checkTime = 0;
+				AutomaticMissile = false;
+				speed = 1.0f;
+			}
+		}
+	}
+	
 }
 
 void Enemy3::Render(HDC hdc)
