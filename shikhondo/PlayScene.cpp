@@ -65,13 +65,15 @@ void PlayScene::Update()
 	static Enemy* test[10];
 	static int i = 0;
 	static int j = 0;
-	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_DOWN))
-		test[i++] = enemyManager->SpawnEeney<Enemy3>();
+	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_SPACE))
+		test[i++] = enemyManager->SpawnEeney<Enemy1>();
+
 }
 
 void PlayScene::Render(HDC hdc)
 {
 	GameNode::Render(hdc);
+
 }
 
 Missile* PlayScene::SpawnMissile(Character* owner, string imageName, FPOINT missilePos, SIZE MissileSize)

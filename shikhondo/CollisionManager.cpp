@@ -36,7 +36,6 @@ void CollisionManager::CollisinCheck()
 {
 	list<Enemy*>* enemy = const_cast<list<Enemy*>*>(enemyManager->GetSpawnEnemyList());
 	list<Missile*>* missile = const_cast<list<Missile*>*>(missileManager->GetSpawnMissileList());
-	player;
 
 	Missile* emissile;
 	list<Missile*>::iterator missileit = missile->begin();
@@ -61,13 +60,46 @@ void CollisionManager::CollisinCheck()
 				{
 					player->OnHit(emissile);
 					emissile->OnHit();
-					DEBUG_MASSAGE("충돌\n");
+					DEBUG_MASSAGE("플레이어 충돌\n");
 				}
 
 			}
 		}
-
 	}
 
+	list<Enemy*>::iterator eiter = enemy->begin();
+	list<Missile*>* playerMissile = const_cast<list<Missile*>*>(missileManager->GetSpawnPlayerMissileList());
+	FPOINT enemyPos;
+	SIZE enemySize;
+	RECT enemyRect;
+	missileit = playerMissile->begin();
+	for (; eiter != enemy->end(); eiter++)
+	{
+		enemyPos = (*eiter)->Getpos();
+		enemySize = (*eiter)->GetSize();
+		for (; missileit != playerMissile->end(); missileit++)
+		{
+			emissile = *missileit;
+			otherPos = emissile->GetPos();
+			if (enemyPos.x - enemySize.cx <= otherPos.x &&
+				enemyPos.x + enemySize.cx >= otherPos.x)
+			{
+				if (enemyPos.y - enemySize.cy <= otherPos.y &&
+					enemyPos.y + enemySize.cy >= otherPos.y)
+				{
+					pos = { (LONG)otherPos.x,(LONG)otherPos.y };
+					enemyRect = (*eiter)->GetHitBox();
+					if (PtInRect(&enemyRect, pos))
+					{
+						(*eiter)->OnHit(emissile);
+						emissile->OnHit();
+						DEBUG_MASSAGE("적충돌 충돌\n");
+					}
+
+				}
+			}
+		}
+
+	}
 }
 
