@@ -42,5 +42,7 @@ private:
 	TimerHandle spawnTimer;
 	UINT spawnCount;
 	SpawnPatten nowPatten;
+	UINT nextspawnCount;
+	float spawnNum;
 };
 

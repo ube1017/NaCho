@@ -59,9 +59,8 @@ void MainGame::Render()
 	// ¹é¹öÆÛ
 	imageManager->DrawImage(MemDC, backbufferInfo);
 
-	TimerManager::GetSingleton()->Render(MemDC);
-
 	GameNode::Render(MemDC);
+	TimerManager::GetSingleton()->Render(MemDC);
 	HDC hdc = GetDC(g_hWnd);
 	BitBlt(hdc,0,0,WINSIZE_X,WINSIZE_Y , MemDC, 0,0, SRCCOPY);
 	DeleteDC(hdc);

@@ -81,8 +81,8 @@ void BackGround::Render(HDC hdc)
 	imageManager->DrawAnimImage(hdc, RightBackground);
 	imageManager->DrawAnimImage(hdc, RightSideDownBackground);
 	imageManager->DrawAnimImage(hdc, RightUpBackground);
-	imageManager->DrawAnimImage(hdc, Soulgeiji);
-	imageManager->DrawAnimImage(hdc, SkillGeiji);
+	//imageManager->DrawAnimImage(hdc, Soulgeiji);
+	//imageManager->DrawAnimImage(hdc, SkillGeiji);
 	
 	
 	

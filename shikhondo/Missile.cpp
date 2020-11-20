@@ -6,6 +6,7 @@
 
 Missile::Missile()
 {
+	zOrder = 9;
 	nowMovePatten = Patten::NORMALMOVE;
 	movePatten[MISSILEPATTEN(Patten::NORMALMOVE)] = &Missile::NormalMove;
 	movePatten[MISSILEPATTEN(Patten::HOMINGMOVE)] = &Missile::HomingMove;

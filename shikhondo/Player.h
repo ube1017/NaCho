@@ -18,7 +18,7 @@ public:
 	void Update();				// 프레임 단위 게임 로직 실행 (데이터 변경)
 	void Render(HDC hdc);		// 프레임 단위 출력 (이미지, 텍스트 등)
 
-
+	void OnHit(class Missile* hitMissile) override;
 private:
 	// 키 체크 함수
 	void KeyChack();
@@ -31,6 +31,8 @@ private:
 	// 폭탄
 	void Boom();
 
+	// 무적
+	void Invincibility();
 private:
 	void Idle();
 private:

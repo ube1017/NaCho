@@ -10,6 +10,7 @@ HRESULT Player::Init()
 {
 	
 	imageinfo.imageName = "Player";
+	this->hp = 4;
 	this->pos = { 640.0f ,100.0f };
 	this->size = { 123,141 };
 	this->hitBoxSize = { 20,20 };
@@ -102,6 +103,13 @@ void Player::Render(HDC hdc)
 	
 }
 
+void Player::OnHit(Missile * hitMissile)
+{
+	this->hp--;
+	if (this->hp == 0)
+		isActivation = false;
+}
+
 
 void Player::KeyChack()
 {
@@ -168,7 +176,6 @@ void Player::Fire()
 		missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, { 30,30 });
 		missile->SetSpeed(-missileSpeed);
 		missile->SetMovePatten(Patten::NORMALMOVE);
-
 
 		missilePos.x -= 30.0f;
 		missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, { 30,30 });

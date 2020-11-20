@@ -48,6 +48,7 @@ Missile* MissileManager::SpawnMissile(Character* onwer, string imageName, FPOINT
 			missile->SetOwner(onwer);
 			missile->SetPos(pos);
 			missile->MissileSetting(imageName,pos,size);
+			missile->SetZOrder(8);
 			spawnMissileList.push_back(missile);
 			missileList.splice(missileList.end(), missileList, mit);
 			return missile;
@@ -74,6 +75,7 @@ Missile * MissileManager::SpawnPlayerMissile(Character* onwer, string imageName,
 			// 미사일의 이미지 값 설정
 			missile->MissileSetting(imageName, pos, size);
 			spawnPlayerMissileList.push_back(missile);
+			missile->SetZOrder(9);
 			// 리스트에서 위치변경
 			missileList.splice(missileList.end(), missileList, mit);
 			return missile;
