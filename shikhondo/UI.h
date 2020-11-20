@@ -6,6 +6,9 @@ class UI : public BaseUI
 	virtual void Release();				// 메모리 해제
 	virtual void Update();				// 프레임 단위 게임 로직 실행 (데이터 변경)
 	virtual void Render(HDC hdc);		// 프레임 단위 출력 (이미지, 텍스트 등)
+
+
+	bool GetIsFullOpen() { return isFullOpen; }
 private:
 	FPOINT leftBack2pos;
 	FPOINT leftBack1pos;
@@ -17,5 +20,10 @@ private:
 	ImageDrawInfo RightBackground;
 	ImageDrawInfo RightSideDownBackground;
 	ImageDrawInfo RightUpBackground;
+
+	int playerHp;
+	int playerSoulGauge;
+	int playerBoom;
+	bool isFullOpen;
 };
 

@@ -14,6 +14,11 @@
 #include "CollisionManager.h"
 #include "UI.h"
 
+PlayScene::PlayScene()
+{
+	spawnStart.BindObject(this,&PlayScene::SpawnStartFun);
+}
+
 HRESULT PlayScene::Init()
 {
 	ImageManager* imageManager = ImageManager::GetSingleton();
@@ -39,8 +44,9 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("RightUpBackground", "RightUpBackground", { 1024,512 }, { 1,1 });
 	imageManager->_LoadBitmap("Soulgeiji", "Soulgeiji", { 512,1024 }, { 1,1 });
 	imageManager->_LoadBitmap("SkillGeiji", "SkillGeiji", { 2048,128 }, { 1,1 });
-	
-		
+	imageManager->_LoadBitmap("LProgress", "LProgress", { 64,128 }, { 1,1 });
+	imageManager->_LoadBitmap("RProgress", "RProgress", { 64,128 }, { 1,1 });
+	//heroProgress-sharedassets1.assets-159
 
 	
 	GamePlayStatic::SetScene(this);
@@ -75,7 +81,6 @@ HRESULT PlayScene::Init()
 	spawnCount = 0;
 	isBoss = false;
 
-	TimerManager::GetSingleton()->SetTimer(spawnTimer,this,&PlayScene::StageSpawn , 2.0f);
 	return S_OK;
 }
 
@@ -88,6 +93,7 @@ void PlayScene::Update()
 {
 	GameNode::Update();
 	// 테스트용
+#ifdef _DEBUG
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(0x51)) //q
 		enemyManager->SpawnEeney<Enemy1>();
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(0x57)) //w
@@ -96,6 +102,8 @@ void PlayScene::Update()
 		enemyManager->SpawnEeney<Enemy3>();
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_SPACE))
 		enemyManager->SpawnEeney<EnemyBoss>();
+#endif // _DEBUG
+
 }
 
 void PlayScene::Render(HDC hdc)
@@ -192,4 +200,10 @@ void PlayScene::SpawnBoss()
 	}
 	//else
 	//	TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::SpawnBoss, 0.3f);
+}
+
+void PlayScene::SpawnStartFun()
+{
+	TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
+
 }

@@ -5,7 +5,7 @@
 
 HRESULT Enemy2::Init()
 {
-	hp = 30;
+	hp = 50;
 	damge = 1;
 	speed = 1.0f;
 	size.cx = 150;

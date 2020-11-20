@@ -1,6 +1,9 @@
 #pragma once
 #include"Scene.h"
 
+DELEGATE(SpawnStart);
+
+
 enum class SpawnPatten
 {
 	NONE,
@@ -13,6 +16,7 @@ enum class SpawnPatten
 class PlayScene : public Scene
 {
 public:
+	PlayScene();
 	//  멤버 변수 초기화, 메모리 할당
 	HRESULT Init();
 	// 메모리 해제
@@ -35,6 +39,10 @@ public:
 	void SpawnPatten3();
 	void SpawnBoss();
 	void None() {}
+private:
+	void SpawnStartFun();
+public:
+	SpawnStart spawnStart;
 private:
 
 	class Player* player;

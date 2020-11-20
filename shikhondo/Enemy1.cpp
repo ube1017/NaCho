@@ -50,7 +50,7 @@ void Enemy1::Update()
 			{// 탄 발사전 좌표지정
 				PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
 				// 각도를 받고
-				Missile* Em1 = playScene->SpawnMissile(this, "21", this->pos, { 10, 10 });
+				Missile* Em1 = playScene->SpawnMissile(this, "21", this->pos, { 15, 15 });
 
 				Em1->SetAngle(this->GetAngle());		// 각도 값
 				Em1->SetSpeed(speed);					// 총알 스피드

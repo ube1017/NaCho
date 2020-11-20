@@ -1,15 +1,24 @@
 #include "UI.h"
+#include "GamePlayStatic.h"
+#include "PlayScene.h"
+#include "Player.h"
 
 HRESULT UI::Init()
 {
-	leftBack1pos.x = Play_LeftX + 224;
+	leftBack1pos.x = Play_LeftX;
 	leftBack1pos.y = 0;
-	leftBack1.drwrc = { (LONG)Play_LeftX, (LONG)-10, (LONG)PlayXSize / 2 , WINSIZE_Y+20};
+	leftBack1.drwrc = { (LONG)Play_LeftX, (LONG)-10, (LONG)Play_LeftX + PlayXSize /2 , WINSIZE_Y+20};
 	leftBack1.imageName = "leftBack";
-	leftBack2pos.x = Play_RightX - 224;
+	leftBack1.framex = 0;
+	leftBack1.framey = 0;
+
+	leftBack2pos.x = Play_LeftX + PlayXSize / 2;
 	leftBack2pos.y = 0;
 	leftBack2.imageName = "leftBack";
-	leftBack2.drwrc = { (LONG)PlayXSize / 2  , (LONG)-10 , (LONG)Play_RightX , WINSIZE_Y + 20 };
+	leftBack2.drwrc = { (LONG)Play_LeftX + PlayXSize / 2   , (LONG)-10 , (LONG)Play_RightX , WINSIZE_Y + 20 };
+	leftBack1.framex = 1;
+	leftBack1.framey = 0;
+
 	LeftUpBackground.imageName = "LeftUpBackground";
 	LeftUpBackground.drwrc = { (LONG)0 , (LONG)0 , (LONG)650 , 350 };
 	LeftBackground.imageName = "LeftBackground";
@@ -22,7 +31,13 @@ HRESULT UI::Init()
 	RightBackground.drwrc = { (LONG)650 , (LONG)150 , (LONG)WINSIZE_X , 700 };
 	RightSideDownBackground.imageName = "RightSideDownBackground";
 	RightSideDownBackground.drwrc = { (LONG)850 , (LONG)400 , (LONG)WINSIZE_X , WINSIZE_Y };
-	return E_NOTIMPL;
+
+	isFullOpen = false;
+
+	playerHp = 0;
+	playerSoulGauge = 0;
+	playerBoom = 0;
+	return S_OK;
 }
 
 void UI::Release()
@@ -32,16 +47,34 @@ void UI::Release()
 
 void UI::Update()
 {
-	return;
-	if (leftBack1pos.x > Play_LeftX - 225)
+	if (!isFullOpen)
 	{
-		leftBack1pos.x--;
-		leftBack1.MovePos(MovePosType::X_AIS, -1);
+		if (leftBack1.drwrc.right > Play_LeftX)
+		{
+			//leftBack1pos.x--;
+			leftBack1.MovePos(MovePosType::X_AIS, -2);
+		}
+
+		if (leftBack2.drwrc.left < Play_RightX)
+		{
+			//leftBack2pos.x++;
+			leftBack2.MovePos(MovePosType::X_AIS, +2);
+		}
+		else
+		{
+			PlayScene* playScen = Cast<PlayScene>(GamePlayStatic::GetScene());
+			playScen->spawnStart.Execute();
+			playScen->spawnStart.UnBind();
+			isFullOpen = true;
+		}
 	}
-	if (leftBack2pos.x < Play_RightX)
+
+	Player* player = Cast<Player>(GamePlayStatic::GetPlayerCharacter());
+	if (player)
 	{
-		leftBack2pos.x++;
-		leftBack2.MovePos(MovePosType::X_AIS, 1);
+		playerHp = player->GetHp();
+		playerSoulGauge = player->GetSoulGauge();
+		playerBoom = player->GetBoom();
 	}
 }
 
@@ -50,7 +83,7 @@ void UI::Render(HDC hdc)
 	BaseUI::Render(hdc);
 	ImageManager* imageManager = ImageManager::GetSingleton();
 	imageManager->DrawAnimImage(hdc, leftBack1);
-	//imageManager->DrawAnimImage(hdc, leftBack2);
+	imageManager->DrawAnimImage(hdc, leftBack2);
 	imageManager->DrawAnimImage(hdc, LeftBackground);
 	imageManager->DrawAnimImage(hdc, LeftSideDownBackground);
 	imageManager->DrawAnimImage(hdc, LeftUpBackground);

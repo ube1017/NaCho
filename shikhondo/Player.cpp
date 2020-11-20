@@ -21,6 +21,13 @@ HRESULT Player::Init()
 	TimerManager::GetSingleton()->SetTimer(fireTimer, this, &Player::FireDelay, 0.085f);
 	isFire = true;
 	speed = 4.0f;
+
+	soulGauge = 0;
+	boomCount = 0;
+	testMode = false;
+
+	soulGaugeLeft.DrawRectSetting("LProgress", { this->pos.x, this->pos.y }, { 100,180 }, true, {64,128});
+	soulGaugeRight.DrawRectSetting("RProgress", this->pos, { 100,180 }, true, {64,128});
 	return S_OK;
 }
 
@@ -36,6 +43,71 @@ void Player::Update()
 	hitBox = {	(LONG)pos.x - hitBoxSize.cx/2 -3, (LONG)pos.y - hitBoxSize.cy - 4,
 				(LONG)pos.x + hitBoxSize.cx/2 -3, (LONG)pos.y - 4 };
 
+	FPOINT Rgauge = { this->pos.x + 50 , this->pos.y - 10};
+	FPOINT Lgauge = { this->pos.x - 50 , this->pos.y - 10};
+	soulGauge++;
+	if (soulGauge == 200)
+		soulGauge = 0;
+	if (this->soulGauge < maxSoulGauge / 4)
+	{
+		soulGaugeRight.animSize.cx = 64 * (float)((float)this->soulGauge /(maxSoulGauge / 4));
+		soulGaugeRight.animSize.cy = 64;
+		soulGaugeRight.size.cx = 100 * (float)((float)this->soulGauge / (maxSoulGauge / 4));
+		soulGaugeRight.size.cy = 90;
+		soulGaugeRight.drwrc = {	(LONG)this->pos.x  , (LONG)this->pos.y - 80 ,
+									(LONG)this->pos.x + soulGaugeRight.size.cx , (LONG)this->pos.y + 10 };
+		soulGaugeLeft.animSize = { 0,0 };
+		soulGaugeLeft.size = { 0,0 };
+		
+	}
+	else if (this->soulGauge < maxSoulGauge / 2)
+	{
+		soulGaugeRight.animSize.cx = 64;
+		soulGaugeRight.animSize.cy = 128 * (float)((float)this->soulGauge / (maxSoulGauge / 2));
+		soulGaugeRight.size.cx = 100;
+		soulGaugeRight.size.cy = 180 * (float)((float)this->soulGauge / (maxSoulGauge / 2));
+		soulGaugeRight.drwrc = {	(LONG)this->pos.x  , (LONG)this->pos.y -80 ,
+									(LONG)this->pos.x + 100 , (LONG)this->pos.y - 80 + soulGaugeRight.size.cy };
+		soulGaugeLeft.animSize = { 0,0 };
+	}
+	else if (this->soulGauge < ((maxSoulGauge / 4) * 3))
+	{
+		soulGaugeRight.animSize.cx = 64;
+		soulGaugeRight.animSize.cy = 128;
+		soulGaugeRight.size.cx = 100;
+		soulGaugeRight.size.cy = 180;
+		soulGaugeRight.drwrc = { (LONG)this->pos.x ,(LONG)this->pos.y - 80,
+								 (LONG)this->pos.x + 100 , (LONG)this->pos.y + 100 };
+
+
+		soulGaugeLeft.animSize.cx = 64 * (float)((float)this->soulGauge / (maxSoulGauge / 4));
+		soulGaugeLeft.animSize.cy = 64;
+		soulGaugeLeft.size.cx = 100 * (float)(((float)this->soulGauge - 100) / (maxSoulGauge / 4));
+		soulGaugeLeft.size.cy = 90;
+		soulGaugeRight.drwrc = { (LONG)pos.x - 100 , (LONG)pos.x + 10,
+								 (LONG)pos.x , (LONG)pos.x + 100 };
+	}
+	else
+	{
+		soulGaugeRight.animSize.cx = 64;
+		soulGaugeRight.animSize.cy = 128;
+		soulGaugeRight.size.cx = 100;
+		soulGaugeRight.size.cy = 180;
+		soulGaugeRight.drwrc = { (LONG)this->pos.x ,(LONG)this->pos.y - 80,
+								 (LONG)this->pos.x + 100 , (LONG)this->pos.y + 100 };
+
+
+		soulGaugeLeft.animSize.cx = 64;
+		soulGaugeLeft.animSize.cy = 128;
+		soulGaugeLeft.size.cx = 100;
+		soulGaugeLeft.size.cy = 90 * (float)((float)(this->soulGauge - 100) / ((maxSoulGauge / 2)));
+		soulGaugeRight.drwrc = { (LONG)pos.x - 100 , (LONG)pos.x + 100 - soulGaugeLeft.size.cy ,
+								(LONG)pos.x , (LONG)pos.x + 100 };
+	}
+
+	soulGaugeLeft.MovePos(Lgauge);
+	//soulGaugeRight.MovePos(Rgauge);
+	
 	if (moveState == MoveState::SLOW)
 	{
 		PlayScene* playscene = Cast<PlayScene>(GamePlayStatic::GetScene());
@@ -93,19 +165,21 @@ void Player::Update()
 void Player::Render(HDC hdc)
 {
 	Character::Render(hdc);
+	//ImageManager::GetSingleton()->DrawAnimImage(hdc, soulGaugeLeft);
+	//ImageManager::GetSingleton()->DrawAnimImage(hdc, soulGaugeRight);
 	ImageManager::GetSingleton()->DrawAnimImage(hdc, imageinfo);
 #ifdef _DEBUG
 	Rectangle(hdc, hitBox.left, hitBox.top, hitBox.right, hitBox.bottom);
 #endif // _DEBUG
-	Rectangle(hdc, (LONG)homingShooterPos[0].x -25 , (LONG)homingShooterPos[0].y - 25, (LONG)homingShooterPos[0].x + 25, (LONG)homingShooterPos[0].y + 25);
-	Rectangle(hdc, (LONG)homingShooterPos[1].x -25 , (LONG)homingShooterPos[1].y - 25, (LONG)homingShooterPos[1].x + 25, (LONG)homingShooterPos[1].y + 25);
+	//Rectangle(hdc, (LONG)homingShooterPos[0].x -25 , (LONG)homingShooterPos[0].y - 25, (LONG)homingShooterPos[0].x + 25, (LONG)homingShooterPos[0].y + 25);
+	//Rectangle(hdc, (LONG)homingShooterPos[1].x -25 , (LONG)homingShooterPos[1].y - 25, (LONG)homingShooterPos[1].x + 25, (LONG)homingShooterPos[1].y + 25);
 
 	
 }
 
 void Player::OnHit(Missile * hitMissile)
 {
-	if (isInvincibility)
+	if (isInvincibility || testMode)
 		return;
 	this->hp--;
 	isInvincibility = true;
@@ -162,7 +236,10 @@ void Player::KeyChack()
 		else if (keyManager->IsOnceKeyUp(XKey))
 			this->SlowMove();
 		if (keyManager->IsOnceKeyDown(CKey))
-			this->Boom();
+			this->SpecialAbility();
+		// 테스트모드
+		if (keyManager->IsOnceKeyDown(VK_SPACE))
+			testMode = !testMode;
 	}
 }
 
@@ -264,8 +341,19 @@ void Player::SlowMove()
 	}
 }
 
-void Player::Boom()
+void Player::SpecialAbility()
 {
+	if (this->soulGauge >= maxSoulGauge)
+	{
+		PlayScene* playScene =Cast<PlayScene>(GamePlayStatic::GetScene());
+		MissileManager* missilemanager = playScene->GetMissileManager();
+		const list<Missile*>* enemyMissile = missilemanager->GetSpawnMissileList();
+		list<Missile*>::const_iterator const_it;
+		for (const_it = enemyMissile->begin(); const_it != enemyMissile->end(); const_it++)
+		{
+			(*const_it)->OnHit();
+		}
+	}
 }
 
 void Player::Invincibility()
