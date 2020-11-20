@@ -12,6 +12,7 @@
 #include "BackGround.h"
 #include "Missile.h"
 #include "CollisionManager.h"
+#include "UI.h"
 
 HRESULT PlayScene::Init()
 {
@@ -44,6 +45,8 @@ HRESULT PlayScene::Init()
 	
 	GamePlayStatic::SetScene(this);
 	backGround = CreateObject<BackGround>();
+	ui = CreateObject<UI>();
+	ui->SetZOrder(1);
 	player = CreateObject<Player>();
 	GamePlayStatic::SetPlayerCharacter(player);
 	enemyManager = CreateObject<EnemyManager>(false);
@@ -70,6 +73,7 @@ HRESULT PlayScene::Init()
 
 	nowPatten = SpawnPatten::ENEMY1;
 	spawnCount = 0;
+	isBoss = false;
 
 	TimerManager::GetSingleton()->SetTimer(spawnTimer,this,&PlayScene::StageSpawn , 2.0f);
 	return S_OK;
@@ -120,7 +124,12 @@ void PlayScene::StageSpawn()
 	case SpawnPatten::ENEMY3:
 		TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::SpawnPatten3, 1.0f);
 		break;
-
+	case SpawnPatten::NONE:
+		TimerManager::GetSingleton()->DeleteTimer(spawnTimer);
+		break;
+	case SpawnPatten::BOSS1:
+		TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::SpawnBoss, 0.3f);
+		break;
 	default:
 		break;
 	}
@@ -134,7 +143,7 @@ void PlayScene::SpawnPatten1()
 	{
 		spawnCount = 0;
 		TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
-		nowPatten = SpawnPatten::ENEMY2;
+		 nowPatten = SpawnPatten::ENEMY2;
 	}
 
 }
@@ -163,8 +172,24 @@ void PlayScene::SpawnPatten3()
 	{
 		spawnCount = 0;
 		TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 10.0f);
-		nowPatten = SpawnPatten::ENEMY1;
-		spawnNum = 1.5f;
+		spawnNum += 0.5f;
+		if (spawnNum == 2.0f)
+			nowPatten = SpawnPatten::BOSS1;
+		else
+			nowPatten = SpawnPatten::ENEMY1;
 		nextspawnCount = 0;
 	}
+}
+
+void PlayScene::SpawnBoss()
+{
+	const list<Enemy*>* enemys = enemyManager->GetSpawnEnemyList();
+	list<Enemy*>::const_iterator const_it;
+	if (enemys->size() == 0)
+	{
+		enemyManager->SpawnEeney<EnemyBoss>();
+		nowPatten = SpawnPatten::NONE;
+	}
+	//else
+	//	TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::SpawnBoss, 0.3f);
 }

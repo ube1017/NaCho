@@ -87,7 +87,9 @@ void Enemy1::Update()
 void Enemy1::Render(HDC hdc)
 {
 	ImageManager::GetSingleton()->DrawAnimImage(hdc, imageinfo);
+#ifdef _DEBUG
 	Rectangle(hdc, hitBox.left, hitBox.top, hitBox.right, hitBox.bottom);
+#endif // _DEBUG
 	//Rectangle(hdc, pos.x - (size.cx / 2), pos.y - (size.cy / 2), pos.x + (size.cx / 2), pos.y + (size.cy / 2));
 }
 

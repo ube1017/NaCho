@@ -47,31 +47,33 @@ void CollisionManager::CollisinCheck()
 	RECT missileHitBox;
 	FPOINT otherPos;
 	POINT pos;
-	for (; missileit != missile->end(); missileit++)
+	if (!player->GetIsInvincibility())
 	{
-		emissile = *missileit;
-		otherPos = emissile->GetPos();
-		if (!emissile->GetIsValid())
-			releaseMissiles.push_back(*missileit);
-		if (playerPos.x - playerSize.cx  <= otherPos.x && 
-			playerPos.x + playerSize.cx  >= otherPos.x)
+		for (; missileit != missile->end(); missileit++)
 		{
-			if (playerPos.y - playerSize.cy <= otherPos.y &&
-				playerPos.y + playerSize.cy >= otherPos.y)
+			emissile = *missileit;
+			otherPos = emissile->GetPos();
+			if (!emissile->GetIsValid())
+				releaseMissiles.push_back(*missileit);
+			if (playerPos.x - playerSize.cx <= otherPos.x &&
+				playerPos.x + playerSize.cx >= otherPos.x)
 			{
-				pos = { (LONG)otherPos.x,(LONG)otherPos.y };
-				if (PtInRect(&playerHitBox, pos))
+				if (playerPos.y - playerSize.cy <= otherPos.y &&
+					playerPos.y + playerSize.cy >= otherPos.y)
 				{
-					player->OnHit(emissile);
-					emissile->OnHit();
-					releaseMissiles.push_back(*missileit);
-					DEBUG_MASSAGE("플레이어 충돌\n");
-				}
+					pos = { (LONG)otherPos.x,(LONG)otherPos.y };
+					if (PtInRect(&playerHitBox, pos))
+					{
+						player->OnHit(emissile);
+						emissile->OnHit();
+						releaseMissiles.push_back(*missileit);
+						DEBUG_MASSAGE("플레이어 충돌\n");
+					}
 
+				}
 			}
 		}
 	}
-
 	list<Enemy*>::iterator eiter = enemy->begin();
 	list<Missile*>* playerMissile = const_cast<list<Missile*>*>(missileManager->GetSpawnPlayerMissileList());
 	FPOINT enemyPos;

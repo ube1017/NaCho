@@ -11,7 +11,7 @@ HRESULT Player::Init()
 	
 	imageinfo.imageName = "Player";
 	this->hp = 4;
-	this->pos = { 640.0f ,100.0f };
+	this->pos = { 640.0f ,WINSIZE_Y - 100.0f };
 	this->size = { 123,141 };
 	this->hitBoxSize = { 20,20 };
 	imageinfo.DrawRectSetting("Player", this->pos, { 123,141 });
@@ -105,7 +105,11 @@ void Player::Render(HDC hdc)
 
 void Player::OnHit(Missile * hitMissile)
 {
+	if (isInvincibility)
+		return;
 	this->hp--;
+	isInvincibility = true;
+	TimerManager::GetSingleton()->SetTimer(invincibilityTimer, this, &Player::Invincibility, 0.5f);
 	if (this->hp == 0)
 		isActivation = false;
 }
@@ -262,6 +266,12 @@ void Player::SlowMove()
 
 void Player::Boom()
 {
+}
+
+void Player::Invincibility()
+{
+	isInvincibility = false;
+	//TimerManager::GetSingleton()->DeleteTimer(invincibilityTimer);
 }
 
 void Player::Idle()

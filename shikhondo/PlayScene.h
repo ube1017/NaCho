@@ -3,9 +3,11 @@
 
 enum class SpawnPatten
 {
+	NONE,
 	ENEMY1,
 	ENEMY2,
 	ENEMY3,
+	BOSS1,
 };
 
 class PlayScene : public Scene
@@ -31,6 +33,8 @@ public:
 	void SpawnPatten1();
 	void SpawnPatten2();
 	void SpawnPatten3();
+	void SpawnBoss();
+	void None() {}
 private:
 
 	class Player* player;
@@ -38,11 +42,13 @@ private:
 	class EnemyManager* enemyManager;
 	class MissileManager* missileManager;
 	class CollisionManager* collsionManager;
+	class UI* ui;
 
 	TimerHandle spawnTimer;
 	UINT spawnCount;
 	SpawnPatten nowPatten;
 	UINT nextspawnCount;
 	float spawnNum;
+	bool isBoss;
 };
 

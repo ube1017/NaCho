@@ -125,7 +125,9 @@ void EnemyBoss::Update()
 
 void EnemyBoss::Render(HDC hdc)
 {
+#ifdef _DEBUG
 	Rectangle(hdc, pos.x - (size.cx / 2), pos.y - (size.cy / 2), pos.x + (size.cx / 2), pos.y + (size.cy / 2));
+#endif // _DEBUG
 	ImageManager::GetSingleton()->DrawAnimImage(hdc, imageinfo);
 }
 

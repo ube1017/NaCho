@@ -44,5 +44,6 @@ private:
 	bool isFire;
 	TimerHandle idleTimer;
 	TimerHandle fireTimer;
+	TimerHandle invincibilityTimer;
 };
 

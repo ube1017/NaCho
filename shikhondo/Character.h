@@ -31,6 +31,7 @@ public:
 	// 캐릭터 사망함수
 	virtual void Death();
 
+	bool GetIsInvincibility() { return isInvincibility; }
 protected:
 	int hp;
 	int damge;
