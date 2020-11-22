@@ -30,11 +30,13 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("enemy2_2", "enemy2_2", { 6000 , 500 }, { 12,1 });
 	imageManager->_LoadBitmap("enemy3", "enemy3", { 512 , 512 }, { 3,3 });
 	imageManager->_LoadBitmap("Boss", "Boss", { 204 , 403 }, { 1,1 });
-	imageManager->_LoadBitmap("21", "21", { 400,100 }, { 4,1 });
+	//imageManager->_LoadBitmap("21", "21", { 400,100 }, { 4,1 });
+	imageManager->_LoadBitmap("EnemyMissile", "EnemyMissile", { 192,72 }, { 8,1 });
 	imageManager->_LoadBitmap("Background2", "Background2", { 512,512 }, { 1,1 });
 	imageManager->_LoadBitmap("Background5", "Background5", { 512,1024 }, { 1,1 });
 	imageManager->_LoadBitmap("Background3", "Background3", { 512,1024 }, { 1,1 });
 	imageManager->_LoadBitmap("Background4", "Background4", { 512,1024 }, { 1,1 });
+	imageManager->_LoadBitmap("Background1", "Background1", { 512,512 }, { 1,1 });
 	imageManager->_LoadBitmap("PlayerMissile", "PlayerMissile", { 128,128 }, { 1,1 });
 	imageManager->_LoadBitmap("LeftSideDownBackground", "LeftSideDownBackground", { 512,512 }, { 1,1 });
 	imageManager->_LoadBitmap("LeftBackground", "LeftBackground", { 512,512 }, { 1,1 });
@@ -42,11 +44,26 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("RightBackground", "RightBackground", { 512,512 }, { 1,1 });
 	imageManager->_LoadBitmap("RightSideDownBackground", "RightSideDownBackground", { 512,512 }, { 1,1 });
 	imageManager->_LoadBitmap("RightUpBackground", "RightUpBackground", { 1024,512 }, { 1,1 });
-	imageManager->_LoadBitmap("Soulgeiji", "Soulgeiji", { 512,1024 }, { 1,1 });
-	imageManager->_LoadBitmap("SkillGeiji", "SkillGeiji", { 2048,128 }, { 1,1 });
 	imageManager->_LoadBitmap("LProgress", "LProgress", { 64,128 }, { 1,1 });
 	imageManager->_LoadBitmap("RProgress", "RProgress", { 64,128 }, { 1,1 });
 	//heroProgress-sharedassets1.assets-159
+	imageManager->_LoadBitmap("Soulgeiji2", "Soulgeiji2", { 512,1024 }, { 2,3 });
+	imageManager->_LoadBitmap("SkillGeiji", "SkillGeiji", { 2048,128 }, { 33,1 });
+	imageManager->_LoadBitmap("Life", "Life", { 1024,298 }, { 1,1 });
+	imageManager->_LoadBitmap("test", "test", { 1024,256 }, { 1,1 });
+	imageManager->_LoadBitmap("SoulGeijiBack", "SoulGeijiBack", { 561,159 }, { 1,1 });
+	imageManager->_LoadBitmap("SideSoul", "SideSoul", { 256,256 }, { 1,1 });
+	imageManager->_LoadBitmap("mapImage", "mapImage", { 1024,298 }, { 1,1 });
+	imageManager->_LoadBitmap("boss_Hp_Bar1", "boss_Hp_Bar1", { 512,32 }, { 1,1 });
+	imageManager->_LoadBitmap("boss_Hp_Bar2", "boss_Hp_Bar2", { 1024,128 }, { 1,1 });
+	imageManager->_LoadBitmap("boss_Hp_Bar3", "boss_Hp_Bar3", { 512,32 }, { 1,1 });
+	imageManager->_LoadBitmap("Font", "Font", { 256,32 }, { 10,1 });
+	imageManager->_LoadBitmap("Bar1", "Bar1", { 512,128 }, { 1,1 });
+	imageManager->_LoadBitmap("Bar2", "Bar2", { 512,128 }, { 1,1 });
+	imageManager->_LoadBitmap("Bar3", "Bar3", { 512,128 }, { 10,1 });
+	
+	
+		
 
 	
 	GamePlayStatic::SetScene(this);

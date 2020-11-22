@@ -11,26 +11,15 @@ public:
 private:
 	
 	
-	
-	
 
-	
 	
 	ImageDrawInfo Background2;
 	ImageDrawInfo Background5;
 	ImageDrawInfo Background3;
 	ImageDrawInfo Background4;
+	ImageDrawInfo Background1;
+	ImageDrawInfo mapImage;
 	
-	
-	
-	
-	
-	
-	ImageDrawInfo Soulgeiji;
-	ImageDrawInfo SkillGeiji;
-
-			
-
 
 };
 

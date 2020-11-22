@@ -4,23 +4,18 @@
 
 HRESULT BackGround::Init()
 {
-
+	Background1.imageName = "Background1";
+	Background1.drwrc = { (LONG)Play_LeftX , (LONG)0 , (LONG)Play_RightX , WINSIZE_Y };
 	Background2.imageName = "Background2";
-	Background2.drwrc = { (LONG)0 , (LONG)0 , (LONG)512 , 512 };
+	Background2.drwrc = { (LONG)Play_LeftX , (LONG)0 , (LONG)Play_RightX , WINSIZE_Y };
 	Background5.imageName = "Background5";
 	Background5.drwrc = { (LONG)Play_LeftX , (LONG)0 , (LONG)Play_RightX , WINSIZE_Y };
 	Background3.imageName = "Background3";
 	Background3.drwrc = { (LONG)Play_LeftX , (LONG)0 , (LONG)Play_RightX , WINSIZE_Y };
 	Background4.imageName = "Background4";
 	Background4.drwrc = { (LONG)Play_LeftX , (LONG)0 , (LONG)Play_RightX , WINSIZE_Y };
-
-	Soulgeiji.imageName = "Soulgeiji";
-	Soulgeiji.drwrc = { (LONG)500 , (LONG)400 , (LONG)600 , WINSIZE_Y };
-	SkillGeiji.imageName = "SkillGeiji";
-	SkillGeiji.drwrc = { (LONG)0 , (LONG)300 , (LONG)1600 , 500 };
-	
-		
-	
+	mapImage.imageName = "mapImage";
+	mapImage.drwrc = { (LONG)Play_LeftX , (LONG)0 , (LONG)Play_RightX , WINSIZE_Y };
 	
 	
 	return E_NOTIMPL;
@@ -37,18 +32,20 @@ void BackGround::Update()
 }
 
 void BackGround::Render(HDC hdc)
-{
+{ 
 	//return;
 	BaseUI::Render(hdc);
 	ImageManager* imageManager = ImageManager::GetSingleton();
 
+	//imageManager->DrawAnimImage(hdc, Background5);
+	//imageManager->DrawAnimImage(hdc, Background3);
+	imageManager->DrawAnimImage(hdc, Background2);
+	imageManager->DrawAnimImage(hdc, Background4);
+	imageManager->DrawAnimImage(hdc, Background1);
+	imageManager->DrawAnimImage(hdc, mapImage);
 	
-	imageManager->DrawAnimImage(hdc, Background5);
-	imageManager->DrawAnimImage(hdc, Background3);
 	//  //ÁÂ¿ì¹®¿ÀÇÁ´×
 	//
-	
-	
 	
 	
 	
@@ -57,8 +54,7 @@ void BackGround::Render(HDC hdc)
 	//imageManager->DrawAnimImage(hdc, SkillGeiji);
 	
 	
-	
-		
+
 	//imageManager->DrawAnimImage(hdc, Background2);   
 	//imageManager->DrawAnimImage(hdc, Background4);
 

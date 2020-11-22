@@ -25,5 +25,24 @@ private:
 	int playerSoulGauge;
 	int playerBoom;
 	bool isFullOpen;
+	ImageDrawInfo Soulgeiji2;
+	ImageDrawInfo SkillGeiji[4];
+	ImageDrawInfo Life;
+	ImageDrawInfo test;
+	ImageDrawInfo SoulGeijiBack;
+	ImageDrawInfo SideSoul;
+	ImageDrawInfo boss_Hp_Bar1;
+	ImageDrawInfo boss_Hp_Bar2;
+	ImageDrawInfo boss_Hp_Bar3;
+	ImageDrawInfo Font1[14];
+	ImageDrawInfo Font2[14];
+	ImageDrawInfo Font3[14];
+	ImageDrawInfo Bar1;
+	ImageDrawInfo Bar2;
+	ImageDrawInfo Bar3;
+
+
+	
+
 };
 

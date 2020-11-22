@@ -31,12 +31,55 @@ HRESULT UI::Init()
 	RightBackground.drwrc = { (LONG)650 , (LONG)150 , (LONG)WINSIZE_X , 700 };
 	RightSideDownBackground.imageName = "RightSideDownBackground";
 	RightSideDownBackground.drwrc = { (LONG)850 , (LONG)400 , (LONG)WINSIZE_X , WINSIZE_Y };
-
 	isFullOpen = false;
-
 	playerHp = 0;
 	playerSoulGauge = 0;
 	playerBoom = 0;
+	Soulgeiji2.imageName = "Soulgeiji2";
+	Soulgeiji2.drwrc = { (LONG)935 , (LONG)18 , (LONG)1010 , 115 };
+	Soulgeiji2.framex = 0;
+	Soulgeiji2.framey = 0;
+	for (int i = 0; i < 4; i++)
+	{
+		SkillGeiji[i].imageName = "SkillGeiji";
+		SkillGeiji[i].drwrc = { (LONG)665 + (i * 35), (LONG)798 , (LONG)729 + (i * 35) , 926 };
+		SkillGeiji[i].framex = 9;
+	}
+	Life.imageName = "Life";
+	Life.drwrc = { (LONG)0 , (LONG)300 , (LONG)1024 , 598 };
+	test.imageName = "test";
+	test.drwrc = { (LONG)780 , (LONG)150 , (LONG)1450, 340 };
+	SoulGeijiBack.imageName = "SoulGeijiBack";
+	SoulGeijiBack.drwrc = { (LONG)940 , (LONG)50 , (LONG)1300, 140 };
+	SideSoul.imageName = "SideSoul";
+	SideSoul.drwrc = { (LONG)350 , (LONG)700 , (LONG)500, 800 };
+	boss_Hp_Bar1.imageName = "boss_Hp_Bar1";
+	boss_Hp_Bar1.drwrc = { (LONG)350 , (LONG)60 , (LONG)910, 90  };
+	boss_Hp_Bar2.imageName = "boss_Hp_Bar2";
+	boss_Hp_Bar2.drwrc = { (LONG)350 , (LONG)60 , (LONG)910, 90 };
+	boss_Hp_Bar3.imageName = "boss_Hp_Bar3";
+	boss_Hp_Bar3.drwrc = { (LONG)400 , (LONG)90 , (LONG)500, 130 };
+	for (int i = 0; i < 14; i++)
+	{
+		Font1[i].imageName = "Font";
+		Font1[i].drwrc = { (LONG)350 , (LONG)10 , (LONG)400, 30 };
+	}
+	for (int i = 0; i < 14; i++)
+	{
+		Font2[i].imageName = "Font";
+		Font2[i].drwrc = { (LONG)650 , (LONG)10 , (LONG)700, 30 };
+	}
+	for (int i = 0; i < 14; i++)
+	{
+		Font3[i].imageName = "Font";
+		Font3[i].drwrc = { (LONG)350 , (LONG)10 , (LONG)400, 30 };
+	}
+	Bar1.imageName = "Bar1";
+	Bar1.drwrc = { (LONG)350 , (LONG)20 , (LONG)910, 70 };
+	Bar2.imageName = "Bar2";
+	Bar2.drwrc = { (LONG)350 , (LONG)20 , (LONG)910, 70 };
+	Bar3.imageName = "Bar3";
+	Bar3.drwrc = { (LONG)350 , (LONG)20 , (LONG)910, 70 };
 	return S_OK;
 }
 
@@ -48,6 +91,29 @@ void UI::Release()
 void UI::Update()
 {
 	if (!isFullOpen)
+	Soulgeiji2.framex++;
+	if (Soulgeiji2.framey > 3)
+	{
+		Soulgeiji2.framey = 0;
+	}
+	else
+	{
+		if (Soulgeiji2.framex >= 2)
+		{
+			Soulgeiji2.framex = 0;
+		}
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		SkillGeiji[i].framex += 2;
+		if (SkillGeiji[i].framex > 24)
+		{
+			SkillGeiji[i].framex = 8;
+		}
+	}
+	return;
+	if (leftBack1pos.x > Play_LeftX - 225)
 	{
 		if (leftBack1.drwrc.right > Play_LeftX)
 		{
@@ -90,4 +156,34 @@ void UI::Render(HDC hdc)
 	imageManager->DrawAnimImage(hdc, RightBackground);
 	imageManager->DrawAnimImage(hdc, RightSideDownBackground);
 	imageManager->DrawAnimImage(hdc, RightUpBackground);
+	imageManager->DrawAnimImage(hdc, test);
+	imageManager->DrawAnimImage(hdc, SoulGeijiBack);
+	imageManager->DrawAnimImage(hdc, Soulgeiji2);
+	for (int i = 0; i < 4; i++)
+	{
+		imageManager->DrawAnimImage(hdc, SkillGeiji[i]);
+	}
+	imageManager->DrawAnimImage(hdc, Life);
+	imageManager->DrawAnimImage(hdc, SideSoul);
+	imageManager->DrawAnimImage(hdc, boss_Hp_Bar1);
+	imageManager->DrawAnimImage(hdc, boss_Hp_Bar2);
+	imageManager->DrawAnimImage(hdc, boss_Hp_Bar3);
+	for (int i = 0; i < 14; i++)
+	{
+		imageManager->DrawAnimImage(hdc, Font1[i]);
+	}
+	for (int i = 0; i < 14; i++)
+	{
+		imageManager->DrawAnimImage(hdc, Font2[i]);
+	}
+	for (int i = 0; i < 14; i++)
+	{
+		imageManager->DrawAnimImage(hdc, Font3[i]);
+	}
+	
+	imageManager->DrawAnimImage(hdc, Bar1);
+	imageManager->DrawAnimImage(hdc, Bar2);
+	imageManager->DrawAnimImage(hdc, Bar3);
+	
+	
 }
