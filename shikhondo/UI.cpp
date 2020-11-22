@@ -163,8 +163,8 @@ void UI::Render(HDC hdc)
 	{
 		imageManager->DrawAnimImage(hdc, SkillGeiji[i]);
 	}
-	imageManager->DrawAnimImage(hdc, Life);
-	imageManager->DrawAnimImage(hdc, SideSoul);
+	//imageManager->DrawAnimImage(hdc, Life);
+	//imageManager->DrawAnimImage(hdc, SideSoul);
 	imageManager->DrawAnimImage(hdc, boss_Hp_Bar1);
 	imageManager->DrawAnimImage(hdc, boss_Hp_Bar2);
 	imageManager->DrawAnimImage(hdc, boss_Hp_Bar3);
@@ -181,8 +181,8 @@ void UI::Render(HDC hdc)
 		imageManager->DrawAnimImage(hdc, Font3[i]);
 	}
 	
-	imageManager->DrawAnimImage(hdc, Bar1);
-	imageManager->DrawAnimImage(hdc, Bar2);
+	//imageManager->DrawAnimImage(hdc, Bar1);
+	//imageManager->DrawAnimImage(hdc, Bar2);
 	imageManager->DrawAnimImage(hdc, Bar3);
 	
 	
