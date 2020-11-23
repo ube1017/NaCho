@@ -7,7 +7,8 @@ HRESULT Enemy3::Init()
 {
 	hp = 100;
 	damge = 1;
-	speed = 1.0f;
+	speed = 2.0f;
+	missileSpeed = 2.0f;
 	size.cx = 40;
 	size.cy = 70;
 	hitBoxSize = size;
@@ -53,7 +54,7 @@ void Enemy3::Update()
 					{
 						Missile* Em = playScene->SpawnMissile(this, "21", this->pos, { 25, 25 });
 						Em->SetAngle(DegreeToRadian(angleNum));		// 각도 값
-						Em->SetSpeed(speed);					// 총알 스피드
+						Em->SetSpeed(missileSpeed);					// 총알 스피드
 						Em->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
 						angleNum += 20;
 					}
@@ -73,13 +74,13 @@ void Enemy3::Update()
 		}
 		else if (AutomaticMissile)
 		{
-			if (checkTime >= 2.0f)
+			if (checkTime >= 1.0f)
 			{
 				LocationReset();
 				ShootCount = 0;
 				checkTime = 0;
 				AutomaticMissile = false;
-				speed = 1.0f;
+				speed = 2.0f;
 			}
 		}
 	}
@@ -125,25 +126,35 @@ void Enemy3::RandLocation()
 void Enemy3::LocationReset()
 {
 	locationCount++;
-	if (locationCount < 3)
+	switch (locationCount)
 	{
-		RandPos.x = (rand() % (PlayXSize - size.cx)) + (size.cx / 2 + Play_LeftX);
-		RandPos.y = (rand() % (WINSIZE_Y / 2 - size.cy)) + (size.cy / 2);
-	}
-	else
-	{
-		RandPos.x = rand() % PlayXSize + Play_LeftX;
-		RandPos.y = rand() % (WINSIZE_Y / 2) + 50;
-
-		if (RandPos.x > WINSIZE_X / 2)
-		{
-			RandPos.x = 1200;
-		}
-		else
-		{
-			RandPos.x = -100;
-		}
+	case 1:
+		RandPos.x = WINSIZE_X / 2;
+		RandPos.y = 200;
+		break;
+	case 2:
+		RandPos.x = WINSIZE_X / 2 + 200;
+		RandPos.y = 200 + 75;
+		break;
+	case 3:
+		RandPos.x = WINSIZE_X / 2 + 200;
+		RandPos.y = 200 + 150;
+		break;
+	case 4:
+		RandPos.x = WINSIZE_X / 2;
+		RandPos.y = 200 + 200;
+		break;
+	case 5:
+		RandPos.x = WINSIZE_X / 2 - 200;
+		RandPos.y = 200 + 150;
+		break;
+	case 6:
+		RandPos.x = WINSIZE_X / 2 - 200;
+		RandPos.y = 200 + 75;
 		locationCount = 0;
+		break;
+	default:
+		break;
 	}
 }
 

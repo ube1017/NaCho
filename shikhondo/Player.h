@@ -44,11 +44,12 @@ private:
 	void FireDelay();
 	// 蠢赴 框流烙
 	void SlowMove();
-	// 气藕
+	// C虐
 	void SpecialAbility();
-
 	// 公利
 	void Invincibility();
+
+	void Boom();
 private:
 	void Idle();
 private:
@@ -56,6 +57,7 @@ private:
 	MoveState moveState;
 	ImageDrawInfo soulGaugeLeft;
 	ImageDrawInfo soulGaugeRight;
+
 	
 	SIZE missileSize;
 
@@ -70,5 +72,9 @@ private:
 	TimerHandle idleTimer;
 	TimerHandle fireTimer;
 	TimerHandle invincibilityTimer;
+	TimerHandle boomTimer;
+
+	RECT boomtest;
+	int boom = 0;
 };
 

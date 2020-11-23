@@ -48,7 +48,19 @@ void Player::Update()
 	hitBox = {	(LONG)pos.x - hitBoxSize.cx/2 -3, (LONG)pos.y - hitBoxSize.cy - 4,
 				(LONG)pos.x + hitBoxSize.cx/2 -3, (LONG)pos.y - 4 };
 
-	this->soulGauge = 2000;
+	if (this->soulGauge >= 2000)
+		isSpecialAbility = true;
+	else
+	{
+		if (!isSpecialAbility)
+		{
+			this->soulGauge++;
+			this->soulGauge++;
+			this->soulGauge++;
+			this->soulGauge++;
+		}
+	}
+	//this->soulGauge = 2000;
 	// 특수능력 해제부분
 	if (isSpecialAbility)
 	{
@@ -66,9 +78,9 @@ void Player::Update()
 	if (this->soulGauge < maxSoulGauge / 4)
 	{
 		soulGaugeRight.animSize.cx = 64 * (float)((float)this->soulGauge /(maxSoulGauge / 4));
-		soulGaugeRight.animSize.cy = 64;
+		soulGaugeRight.animSize.cy = 64 * (float)((float)this->soulGauge / (maxSoulGauge / 4));
 		soulGaugeRight.drwrc = {	(LONG)this->pos.x  , (LONG)this->pos.y - 94 ,
-									(LONG)this->pos.x + soulGaugeRight.animSize.cx , (LONG)this->pos.y - 30 };
+									(LONG)this->pos.x + soulGaugeRight.animSize.cx , (LONG)this->pos.y - 94 + soulGaugeRight.animSize.cy };
 		soulGaugeLeft.animSize = { 0,0 };
 		soulGaugeLeft.size = { 0,0 };
 		
@@ -91,13 +103,13 @@ void Player::Update()
 	
 	
 		soulGaugeLeft.animSize.cx = 64  * (float)((float)(this->soulGauge - maxSoulGauge/2) / (maxSoulGauge / 4));
-		soulGaugeLeft.animSize.cy = 64;
+		soulGaugeLeft.animSize.cy = 64 * (float)((float)(this->soulGauge - maxSoulGauge / 2) / (maxSoulGauge / 4));
 		soulGaugeLeft.startx = 64 - soulGaugeLeft.animSize.cx;
-		soulGaugeLeft.starty = 64;
+		soulGaugeLeft.starty = 128 - soulGaugeLeft.animSize.cy;
 		soulGaugeLeft.isAnimStartRest = true;
 		soulGaugeLeft.framey = 1;
 		soulGaugeLeft.framex = 0;
-		soulGaugeLeft.drwrc = { (LONG)pos.x - soulGaugeLeft.animSize.cx , (LONG)pos.y - 30,
+		soulGaugeLeft.drwrc = { (LONG)pos.x - soulGaugeLeft.animSize.cx , (LONG)pos.y +34 -soulGaugeLeft.animSize.cy,
 								(LONG)pos.x , (LONG)pos.y + 34 };
 	}
 	else
@@ -120,6 +132,63 @@ void Player::Update()
 								(LONG)pos.x , (LONG)pos.y + 34 };
 	}
 
+
+	//if (this->soulGauge < maxSoulGauge / 4)
+	//{
+	//	soulGaugeRight.animSize.cx = 64 * (float)((float)this->soulGauge / (maxSoulGauge / 4));
+	//	soulGaugeRight.animSize.cy = 64;
+	//	soulGaugeRight.drwrc = { (LONG)this->pos.x  , (LONG)this->pos.y - 94 ,
+	//								(LONG)this->pos.x + soulGaugeRight.animSize.cx , (LONG)this->pos.y - 30 };
+	//	soulGaugeLeft.animSize = { 0,0 };
+	//	soulGaugeLeft.size = { 0,0 };
+
+	//}
+	//else if (this->soulGauge < maxSoulGauge / 2)
+	//{
+	//	soulGaugeRight.animSize.cx = 64;
+	//	soulGaugeRight.animSize.cy = 128 * (float)((float)this->soulGauge / (maxSoulGauge / 2));
+	//	soulGaugeRight.drwrc = { (LONG)this->pos.x  , (LONG)this->pos.y - 94 ,
+	//								(LONG)this->pos.x + 64 , (LONG)this->pos.y - 94 + soulGaugeRight.animSize.cy };
+	//	soulGaugeLeft.animSize = { 0,0 };
+	//	soulGaugeLeft.size = { 0,0 };
+	//}
+	//else if (this->soulGauge < ((maxSoulGauge / 4) * 3))
+	//{
+	//	soulGaugeRight.animSize.cx = 64;
+	//	soulGaugeRight.animSize.cy = 128;
+	//	soulGaugeRight.drwrc = { (LONG)this->pos.x ,(LONG)this->pos.y - 94,
+	//							 (LONG)this->pos.x + 64 , (LONG)this->pos.y + 34 };
+
+
+	//	soulGaugeLeft.animSize.cx = 64 * (float)((float)(this->soulGauge - maxSoulGauge / 2) / (maxSoulGauge / 4));
+	//	soulGaugeLeft.animSize.cy = 64;
+	//	soulGaugeLeft.startx = 64 - soulGaugeLeft.animSize.cx;
+	//	soulGaugeLeft.starty = 64;
+	//	soulGaugeLeft.isAnimStartRest = true;
+	//	soulGaugeLeft.framey = 1;
+	//	soulGaugeLeft.framex = 0;
+	//	soulGaugeLeft.drwrc = { (LONG)pos.x - soulGaugeLeft.animSize.cx , (LONG)pos.y - 30,
+	//							(LONG)pos.x , (LONG)pos.y + 34 };
+	//}
+	//else
+	//{
+	//	soulGaugeRight.animSize.cx = 64;
+	//	soulGaugeRight.animSize.cy = 128;
+	//	soulGaugeRight.drwrc = { (LONG)this->pos.x ,(LONG)this->pos.y - 94,
+	//							 (LONG)this->pos.x + 64 , (LONG)this->pos.y + 34 };
+
+
+
+	//	soulGaugeLeft.animSize.cx = 64;
+	//	soulGaugeLeft.animSize.cy = 128 * (float)((float)(this->soulGauge - (maxSoulGauge / 2)) / (maxSoulGauge / 2));
+	//	soulGaugeLeft.startx = 0;// -soulGaugeLeft.animSize.cx;
+	//	soulGaugeLeft.starty = 128 - soulGaugeLeft.animSize.cy;
+	//	soulGaugeLeft.isAnimStartRest = true;
+	//	soulGaugeLeft.framey = 0;
+	//	soulGaugeLeft.framex = 0;
+	//	soulGaugeLeft.drwrc = { (LONG)pos.x - 64 , (LONG)pos.y + 34 - soulGaugeLeft.animSize.cy,
+	//							(LONG)pos.x , (LONG)pos.y + 34 };
+	//}
 	if (moveState == MoveState::SLOW)
 	{
 		PlayScene* playscene = Cast<PlayScene>(GamePlayStatic::GetScene());
@@ -183,6 +252,7 @@ void Player::Render(HDC hdc)
 
 #ifdef _DEBUG
 	Rectangle(hdc, hitBox.left, hitBox.top, hitBox.right, hitBox.bottom);
+	Rectangle(hdc, boomtest.left, boomtest.top, boomtest.right, boomtest.bottom);
 #else
 	if (isSoulGaudeRender)
 #endif // _DEBUG
@@ -386,12 +456,32 @@ void Player::SpecialAbility()
 		damge = 2;
 		missileSize = specialAbilityMissileSize;
 	}
+	else if (this->boomCount != 0)
+	{
+		Boom();
+		this->boomCount--;
+		if (this->boomCount <= 0)
+			this->boomCount = 0;
+	}
 }
 
 void Player::Invincibility()
 {
 	isInvincibility = false;
 	//TimerManager::GetSingleton()->DeleteTimer(invincibilityTimer);
+}
+
+void Player::Boom()
+{
+	boomtest = { Play_LeftX + (PlayXSize / 4) * ((LONG)boom) ,0,Play_LeftX + (PlayXSize / 4) * (1 + (LONG)boom) , WINSIZE_Y };
+	TimerManager::GetSingleton()->SetTimer(boomTimer, this, &Player::Boom, 0.5f);
+	boom++;
+	if (boom == 5)
+	{
+		TimerManager::GetSingleton()->DeleteTimer(boomTimer);
+		boomtest = { 0,0,0,0 };
+		boom = 0;
+	}
 }
 
 void Player::Idle()

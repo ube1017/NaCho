@@ -98,7 +98,9 @@ HRESULT UI::Init()
 	Bar1.imageName = "Bar1";  //불꽃게이지바
 	Bar1.drwrc = { (LONG)350 , (LONG)20 , (LONG)910, 70 };
 	Bar2.imageName = "Bar2";
-	Bar2.drwrc = { (LONG)350 , (LONG)20 , (LONG)910, 70 };
+	Bar2.drwrc = { (LONG)Play_RightX + 30, (LONG)229 , (LONG)Play_RightX + 275, 297 };//{ (LONG)350 , (LONG)20 , (LONG)910, 70 };
+	Bar2.isAnimSizeReset = true;
+	Bar2.animSize = { 512,128 };
 	Bar3.imageName = "Bar3";
 	Bar3.drwrc = { (LONG)350 , (LONG)20 , (LONG)910, 70 };
 	return S_OK;
@@ -112,7 +114,8 @@ void UI::Release()
 void UI::Update()
 {
 	Soulgeiji2Time += TimerManager::GetSingleton()->GettimeElapsed();
-	if (!isFullOpen)
+
+
 		if (Soulgeiji2Time >= 0.05f)
 		{
 			Soulgeiji2.framex++;
@@ -143,6 +146,7 @@ void UI::Update()
 			}
 			Soulgeiji2Time = 0.0f;
 		}
+
 	SkillGeijiTime += TimerManager::GetSingleton()->GettimeElapsed();
 	if (SkillGeijiTime >= 0.1f)
 	{
@@ -183,29 +187,42 @@ void UI::Update()
 		SideSoulTime = 0.0f;
 	}
 
+	if (!isFullOpen)
 
-	if (leftBack1pos.x > Play_LeftX - 225)
 	{
-		if (leftBack1.drwrc.right > Play_LeftX)
+		if (leftBack1pos.x > Play_LeftX - 225)
 		{
-			//leftBack1pos.x--;
-			leftBack1.MovePos(MovePosType::X_AIS, -2);
-		}
+			if (leftBack1.drwrc.right > Play_LeftX)
+			{
+				//leftBack1pos.x--;
+				leftBack1.MovePos(MovePosType::X_AIS, -2);
+			}
 
-		if (leftBack2.drwrc.left < Play_RightX)
-		{
-			//leftBack2pos.x++;
-			leftBack2.MovePos(MovePosType::X_AIS, +2);
-		}
-		else
-		{
-			PlayScene* playScen = Cast<PlayScene>(GamePlayStatic::GetScene());
-			playScen->spawnStart.Execute();
-			playScen->spawnStart.UnBind();
-			isFullOpen = true;
+			if (leftBack2.drwrc.left < Play_RightX)
+			{
+				//leftBack2pos.x++;
+				leftBack2.MovePos(MovePosType::X_AIS, +2);
+			}
+			else
+			{
+				PlayScene* playScen = Cast<PlayScene>(GamePlayStatic::GetScene());
+				playScen->spawnStart.Execute();
+				playScen->spawnStart.UnBind();
+				isFullOpen = true;
+			}
 		}
 	}
 
+	int width = Play_RightX + 275 - (Play_RightX + 30);
+	int drwrcR = width;
+	int bar2AnimR = 512;
+	if (playerSoulGauge)
+	{
+		drwrcR = (int)((float)((float)*playerSoulGauge / (float)maxSoulGauge) * (float)width);
+		bar2AnimR = (int)((float)((float)*playerSoulGauge / (float)maxSoulGauge) * (float)512);
+	}
+	Bar2.drwrc = { (LONG)Play_RightX + 30, (LONG)229 , (LONG)Play_RightX + 30 + drwrcR, 297 };
+	Bar2.animSize = { bar2AnimR,128 };
 
 }
 
@@ -259,7 +276,7 @@ void UI::Render(HDC hdc)
 	}
 	
 	//imageManager->DrawAnimImage(hdc, Bar1);
-	//imageManager->DrawAnimImage(hdc, Bar2);
+	imageManager->DrawAnimImage(hdc, Bar2);
 	//imageManager->DrawAnimImage(hdc, Bar3);
 	
 	

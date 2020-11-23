@@ -5,20 +5,19 @@
 
 HRESULT Enemy1::Init()
 {
-	hp = 10;
+	hp = 20;
 	damge = 1;
-	speed = 1.0f;
-	missileSpeed = 1.0f;
+	speed = 1.5f;
+	missileSpeed = 2.0f;
 	size.cx = 30;
 	size.cy = 60;
 	hitBoxSize = size;
 	locationCount = 0;
 	mapInCheck = false;
 	mapOutCheck = false;
-
-	// 시작 위치 설정
-	RandLocation();
-	//LocationReset();
+	angleCheck = false;
+	pattenCheck = false;
+	EAngle = 0;
 	checkTime = 0;
 
 	// 패턴 
@@ -26,6 +25,13 @@ HRESULT Enemy1::Init()
 	pattenY = 5;
 
 	AutomaticMissile = false;
+
+	if (!pattenCheck)
+	{
+		// 시작 위치 설정
+		RandLocation();
+		LocationReset();
+	}
 
 	imageinfo.DrawRectSetting("enemy1", this->pos, { 100,100 }, true, { 100,100 });
 	TimerManager::GetSingleton()->SetTimer(idleTimer, this, &Enemy1::Idle, 0.070f);
@@ -41,14 +47,13 @@ void Enemy1::Update()
 {
 	Enemy::Update();
 
-	pos.x += cosf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
-	pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
-
-
 	imageinfo.MovePos(pos);
 	hitBox = { (LONG)pos.x - hitBoxSize.cx / 2, (LONG)pos.y - hitBoxSize.cy / 2,
 				(LONG)pos.x + hitBoxSize.cx / 2, (LONG)pos.y + hitBoxSize.cy / 2 };
 
+		pos.x += cosf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
+		pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
+	
 	if (!AutomaticMissile)
 	{
 		if (pos.x < RandPos.x + 5 && pos.x >= RandPos.x - 5)
@@ -63,9 +68,14 @@ void Enemy1::Update()
 				Em1->SetAngle(this->GetAngle());		// 각도 값
 				Em1->SetSpeed(missileSpeed);			// 총알 스피드
 				Em1->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
-			   //그 각도로 움직이는 코드
-				//LocationReset();
-				//	moveTime = 0;
+				if (!pattenCheck)
+				{//그 각도로 움직이는 코드
+					LocationReset();
+				}//	moveTime = 0;
+				else
+				{
+					monsterPatten2();
+				}
 				AutomaticMissile = true;
 			}
 		}
@@ -185,14 +195,15 @@ void Enemy1::monsterPatten(int locationCount)
 }
 
 void Enemy1::monsterPatten2()
-{	
-	RandPos.x += pattenX;
-	RandPos.y - 5;
-
-	if (RandPos.x == 950)
+{
+	if (!angleCheck)
 	{
-		RandPos.x = 900;
-		RandPos.y = 75;
-		pattenX *= -1;
+		this->EAngle = this->GetAngle();
+		angleCheck = true;
+	}
+	else
+	{
+		RandPos.y = 1000;
+		speed = 2.0f;
 	}
 }

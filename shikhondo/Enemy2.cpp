@@ -5,7 +5,7 @@
 
 HRESULT Enemy2::Init()
 {
-	hp = 50;
+	hp = 70;
 	damge = 1;
 	speed = 1.0f;
 	size.cx = 150;
@@ -18,6 +18,7 @@ HRESULT Enemy2::Init()
 	ImageSize2 = 1.0f;
 	mapInCheck = false;
 	mapOutCheck = false;
+	missileSpeed = 2.0f;
 	// 시작 위치 설정
 	RandLocation();
 	LocationReset();
@@ -57,10 +58,10 @@ void Enemy2::Update()
 					Missile* Em1 = playScene->SpawnMissile(this, "21", { pos.x - (CircleImage.size.cx / 2), pos.y }, { 20, 20 });
 					Missile* Em2 = playScene->SpawnMissile(this, "21", { pos.x + (CircleImage.size.cx / 2), pos.y }, { 20, 20 });
 					Em1->SetAngle(this->GetAngle({ pos.x - (CircleImage.size.cx / 2), pos.y }));		// 각도 값
-					Em1->SetSpeed(speed);					// 총알 스피드
+					Em1->SetSpeed(missileSpeed);					// 총알 스피드
 					Em1->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
 					Em2->SetAngle(this->GetAngle({ pos.x + (CircleImage.size.cx / 2), pos.y }));		// 각도 값
-					Em2->SetSpeed(speed);					// 총알 스피드
+					Em2->SetSpeed(missileSpeed);					// 총알 스피드
 					Em2->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
 
 					ShootCount++;
