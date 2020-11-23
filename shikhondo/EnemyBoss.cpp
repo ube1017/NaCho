@@ -8,6 +8,7 @@ HRESULT EnemyBoss::Init()
 	hp = 3000;
 	damge = 1;
 	speed = 1.0f;
+	missileSpeed = 1.5f;
 	size.cx = 80;
 	size.cy = 160;
 	hitBoxSize = size;
@@ -50,7 +51,7 @@ void EnemyBoss::Update()
 			{
 				Em[i] = playScene->SpawnMissile(this, "21", this->pos, { 25, 25 });
 				Em[i]->SetAngle(DegreeToRadian(angleNum));		// 각도 값
-				Em[i]->SetSpeed(speed);					// 총알 스피드
+				Em[i]->SetSpeed(missileSpeed);					// 총알 스피드
 				Em[i]->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
 				angleNum += 45;
 			}

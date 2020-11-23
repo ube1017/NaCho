@@ -5,7 +5,7 @@
 
 HRESULT Enemy1::Init()
 {
-	hp = 10;
+	hp = 20;
 	damge = 1;
 	speed = 1.5f;
 	missileSpeed = 2.0f;

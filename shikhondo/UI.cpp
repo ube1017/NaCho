@@ -67,8 +67,13 @@ HRESULT UI::Init()
 	test.drwrc = { (LONG)780 , (LONG)150 , (LONG)1450, 340 };
 	SoulGeijiBack.imageName = "SoulGeijiBack";  //오른쪽위 소울게이지 검은바탕
 	SoulGeijiBack.drwrc = { (LONG)940 , (LONG)50 , (LONG)1300, 140 };
-	SideSoul.imageName = "SideSoul";  //플레이어 보조무기
-	SideSoul.drwrc = { (LONG)350 , (LONG)700 , (LONG)500, 800 };
+	for (int i = 0; i < 2; i++)
+	{
+		SideSoul[i].imageName = "SideSoul";  //플레이어 보조무기
+		SideSoul[i].drwrc = { (LONG)350 + (i * 40), (LONG)500 , (LONG)450 + (i * 40), 600 };
+		SideSoul[i].framex = 0;
+		SideSoulTime = 0.0f;
+	}
 	boss_Hp_Bar1.imageName = "boss_Hp_Bar1"; // 검은색
 	boss_Hp_Bar1.drwrc = { (LONG)395 , (LONG)41 , (LONG)615, 52  };
 	boss_Hp_Bar2.imageName = "boss_Hp_Bar2";  //테두리  
@@ -168,7 +173,22 @@ void UI::Update()
 		}
 		LifeTime = 0.0f;
 	}
+	SideSoulTime += TimerManager::GetSingleton()->GettimeElapsed();
+	if (SideSoulTime >= 0.05f)
+	{
+		for (int i = 0; i < 2; i++)
+		{
+			SideSoul[i].framex++;
+			if (SideSoul[i].framex >= 21)
+			{
+				SideSoul[i].framex = 0;
+			}
+		}
+		SideSoulTime = 0.0f;
+	}
+
 	if (!isFullOpen)
+
 	{
 		if (leftBack1pos.x > Play_LeftX - 225)
 		{
@@ -235,7 +255,6 @@ void UI::Render(HDC hdc)
 			imageManager->DrawAnimImage(hdc, Life[i]);
 		}
 	}
-	//imageManager->DrawAnimImage(hdc, SideSoul);
 	imageManager->DrawAnimImage(hdc, boss_Hp_Bar2);
 	imageManager->DrawAnimImage(hdc, boss_Hp_Bar1);
 	imageManager->DrawAnimImage(hdc, boss_Hp_Bar3);
@@ -250,6 +269,10 @@ void UI::Render(HDC hdc)
 	for (int i = 0; i < 4; i++)
 	{
 		imageManager->DrawAnimImage(hdc, Font3[i]);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		imageManager->DrawAnimImage(hdc, SideSoul[i]);
 	}
 	
 	//imageManager->DrawAnimImage(hdc, Bar1);

@@ -52,7 +52,7 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("Life", "Life", { 220,45 }, { 4,1 });
 	imageManager->_LoadBitmap("test", "test", { 1024,256 }, { 1,1 });
 	imageManager->_LoadBitmap("SoulGeijiBack", "SoulGeijiBack", { 561,159 }, { 1,1 });
-	imageManager->_LoadBitmap("SideSoul", "SideSoul", { 256,256 }, { 1,1 });
+	imageManager->_LoadBitmap("SideSoul", "SideSoul", { 5376,256 }, { 21,1 });
 	imageManager->_LoadBitmap("mapImage", "mapImage", { 1024,298 }, { 1,1 });
 	imageManager->_LoadBitmap("boss_Hp_Bar1", "boss_Hp_Bar1", { 512,32 }, { 1,1 });
 	imageManager->_LoadBitmap("boss_Hp_Bar2", "boss_Hp_Bar2", { 1024,128 }, { 1,1 });

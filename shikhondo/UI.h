@@ -34,7 +34,8 @@ private:
 	float LifeTime;
 	ImageDrawInfo test;
 	ImageDrawInfo SoulGeijiBack;
-	ImageDrawInfo SideSoul;
+	ImageDrawInfo SideSoul[2];
+	float SideSoulTime;
 	ImageDrawInfo boss_Hp_Bar1;
 	ImageDrawInfo boss_Hp_Bar2;
 	ImageDrawInfo boss_Hp_Bar3;
