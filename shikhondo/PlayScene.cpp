@@ -176,15 +176,11 @@ void PlayScene::SpawnPatten1()
 		spawnCount++;
 		if (spawnCount == (int)(10 * spawnNum))
 		{
-			enemyManager->SpawnEeney<Enemy1>();
-			spawnCount++;
-			if (spawnCount == (int)(10 * spawnNum))
-			{
-				spawnCount = 0;
-				TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
-				nowPatten = SpawnPatten::ENEMY2;
-			}
+			spawnCount = 0;
+			TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
+			nowPatten = SpawnPatten::ENEMY2;
 		}
+		
 	}
 	else if (pattenChange)
 	{
