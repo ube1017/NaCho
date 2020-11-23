@@ -42,7 +42,7 @@ void BackGround::Render(HDC hdc)
 	imageManager->DrawAnimImage(hdc, Background2);
 	imageManager->DrawAnimImage(hdc, Background4);
 	imageManager->DrawAnimImage(hdc, Background1);
-	imageManager->DrawAnimImage(hdc, mapImage);
+	//imageManager->DrawAnimImage(hdc, mapImage);
 	
 	//  //аб©Л╧╝©юга╢в
 	//

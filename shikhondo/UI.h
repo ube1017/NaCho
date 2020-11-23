@@ -25,9 +25,13 @@ private:
 	int playerSoulGauge;
 	int playerBoom;
 	bool isFullOpen;
+
 	ImageDrawInfo Soulgeiji2;
+	float Soulgeiji2Time;
 	ImageDrawInfo SkillGeiji[4];
-	ImageDrawInfo Life;
+	float SkillGeijiTime;
+	ImageDrawInfo Life[4];
+	float LifeTime;
 	ImageDrawInfo test;
 	ImageDrawInfo SoulGeijiBack;
 	ImageDrawInfo SideSoul;

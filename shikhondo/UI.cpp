@@ -8,18 +8,18 @@ HRESULT UI::Init()
 	leftBack1pos.x = Play_LeftX;
 	leftBack1pos.y = 0;
 	leftBack1.drwrc = { (LONG)Play_LeftX, (LONG)-10, (LONG)Play_LeftX + PlayXSize /2 , WINSIZE_Y+20};
-	leftBack1.imageName = "leftBack";
+	leftBack1.imageName = "leftBack";  //문
 	leftBack1.framex = 0;
 	leftBack1.framey = 0;
 
 	leftBack2pos.x = Play_LeftX + PlayXSize / 2;
 	leftBack2pos.y = 0;
-	leftBack2.imageName = "leftBack";
+	leftBack2.imageName = "leftBack";  //문
 	leftBack2.drwrc = { (LONG)Play_LeftX + PlayXSize / 2   , (LONG)-10 , (LONG)Play_RightX , WINSIZE_Y + 20 };
 	leftBack1.framex = 1;
 	leftBack1.framey = 0;
 
-	LeftUpBackground.imageName = "LeftUpBackground";
+	LeftUpBackground.imageName = "LeftUpBackground";  
 	LeftUpBackground.drwrc = { (LONG)0 , (LONG)0 , (LONG)650 , 350 };
 	LeftBackground.imageName = "LeftBackground";
 	LeftBackground.drwrc = { (LONG)0 , (LONG)150 , (LONG)600 , 700 };
@@ -35,46 +35,53 @@ HRESULT UI::Init()
 	playerHp = 0;
 	playerSoulGauge = 0;
 	playerBoom = 0;
-	Soulgeiji2.imageName = "Soulgeiji2";
+	Soulgeiji2.imageName = "Soulgeiji2";  // 오른쪽위 불꽃
 	Soulgeiji2.drwrc = { (LONG)935 , (LONG)18 , (LONG)1010 , 115 };
 	Soulgeiji2.framex = 0;
 	Soulgeiji2.framey = 0;
+	Soulgeiji2Time = 0.0f;
 	for (int i = 0; i < 4; i++)
 	{
-		SkillGeiji[i].imageName = "SkillGeiji";
-		SkillGeiji[i].drwrc = { (LONG)665 + (i * 35), (LONG)798 , (LONG)729 + (i * 35) , 926 };
+		SkillGeiji[i].imageName = "SkillGeiji";  //가운데 아래 폭탄게이지
+		SkillGeiji[i].drwrc = { (LONG)715 + (i * 35), (LONG)798 , (LONG)779 + (i * 35) , 926 };
 		SkillGeiji[i].framex = 9;
+		SkillGeijiTime = 0.0f;
 	}
-	Life.imageName = "Life";
-	Life.drwrc = { (LONG)0 , (LONG)300 , (LONG)1024 , 598 };
-	test.imageName = "test";
+	for (int i = 0; i < 4; i++)
+	{
+		Life[i].imageName = "Life";   //왼쪽아래 나비모양
+		Life[i].drwrc = { (LONG)340+(i*40) , (LONG)860 , (LONG)390 + (i * 40) , 905 };
+		Life[i].framex = 0;
+		LifeTime = 0.0f;
+	}
+	test.imageName = "test";   //오른쪽위 소울컬렉트
 	test.drwrc = { (LONG)780 , (LONG)150 , (LONG)1450, 340 };
-	SoulGeijiBack.imageName = "SoulGeijiBack";
+	SoulGeijiBack.imageName = "SoulGeijiBack";  //오른쪽위 소울게이지 검은바탕
 	SoulGeijiBack.drwrc = { (LONG)940 , (LONG)50 , (LONG)1300, 140 };
-	SideSoul.imageName = "SideSoul";
+	SideSoul.imageName = "SideSoul";  //플레이어 보조무기
 	SideSoul.drwrc = { (LONG)350 , (LONG)700 , (LONG)500, 800 };
-	boss_Hp_Bar1.imageName = "boss_Hp_Bar1";
-	boss_Hp_Bar1.drwrc = { (LONG)350 , (LONG)60 , (LONG)910, 90  };
-	boss_Hp_Bar2.imageName = "boss_Hp_Bar2";
-	boss_Hp_Bar2.drwrc = { (LONG)350 , (LONG)60 , (LONG)910, 90 };
-	boss_Hp_Bar3.imageName = "boss_Hp_Bar3";
-	boss_Hp_Bar3.drwrc = { (LONG)400 , (LONG)90 , (LONG)500, 130 };
+	boss_Hp_Bar1.imageName = "boss_Hp_Bar1"; // 검은색
+	boss_Hp_Bar1.drwrc = { (LONG)395 , (LONG)41 , (LONG)615, 52  };
+	boss_Hp_Bar2.imageName = "boss_Hp_Bar2";  //테두리  
+	boss_Hp_Bar2.drwrc = { (LONG)320 , (LONG)0 , (LONG)950, 80 };
+	boss_Hp_Bar3.imageName = "boss_Hp_Bar3"; //내용물
+	boss_Hp_Bar3.drwrc = { (LONG)500 , (LONG)41 , (LONG)650, 52 };
 	for (int i = 0; i < 14; i++)
 	{
-		Font1[i].imageName = "Font";
-		Font1[i].drwrc = { (LONG)350 , (LONG)10 , (LONG)400, 30 };
+		Font1[i].imageName = "Font"; //왼쪽위
+		Font1[i].drwrc = { (LONG)370+(i*15) , (LONG)0 , (LONG)390 + (i * 15), 30 };
 	}
 	for (int i = 0; i < 14; i++)
 	{
-		Font2[i].imageName = "Font";
-		Font2[i].drwrc = { (LONG)650 , (LONG)10 , (LONG)700, 30 };
+		Font2[i].imageName = "Font";  //오른쪽위
+		Font2[i].drwrc = { (LONG)680 + (i * 15) , (LONG)0 , (LONG)700 + (i * 15), 30 };
 	}
-	for (int i = 0; i < 14; i++)
+	for (int i = 0; i < 4; i++)
 	{
-		Font3[i].imageName = "Font";
-		Font3[i].drwrc = { (LONG)350 , (LONG)10 , (LONG)400, 30 };
+		Font3[i].imageName = "Font";  //소울게이지숫자
+		Font3[i].drwrc = { (LONG)990 + (i * 25) , (LONG)55 , (LONG)1025 + (i * 25), 105 };
 	}
-	Bar1.imageName = "Bar1";
+	Bar1.imageName = "Bar1";  //불꽃게이지바
 	Bar1.drwrc = { (LONG)350 , (LONG)20 , (LONG)910, 70 };
 	Bar2.imageName = "Bar2";
 	Bar2.drwrc = { (LONG)350 , (LONG)20 , (LONG)910, 70 };
@@ -90,28 +97,65 @@ void UI::Release()
 
 void UI::Update()
 {
+	Soulgeiji2Time += TimerManager::GetSingleton()->GettimeElapsed();
 	if (!isFullOpen)
-	Soulgeiji2.framex++;
-	if (Soulgeiji2.framey > 3)
-	{
-		Soulgeiji2.framey = 0;
-	}
-	else
-	{
-		if (Soulgeiji2.framex >= 2)
+		if (Soulgeiji2Time >= 0.05f)
 		{
-			Soulgeiji2.framex = 0;
+			Soulgeiji2.framex++;
+			if (Soulgeiji2.framey == 0)
+			{
+				if (Soulgeiji2.framex >= 2)
+				{
+					Soulgeiji2.framex = 0;
+					Soulgeiji2.framey = 1;
+				}
+
+			}
+			else if (Soulgeiji2.framey == 1)
+			{
+				if (Soulgeiji2.framex >= 2)
+				{
+					Soulgeiji2.framex = 0;
+					Soulgeiji2.framey = 2;
+				}
+			}
+			else
+			{
+				if (Soulgeiji2.framex >= 2)
+				{
+					Soulgeiji2.framex = 0;
+					Soulgeiji2.framey = 0;
+				}
+			}
+			Soulgeiji2Time = 0.0f;
 		}
+	SkillGeijiTime += TimerManager::GetSingleton()->GettimeElapsed();
+	if (SkillGeijiTime >= 0.1f)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			SkillGeiji[i].framex += 2;
+			if (SkillGeiji[i].framex > 24)
+			{
+				SkillGeiji[i].framex = 8;
+			}
+		}
+		SkillGeijiTime = 0.0f;
+	}
+	LifeTime += TimerManager::GetSingleton()->GettimeElapsed();
+	if (LifeTime >= 0.1f)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			Life[i].framex++;
+			if (Life[i].framex >= 4)
+			{
+				Life[i].framex = 0;
+			}
+		}
+		LifeTime = 0.0f;
 	}
 
-	for (int i = 0; i < 4; i++)
-	{
-		SkillGeiji[i].framex += 2;
-		if (SkillGeiji[i].framex > 24)
-		{
-			SkillGeiji[i].framex = 8;
-		}
-	}
 	return;
 	if (leftBack1pos.x > Play_LeftX - 225)
 	{
@@ -148,8 +192,8 @@ void UI::Render(HDC hdc)
 {
 	BaseUI::Render(hdc);
 	ImageManager* imageManager = ImageManager::GetSingleton();
-	imageManager->DrawAnimImage(hdc, leftBack1);
-	imageManager->DrawAnimImage(hdc, leftBack2);
+	//imageManager->DrawAnimImage(hdc, leftBack1);
+	//imageManager->DrawAnimImage(hdc, leftBack2);
 	imageManager->DrawAnimImage(hdc, LeftBackground);
 	imageManager->DrawAnimImage(hdc, LeftSideDownBackground);
 	imageManager->DrawAnimImage(hdc, LeftUpBackground);
@@ -163,10 +207,13 @@ void UI::Render(HDC hdc)
 	{
 		imageManager->DrawAnimImage(hdc, SkillGeiji[i]);
 	}
-	//imageManager->DrawAnimImage(hdc, Life);
+	for (int i = 0; i < 4; i++)
+	{
+		imageManager->DrawAnimImage(hdc, Life[i]);
+	}
 	//imageManager->DrawAnimImage(hdc, SideSoul);
-	imageManager->DrawAnimImage(hdc, boss_Hp_Bar1);
 	imageManager->DrawAnimImage(hdc, boss_Hp_Bar2);
+	imageManager->DrawAnimImage(hdc, boss_Hp_Bar1);
 	imageManager->DrawAnimImage(hdc, boss_Hp_Bar3);
 	for (int i = 0; i < 14; i++)
 	{
@@ -176,14 +223,14 @@ void UI::Render(HDC hdc)
 	{
 		imageManager->DrawAnimImage(hdc, Font2[i]);
 	}
-	for (int i = 0; i < 14; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		imageManager->DrawAnimImage(hdc, Font3[i]);
 	}
 	
 	//imageManager->DrawAnimImage(hdc, Bar1);
 	//imageManager->DrawAnimImage(hdc, Bar2);
-	imageManager->DrawAnimImage(hdc, Bar3);
+	//imageManager->DrawAnimImage(hdc, Bar3);
 	
 	
 }
