@@ -57,6 +57,7 @@ private:
 	MoveState moveState;
 	ImageDrawInfo soulGaugeLeft;
 	ImageDrawInfo soulGaugeRight;
+
 	
 	SIZE missileSize;
 

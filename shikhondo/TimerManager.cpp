@@ -33,9 +33,12 @@ void TimerManager::Update()
 {
 	timer->Tick();
 	Const_IteratorTimerMap it;
-	for (it = timers.begin(); it != timers.end(); it++)
-		it->second->Tick();
-
+	for (it = timers.begin(); it != timers.end();)
+	{
+		Timer* timer = it->second;
+		it++;
+		timer->Tick();
+	}
 }
 
 void TimerManager::Render(HDC hdc)
