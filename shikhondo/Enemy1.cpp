@@ -18,7 +18,7 @@ HRESULT Enemy1::Init()
 
 	// 시작 위치 설정
 	RandLocation();
-	LocationReset();
+	//LocationReset();
 	checkTime = 0;
 
 	// 패턴 
@@ -64,7 +64,7 @@ void Enemy1::Update()
 				Em1->SetSpeed(missileSpeed);			// 총알 스피드
 				Em1->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
 			   //그 각도로 움직이는 코드
-				LocationReset();
+				//LocationReset();
 				//	moveTime = 0;
 				AutomaticMissile = true;
 			}
