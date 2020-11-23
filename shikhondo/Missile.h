@@ -34,9 +34,14 @@ public:
 	void SetOwner(Character* owner)		{ this->owner = owner; }
 	Character* GetOnwer() const	{ return this->owner; }
 
+	bool GetIsSoul() const { return this->isSoul; }
+
 	void SetMovePatten(Patten movePatten);
 
 	void SetHitBox(RECT rect) { this->hitBox = rect; }
+
+	// 플레이어가 스킬을 사용할때 영혼으로 변하는 함수
+	void ChangeSoul(Character* taget);
 
 private:
 	void NormalMove();
@@ -44,6 +49,8 @@ private:
 	void AngleMove();
 	void SevenMove();
 
+	// 미사일 애니메이션
+	void MissileAnim();
 private:
 	Character* owner;
 	Character* taget;
@@ -53,9 +60,12 @@ private:
 
 	ImageDrawInfo imaginfo;
 
+	bool isSoul;
 	float angle;
 	float speed;
 	Patten nowMovePatten;
 
 	void(Missile::*movePatten[static_cast<int>(Patten::MaX)])();
+
+	TimerHandle misiileAnimTimerHandle;
 };

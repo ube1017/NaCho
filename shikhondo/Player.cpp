@@ -25,9 +25,11 @@ HRESULT Player::Init()
 	soulGauge = 0;
 	boomCount = 0;
 	testMode = false;
+	isSoulGaudeRender = false;
+	isSpecialAbility = false;
 
-	soulGaugeLeft.DrawRectSetting("LProgress", { this->pos.x, this->pos.y }, { 100,180 }, true, {64,128});
-	soulGaugeRight.DrawRectSetting("RProgress", this->pos, { 100,180 }, true, {64,128});
+	soulGaugeLeft.DrawRectSetting("LProgress", { this->pos.x, this->pos.y }, { 64,128 }, true, {64,128});
+	soulGaugeRight.DrawRectSetting("RProgress", this->pos, { 64,128 }, true, {64,64});
 	return S_OK;
 }
 
@@ -43,19 +45,26 @@ void Player::Update()
 	hitBox = {	(LONG)pos.x - hitBoxSize.cx/2 -3, (LONG)pos.y - hitBoxSize.cy - 4,
 				(LONG)pos.x + hitBoxSize.cx/2 -3, (LONG)pos.y - 4 };
 
-	FPOINT Rgauge = { this->pos.x + 50 , this->pos.y - 10};
-	FPOINT Lgauge = { this->pos.x - 50 , this->pos.y - 10};
-	soulGauge++;
-	if (soulGauge == 200)
-		soulGauge = 0;
+	this->soulGauge = 2000;
+	// 특수능력 해제부분
+	if (isSpecialAbility)
+	{
+		isSpecialAbility = false;
+		this->soulGauge -= 3;
+		if (this->soulGauge <= 0)
+		{
+			this->soulGauge = 0;
+			isSpecialAbility = false;
+			this->damge = 0;
+		}
+	}
+	
 	if (this->soulGauge < maxSoulGauge / 4)
 	{
 		soulGaugeRight.animSize.cx = 64 * (float)((float)this->soulGauge /(maxSoulGauge / 4));
 		soulGaugeRight.animSize.cy = 64;
-		soulGaugeRight.size.cx = 100 * (float)((float)this->soulGauge / (maxSoulGauge / 4));
-		soulGaugeRight.size.cy = 90;
-		soulGaugeRight.drwrc = {	(LONG)this->pos.x  , (LONG)this->pos.y - 80 ,
-									(LONG)this->pos.x + soulGaugeRight.size.cx , (LONG)this->pos.y + 10 };
+		soulGaugeRight.drwrc = {	(LONG)this->pos.x  , (LONG)this->pos.y - 94 ,
+									(LONG)this->pos.x + soulGaugeRight.animSize.cx , (LONG)this->pos.y - 30 };
 		soulGaugeLeft.animSize = { 0,0 };
 		soulGaugeLeft.size = { 0,0 };
 		
@@ -64,50 +73,49 @@ void Player::Update()
 	{
 		soulGaugeRight.animSize.cx = 64;
 		soulGaugeRight.animSize.cy = 128 * (float)((float)this->soulGauge / (maxSoulGauge / 2));
-		soulGaugeRight.size.cx = 100;
-		soulGaugeRight.size.cy = 180 * (float)((float)this->soulGauge / (maxSoulGauge / 2));
-		soulGaugeRight.drwrc = {	(LONG)this->pos.x  , (LONG)this->pos.y -80 ,
-									(LONG)this->pos.x + 100 , (LONG)this->pos.y - 80 + soulGaugeRight.size.cy };
+		soulGaugeRight.drwrc = {	(LONG)this->pos.x  , (LONG)this->pos.y - 94 ,
+									(LONG)this->pos.x + 64 , (LONG)this->pos.y - 94 + soulGaugeRight.animSize.cy };
 		soulGaugeLeft.animSize = { 0,0 };
+		soulGaugeLeft.size = { 0,0 };
 	}
 	else if (this->soulGauge < ((maxSoulGauge / 4) * 3))
 	{
 		soulGaugeRight.animSize.cx = 64;
 		soulGaugeRight.animSize.cy = 128;
-		soulGaugeRight.size.cx = 100;
-		soulGaugeRight.size.cy = 180;
-		soulGaugeRight.drwrc = { (LONG)this->pos.x ,(LONG)this->pos.y - 80,
-								 (LONG)this->pos.x + 100 , (LONG)this->pos.y + 100 };
-
-
-		soulGaugeLeft.animSize.cx = 64 * (float)((float)this->soulGauge / (maxSoulGauge / 4));
+		soulGaugeRight.drwrc = { (LONG)this->pos.x ,(LONG)this->pos.y - 94,
+								 (LONG)this->pos.x + 64 , (LONG)this->pos.y + 34  };
+	
+	
+		soulGaugeLeft.animSize.cx = 64  * (float)((float)(this->soulGauge - maxSoulGauge/2) / (maxSoulGauge / 4));
 		soulGaugeLeft.animSize.cy = 64;
-		soulGaugeLeft.size.cx = 100 * (float)(((float)this->soulGauge - 100) / (maxSoulGauge / 4));
-		soulGaugeLeft.size.cy = 90;
-		soulGaugeRight.drwrc = { (LONG)pos.x - 100 , (LONG)pos.x + 10,
-								 (LONG)pos.x , (LONG)pos.x + 100 };
+		soulGaugeLeft.startx = 64 - soulGaugeLeft.animSize.cx;
+		soulGaugeLeft.starty = 64;
+		soulGaugeLeft.isAnimStartRest = true;
+		soulGaugeLeft.framey = 1;
+		soulGaugeLeft.framex = 0;
+		soulGaugeLeft.drwrc = { (LONG)pos.x - soulGaugeLeft.animSize.cx , (LONG)pos.y - 30,
+								(LONG)pos.x , (LONG)pos.y + 34 };
 	}
 	else
 	{
 		soulGaugeRight.animSize.cx = 64;
 		soulGaugeRight.animSize.cy = 128;
-		soulGaugeRight.size.cx = 100;
-		soulGaugeRight.size.cy = 180;
-		soulGaugeRight.drwrc = { (LONG)this->pos.x ,(LONG)this->pos.y - 80,
-								 (LONG)this->pos.x + 100 , (LONG)this->pos.y + 100 };
+		soulGaugeRight.drwrc = { (LONG)this->pos.x ,(LONG)this->pos.y - 94,
+								 (LONG)this->pos.x + 64 , (LONG)this->pos.y + 34 };
 
-
+		
+		
 		soulGaugeLeft.animSize.cx = 64;
-		soulGaugeLeft.animSize.cy = 128;
-		soulGaugeLeft.size.cx = 100;
-		soulGaugeLeft.size.cy = 90 * (float)((float)(this->soulGauge - 100) / ((maxSoulGauge / 2)));
-		soulGaugeRight.drwrc = { (LONG)pos.x - 100 , (LONG)pos.x + 100 - soulGaugeLeft.size.cy ,
-								(LONG)pos.x , (LONG)pos.x + 100 };
+		soulGaugeLeft.animSize.cy = 128 * (float)((float)(this->soulGauge - (maxSoulGauge / 2)) / (maxSoulGauge / 2));
+		soulGaugeLeft.startx = 0;// -soulGaugeLeft.animSize.cx;
+		soulGaugeLeft.starty = 128 - soulGaugeLeft.animSize.cy;
+		soulGaugeLeft.isAnimStartRest = true;
+		soulGaugeLeft.framey = 0;
+		soulGaugeLeft.framex = 0;
+		soulGaugeLeft.drwrc = { (LONG)pos.x - 64 , (LONG)pos.y + 34 - soulGaugeLeft.animSize.cy,
+								(LONG)pos.x , (LONG)pos.y + 34 };
 	}
 
-	soulGaugeLeft.MovePos(Lgauge);
-	//soulGaugeRight.MovePos(Rgauge);
-	
 	if (moveState == MoveState::SLOW)
 	{
 		PlayScene* playscene = Cast<PlayScene>(GamePlayStatic::GetScene());
@@ -165,25 +173,40 @@ void Player::Update()
 void Player::Render(HDC hdc)
 {
 	Character::Render(hdc);
-	//ImageManager::GetSingleton()->DrawAnimImage(hdc, soulGaugeLeft);
-	//ImageManager::GetSingleton()->DrawAnimImage(hdc, soulGaugeRight);
 	ImageManager::GetSingleton()->DrawAnimImage(hdc, imageinfo);
+	Rectangle(hdc, (LONG)homingShooterPos[0].x -25 , (LONG)homingShooterPos[0].y - 25, (LONG)homingShooterPos[0].x + 25, (LONG)homingShooterPos[0].y + 25);
+	Rectangle(hdc, (LONG)homingShooterPos[1].x -25 , (LONG)homingShooterPos[1].y - 25, (LONG)homingShooterPos[1].x + 25, (LONG)homingShooterPos[1].y + 25);
+
 #ifdef _DEBUG
 	Rectangle(hdc, hitBox.left, hitBox.top, hitBox.right, hitBox.bottom);
+#else
+	if (isSoulGaudeRender)
 #endif // _DEBUG
-	//Rectangle(hdc, (LONG)homingShooterPos[0].x -25 , (LONG)homingShooterPos[0].y - 25, (LONG)homingShooterPos[0].x + 25, (LONG)homingShooterPos[0].y + 25);
-	//Rectangle(hdc, (LONG)homingShooterPos[1].x -25 , (LONG)homingShooterPos[1].y - 25, (LONG)homingShooterPos[1].x + 25, (LONG)homingShooterPos[1].y + 25);
-
+	{
+		ImageManager::GetSingleton()->DrawAnimImage(hdc, soulGaugeLeft);
+		ImageManager::GetSingleton()->DrawAnimImage(hdc, soulGaugeRight);
+	}
 	
 }
+
 
 void Player::OnHit(Missile * hitMissile)
 {
 	if (isInvincibility || testMode)
 		return;
+	if (hitMissile->GetIsSoul())
+		return;
 	this->hp--;
 	isInvincibility = true;
 	TimerManager::GetSingleton()->SetTimer(invincibilityTimer, this, &Player::Invincibility, 0.5f);
+	PlayScene* playScene = Cast<PlayScene>(GamePlayStatic::GetScene());
+	MissileManager* missilemanager = playScene->GetMissileManager();
+	const list<Missile*>* enemyMissile = missilemanager->GetSpawnMissileList();
+	list<Missile*>::const_iterator const_it;
+	for (const_it = enemyMissile->begin(); const_it != enemyMissile->end(); const_it++)
+	{
+		(*const_it)->OnHit();
+	}
 	if (this->hp == 0)
 		isActivation = false;
 }
@@ -333,17 +356,19 @@ void Player::SlowMove()
 	{
 		moveState = MoveState::SLOW;
 		speed = 2.0f;
+		isSoulGaudeRender = !isSoulGaudeRender;
 	}
 	else
 	{
 		moveState = MoveState::NORMAL;
 		speed = 5.0f;
+		isSoulGaudeRender = !isSoulGaudeRender;
 	}
 }
 
 void Player::SpecialAbility()
 {
-	if (this->soulGauge >= maxSoulGauge)
+	if (this->soulGauge >= maxSoulGauge && !isSpecialAbility )
 	{
 		PlayScene* playScene =Cast<PlayScene>(GamePlayStatic::GetScene());
 		MissileManager* missilemanager = playScene->GetMissileManager();
@@ -351,8 +376,12 @@ void Player::SpecialAbility()
 		list<Missile*>::const_iterator const_it;
 		for (const_it = enemyMissile->begin(); const_it != enemyMissile->end(); const_it++)
 		{
-			(*const_it)->OnHit();
+			//(*const_it)->OnHit();
+			(*const_it)->ChangeSoul(this);
 		}
+
+		isSpecialAbility = true;
+		damge = 2;
 	}
 }
 

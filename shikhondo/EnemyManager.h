@@ -59,6 +59,31 @@ public:
 		return nullptr;
 	}
 
+
+	template<typename T>
+	Enemy* SpawnEeney(FPOINT pos)
+	{
+		list<Enemy*>::iterator eit;
+		for (eit = enemyList.begin(); eit != enemyList.end();eit++)
+		{
+			T* SeletEnemy = Cast<T>(*eit);
+			if (SeletEnemy != nullptr)
+			{
+				Enemy* enemy = *eit;
+				if (!enemy->GetIsValid())
+				{
+					enemy->SetIsValid(true);
+					enemy->Init();
+					//enemy->
+					enemyList.splice(enemyList.end(), enemyList, eit);
+					spawnEnemyList.push_back(enemy);
+					return enemy;
+				}
+			}
+		}
+		return nullptr;
+	}
+
 	void DieEnemy(Enemy* enemy);
 
 

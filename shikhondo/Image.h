@@ -64,6 +64,8 @@ public:
 
 
 	HDC GetMemDC() { return imageInfo->hMemDC; }
+	int GetMaxFramX() const { return imageInfo->maxFramx; }
+	int GetMaxFramY() const { return imageInfo->maxFramy; }
 
 	BLENDFUNCTION blendFun;
 private:

@@ -112,7 +112,7 @@ void UI::Update()
 			SkillGeiji[i].framex = 8;
 		}
 	}
-	return;
+
 	if (leftBack1pos.x > Play_LeftX - 225)
 	{
 		if (leftBack1.drwrc.right > Play_LeftX)
