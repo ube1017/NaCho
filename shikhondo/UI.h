@@ -21,9 +21,9 @@ private:
 	ImageDrawInfo RightSideDownBackground;
 	ImageDrawInfo RightUpBackground;
 
-	int playerHp;
-	int playerSoulGauge;
-	int playerBoom;
+	const int* playerHp;
+	const int* playerSoulGauge;
+	const int* playerBoom;
 	bool isFullOpen;
 
 	ImageDrawInfo Soulgeiji2;

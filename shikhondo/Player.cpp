@@ -11,6 +11,8 @@ HRESULT Player::Init()
 	
 	imageinfo.imageName = "Player";
 	this->hp = 4;
+	this->boomCount = 4;
+	this->soulGauge = 0;
 	this->pos = { 640.0f ,WINSIZE_Y - 100.0f };
 	this->size = { 123,141 };
 	this->hitBoxSize = { 20,20 };
@@ -22,11 +24,12 @@ HRESULT Player::Init()
 	isFire = true;
 	speed = 4.0f;
 
-	soulGauge = 0;
-	boomCount = 0;
+
 	testMode = false;
 	isSoulGaudeRender = false;
 	isSpecialAbility = false;
+
+	missileSize = normalMissileSize;
 
 	soulGaugeLeft.DrawRectSetting("LProgress", { this->pos.x, this->pos.y }, { 64,128 }, true, {64,128});
 	soulGaugeRight.DrawRectSetting("RProgress", this->pos, { 64,128 }, true, {64,64});
@@ -49,13 +52,14 @@ void Player::Update()
 	// 특수능력 해제부분
 	if (isSpecialAbility)
 	{
-		isSpecialAbility = false;
+		//isSpecialAbility = false;
 		this->soulGauge -= 3;
 		if (this->soulGauge <= 0)
 		{
 			this->soulGauge = 0;
 			isSpecialAbility = false;
-			this->damge = 0;
+			this->damge = 1;
+			missileSize = normalMissileSize;
 		}
 	}
 	
@@ -277,18 +281,18 @@ void Player::Fire()
 		PlayScene* playscene = Cast<PlayScene>(GamePlayStatic::GetScene());
 		MissileManager* missileManager = playscene->GetMissileManager();
 
-		missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, { 30,30 });
+		missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, this->missileSize);
 		missile->SetSpeed(-missileSpeed);
 		missile->SetMovePatten(Patten::NORMALMOVE);
 
 		missilePos.x -= 30.0f;
-		missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, { 30,30 });
+		missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, this->missileSize);
 		missile->SetSpeed(-missileSpeed);
 		missile->SetMovePatten(Patten::NORMALMOVE);
 
 		missilePos.x += 15.0f;
 		missilePos.y -= 15.0f;
-		missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, { 30,30 });
+		missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, this->missileSize);
 		missile->SetSpeed(-missileSpeed);
 		missile->SetMovePatten(Patten::NORMALMOVE);
 
@@ -305,7 +309,7 @@ void Player::Fire()
 			{
 
 				missilePos = homingShooterPos[i];
-				homing[i] = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, { 30,30 });
+				homing[i] = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, this->missileSize);
 
 
 				homing[i]->SetTaget(*const_it);
@@ -319,15 +323,13 @@ void Player::Fire()
 				else
 					continue;
 			}
-			
-			break;
 		}
 		
 
 		if (i == 1)
 		{
 			missilePos = homingShooterPos[1];
-			homing[1] = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, { 30,30 });
+			homing[1] = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, this->missileSize);
 
 			homing[1]->SetTaget(homingTaget);
 			homing[1]->SetMovePatten(Patten::HOMINGMOVE);
@@ -382,6 +384,7 @@ void Player::SpecialAbility()
 
 		isSpecialAbility = true;
 		damge = 2;
+		missileSize = specialAbilityMissileSize;
 	}
 }
 

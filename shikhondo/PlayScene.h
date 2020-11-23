@@ -41,6 +41,11 @@ public:
 	void None() {}
 private:
 	void SpawnStartFun();
+	
+	// Àû À§Ä¡
+	FPOINT EPos;
+	int pattenX;
+
 public:
 	SpawnStart spawnStart;
 private:

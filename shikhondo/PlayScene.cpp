@@ -62,20 +62,23 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("Bar2", "Bar2", { 512,128 }, { 1,1 });
 	imageManager->_LoadBitmap("Bar3", "Bar3", { 512,128 }, { 10,1 });
 	
-	
-		
-
+	// 도영 적 위치 설정
+	EPos.x = 500;
+	EPos.y = 200;
+	pattenX = 100;
 	
 	GamePlayStatic::SetScene(this);
 	backGround = CreateObject<BackGround>();
-	ui = CreateObject<UI>();
-	ui->SetZOrder(1);
 	player = CreateObject<Player>();
 	GamePlayStatic::SetPlayerCharacter(player);
+	ui = CreateObject<UI>();
+	ui->SetZOrder(1);
 	enemyManager = CreateObject<EnemyManager>(false);
 	missileManager = CreateObject<MissileManager>(false);
 	player->SetMissileManager(missileManager);
 	enemyManager->SetMainGame(this);
+
+
 
 	for (int i = 0 ; i <20 ;i++)
 		enemyManager->CreateEeney<Enemy1>(missileManager);
@@ -167,7 +170,15 @@ void PlayScene::StageSpawn()
 
 void PlayScene::SpawnPatten1()
 {
-	enemyManager->SpawnEeney<Enemy1>();
+	enemyManager->SpawnEeney<Enemy1>(EPos);
+
+	if (EPos.x == 900)
+	{
+		EPos.x = 950;
+		EPos.y = 150;
+		pattenX *= -1;
+	}
+
 	spawnCount++;
 	if (spawnCount == (int)(10 * spawnNum))
 	{
@@ -176,6 +187,8 @@ void PlayScene::SpawnPatten1()
 		 nowPatten = SpawnPatten::ENEMY2;
 	}
 
+	EPos.x += pattenX;
+	EPos.y -= 5;
 }
 
 void PlayScene::SpawnPatten2()

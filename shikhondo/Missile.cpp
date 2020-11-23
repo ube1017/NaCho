@@ -47,6 +47,7 @@ void Missile::Update()
 	{
 		this->MissileRelease();
 		this->isActivation = false;
+		TimerManager::GetSingleton()->DeleteTimer(misiileAnimTimerHandle);
 	}
 
 }
