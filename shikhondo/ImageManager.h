@@ -19,6 +19,12 @@ struct ImageDrawInfo
 	// 애니메이션 사이즈
 	SIZE animSize;
 	bool isAnimSizeReset = false;
+
+
+	bool isAnimStartRest = false;
+	int startx;
+	int starty;
+
 	enum class MovePosType
 	{
 		X_AIS,
@@ -64,7 +70,7 @@ struct ImageDrawInfo
 		}
 	}
 
-	void DrawRectSetting(std::string imageName, FPOINT pos, SIZE size,bool isAnimSizeReset = false ,SIZE animSize = {0,0})
+	void DrawRectSetting(std::string imageName, FPOINT pos, SIZE size, bool isAnimSizeReset = false, SIZE animSize = { 0,0 }, bool isAnimStartRest = false,SIZE animStart = {0,0})
 	{
 		drwrc = { (LONG)pos.x - (size.cx / 2) ,(LONG)pos.y - (size.cy / 2),
 				  (LONG)pos.x + (size.cx / 2) ,(LONG)pos.y + (size.cy / 2) };
@@ -74,6 +80,9 @@ struct ImageDrawInfo
 		this->animSize = animSize;
 		this->framex = 0;
 		this->framey = 0;
+		this->isAnimStartRest = isAnimStartRest;
+		this->startx = animStart.cx;
+		this->starty = animStart.cy;
 	}
 
 };

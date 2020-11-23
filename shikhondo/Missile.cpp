@@ -3,6 +3,7 @@
 #include "MissileManager.h"
 #include "GamePlayStatic.h"
 #include "Character.h"
+#include "Image.h"
 
 Missile::Missile()
 {
@@ -11,6 +12,10 @@ Missile::Missile()
 	movePatten[MISSILEPATTEN(Patten::NORMALMOVE)] = &Missile::NormalMove;
 	movePatten[MISSILEPATTEN(Patten::HOMINGMOVE)] = &Missile::HomingMove;
 	movePatten[MISSILEPATTEN(Patten::ANGLEMOVE)] = &Missile::AngleMove;
+
+
+
+	misiileAnimTimerHandle.timerName = "미사일 애니메이션";
 }
 
 HRESULT Missile::Init()
@@ -21,7 +26,10 @@ HRESULT Missile::Init()
 	this->imaginfo.framex = 0;
 	this->imaginfo.framey = 0;
 	this->isNotUPdate = false;
+	this->isSoul = false;
 	this->taget = nullptr;
+	
+	
 	return S_OK;
 }
 
@@ -53,6 +61,7 @@ void Missile::OnHit()
 {
 	// this->MissileRelease();
 	this->isActivation = false;
+	TimerManager::GetSingleton()->DeleteTimer(misiileAnimTimerHandle);
 }
 
 void Missile::MissileSetting(string imageName, FPOINT pos, SIZE size)
@@ -60,6 +69,7 @@ void Missile::MissileSetting(string imageName, FPOINT pos, SIZE size)
 	this->pos = pos;
 	this->size = size;
 	this->imaginfo.DrawRectSetting(imageName,pos,size);
+	TimerManager::GetSingleton()->SetTimer(misiileAnimTimerHandle, this, &Missile::MissileAnim, 0.05f);
 }
 
 void Missile::MissileRelease()
@@ -71,6 +81,15 @@ void Missile::MissileRelease()
 void Missile::SetMovePatten(Patten movePatten)
 {
 	nowMovePatten = movePatten;
+}
+
+void Missile::ChangeSoul(Character * taget)
+{
+	this->isSoul = true;
+	this->taget = taget;
+	this->nowMovePatten = Patten::HOMINGMOVE;
+	this->speed = 8;
+	this->imaginfo.DrawRectSetting("Soulgeiji2", this->pos, {80,80});
 }
 
 void Missile::NormalMove()
@@ -108,4 +127,23 @@ void Missile::AngleMove()
 void Missile::SevenMove()
 {
 
+}
+
+void Missile::MissileAnim()
+{
+	if (isActivation)
+	{
+		Image* findImage = ImageManager::GetSingleton()->FindImage(this->imaginfo.imageName);
+		int X_max = findImage->GetMaxFramX();
+		int Y_max = findImage->GetMaxFramY();
+		this->imaginfo.framex++;
+		if (this->imaginfo.framex >= X_max)
+		{
+			this->imaginfo.framex = 0;
+			this->imaginfo.framey++;
+			if (this->imaginfo.framey >= Y_max)
+				this->imaginfo.framey = 0;
+		}
+
+	}
 }

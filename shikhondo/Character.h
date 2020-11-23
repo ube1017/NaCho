@@ -18,7 +18,7 @@ public:
 	void SetMissileManager(MissileManager* manager) { this->missileManager = manager; }
 
 	void SetPos(FPOINT pos) { this->pos = pos; }
-	FPOINT Getpos() { return pos; }
+	virtual FPOINT Getpos() { return pos; }
 
 	SIZE GetSize() { return size; }
 	const int GetDamge() { return damge; }

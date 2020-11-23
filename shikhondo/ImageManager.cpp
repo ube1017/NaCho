@@ -217,6 +217,10 @@ void ImageManager::DrawAnimImage(HDC hdc, const ImageDrawInfo& imageDrawInfo)
 		drawImage->AnimRender(hdc, imageDrawInfo.drwrc.left, imageDrawInfo.drwrc.top, 
 								imageDrawInfo.drwrc.right - imageDrawInfo.drwrc.left, imageDrawInfo.drwrc.bottom - imageDrawInfo.drwrc.top,
 								imageDrawInfo.framex, imageDrawInfo.framey);
+		else if (imageDrawInfo.isAnimStartRest)
+		drawImage->AnimRender(hdc, imageDrawInfo.drwrc.left, imageDrawInfo.drwrc.top,
+								imageDrawInfo.drwrc.right - imageDrawInfo.drwrc.left, imageDrawInfo.drwrc.bottom - imageDrawInfo.drwrc.top,
+								imageDrawInfo.startx, imageDrawInfo.starty, imageDrawInfo.animSize.cx, imageDrawInfo.animSize.cy);
 		else
 		drawImage->AnimRender(hdc, imageDrawInfo.drwrc.left, imageDrawInfo.drwrc.top,
 								imageDrawInfo.drwrc.right - imageDrawInfo.drwrc.left, imageDrawInfo.drwrc.bottom - imageDrawInfo.drwrc.top,

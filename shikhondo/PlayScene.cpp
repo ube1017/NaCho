@@ -30,7 +30,7 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("enemy2_2", "enemy2_2", { 6000 , 500 }, { 12,1 });
 	imageManager->_LoadBitmap("enemy3", "enemy3", { 512 , 512 }, { 3,3 });
 	imageManager->_LoadBitmap("Boss", "Boss", { 204 , 403 }, { 1,1 });
-	//imageManager->_LoadBitmap("21", "21", { 400,100 }, { 4,1 });
+	imageManager->_LoadBitmap("21", "21", { 400,100 }, { 4,1 });
 	imageManager->_LoadBitmap("EnemyMissile", "EnemyMissile", { 192,72 }, { 8,1 });
 	imageManager->_LoadBitmap("Background2", "Background2", { 512,512 }, { 1,1 });
 	imageManager->_LoadBitmap("Background5", "Background5", { 512,1024 }, { 1,1 });
@@ -91,6 +91,11 @@ HRESULT PlayScene::Init()
 	collsionManager = CreateObject<CollisionManager>();
 	collsionManager->ManagerSetting(enemyManager, missileManager);
 	collsionManager->PlayerSetting(player);
+#ifdef _DEBUG
+	backGround->SetZOrder(11);
+	collsionManager->SetZOrder(11);
+#endif // _DEBUG
+
 	nextspawnCount = 0;
 	spawnNum = 1.0f;
 

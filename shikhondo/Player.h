@@ -8,7 +8,7 @@ enum class MoveState
 };
 
 const float missileSpeed = 7.0f;
-const int maxSoulGauge = 200;
+const int maxSoulGauge = 2000;
 
 class Player : public Character
 {
@@ -20,15 +20,16 @@ public:
 	void Render(HDC hdc);		// 프레임 단위 출력 (이미지, 텍스트 등)
 
 
-	void AddSoulGauge(int value) { this->soulGauge += value; }
+	void AddSoulGauge(int value) { if (isSpecialAbility) return;  this->soulGauge += value;if (this->soulGauge >= maxSoulGauge) this->soulGauge = maxSoulGauge; }
 	int GetSoulGauge() { return this->soulGauge; }
-	//int* GetSoulGauge_ptr() { return &this->soulGauge; }
+	int* GetSoulGauge_ptr() { return &this->soulGauge; }
 	
 	void AddBoom(int value) { this->boomCount += value; }
 	int GetBoom() { return this->boomCount; }
-	//int* GetBoom_ptr() { return &this->boomCount; }
+	int* GetBoom_ptr() { return &this->boomCount; }
 
 	int GetHp() { return this->hp; }
+	FPOINT Getpos() { return { this->pos.x , this->pos.y - 4}; }
 
 	void OnHit(class Missile* hitMissile) override;
 private:
@@ -59,6 +60,8 @@ private:
 	
 	bool testMode;
 	bool isFire;
+	bool isSoulGaudeRender;
+	bool isSpecialAbility;
 	TimerHandle idleTimer;
 	TimerHandle fireTimer;
 	TimerHandle invincibilityTimer;

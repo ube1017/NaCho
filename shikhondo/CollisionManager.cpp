@@ -28,8 +28,9 @@ void CollisionManager::Render(HDC hdc)
 	GameNode::Render(hdc);
 	FPOINT playerPos = player->Getpos();
 	SIZE playerSize = player->GetSize();
-	Rectangle(hdc,  playerPos.x - playerSize.cx /2, playerPos.y - playerSize.cy/2, 
-					playerPos.x + playerSize.cx/2, playerPos.y + playerSize.cy/2);
+	playerSize = { playerSize.cx - 30, playerSize.cy - 30 };
+	Rectangle(hdc,  playerPos.x - playerSize.cx /2, playerPos.y - playerSize.cy /2, 
+					playerPos.x + playerSize.cx /2, playerPos.y + playerSize.cy /2);
 }
 
 void CollisionManager::CollisinCheck()
@@ -43,6 +44,7 @@ void CollisionManager::CollisinCheck()
 	list<Missile*>::iterator missileit = missile->begin();
 	FPOINT playerPos = player->Getpos();
 	SIZE playerSize = player->GetSize();
+	playerSize = { playerSize.cx - 30, playerSize.cy - 30 };
 	RECT playerHitBox = player->GetHitBox();
 	RECT missileHitBox;
 	FPOINT otherPos;
@@ -62,6 +64,7 @@ void CollisionManager::CollisinCheck()
 					playerPos.y + playerSize.cy >= otherPos.y)
 				{
 					pos = { (LONG)otherPos.x,(LONG)otherPos.y };
+					player->AddSoulGauge(1);
 					if (PtInRect(&playerHitBox, pos))
 					{
 						player->OnHit(emissile);
