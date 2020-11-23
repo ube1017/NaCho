@@ -48,7 +48,7 @@ void Player::Update()
 	hitBox = {	(LONG)pos.x - hitBoxSize.cx/2 -3, (LONG)pos.y - hitBoxSize.cy - 4,
 				(LONG)pos.x + hitBoxSize.cx/2 -3, (LONG)pos.y - 4 };
 
-	this->soulGauge = 2000;
+	//this->soulGauge = 2000;
 	// 특수능력 해제부분
 	if (isSpecialAbility)
 	{
@@ -183,6 +183,7 @@ void Player::Render(HDC hdc)
 
 #ifdef _DEBUG
 	Rectangle(hdc, hitBox.left, hitBox.top, hitBox.right, hitBox.bottom);
+	Rectangle(hdc, boomtest.left, boomtest.top, boomtest.right, boomtest.bottom);
 #else
 	if (isSoulGaudeRender)
 #endif // _DEBUG
@@ -386,12 +387,28 @@ void Player::SpecialAbility()
 		damge = 2;
 		missileSize = specialAbilityMissileSize;
 	}
+	else if (this->boomCount != 0)
+	{
+		Boom();
+		this->boomCount--;
+		if (this->boomCount <= 0)
+			this->boomCount = 0;
+	}
 }
 
 void Player::Invincibility()
 {
 	isInvincibility = false;
 	//TimerManager::GetSingleton()->DeleteTimer(invincibilityTimer);
+}
+
+void Player::Boom()
+{
+	boomtest = { Play_LeftX + (PlayXSize / 4) * ((LONG)boom) ,0,Play_LeftX + (PlayXSize / 4 ) * (1 + (LONG)boom) , WINSIZE_Y };
+	TimerManager::GetSingleton()->SetTimer(boomTimer, this, &Player::Boom, 0.5f);
+	boom++;
+	if (boom == 4)
+		TimerManager::GetSingleton()->DeleteTimer(boomTimer);
 }
 
 void Player::Idle()

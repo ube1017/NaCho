@@ -201,7 +201,7 @@ void PlayScene::SpawnPatten2()
 		TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
 		nextspawnCount++;
 		if (nextspawnCount == 2)
-			nowPatten = SpawnPatten::ENEMY3;
+			nowPatten = SpawnPatten::BOSS1;
 		else
 			nowPatten = SpawnPatten::ENEMY1;
 	}
