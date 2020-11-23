@@ -33,6 +33,8 @@ HRESULT Player::Init()
 
 	soulGaugeLeft.DrawRectSetting("LProgress", { this->pos.x, this->pos.y }, { 64,128 }, true, {64,128});
 	soulGaugeRight.DrawRectSetting("RProgress", this->pos, { 64,128 }, true, {64,64});
+	soulGaugeLeft2.DrawRectSetting("LProgress", { this->pos.x, this->pos.y }, { 64,128 }, true, { 64,128 });
+	soulGaugeRight2.DrawRectSetting("RProgress", this->pos, { 64,128 }, true, { 64,64 });
 	return S_OK;
 }
 
@@ -48,147 +50,10 @@ void Player::Update()
 	hitBox = {	(LONG)pos.x - hitBoxSize.cx/2 -3, (LONG)pos.y - hitBoxSize.cy - 4,
 				(LONG)pos.x + hitBoxSize.cx/2 -3, (LONG)pos.y - 4 };
 
-	if (this->soulGauge >= 2000)
-		isSpecialAbility = true;
-	else
-	{
-		if (!isSpecialAbility)
-		{
-			this->soulGauge++;
-			this->soulGauge++;
-			this->soulGauge++;
-			this->soulGauge++;
-		}
-	}
-	//this->soulGauge = 2000;
-	// 특수능력 해제부분
-	if (isSpecialAbility)
-	{
-		//isSpecialAbility = false;
-		this->soulGauge -= 3;
-		if (this->soulGauge <= 0)
-		{
-			this->soulGauge = 0;
-			isSpecialAbility = false;
-			this->damge = 1;
-			missileSize = normalMissileSize;
-		}
-	}
 	
-	if (this->soulGauge < maxSoulGauge / 4)
-	{
-		soulGaugeRight.animSize.cx = 64 * (float)((float)this->soulGauge /(maxSoulGauge / 4));
-		soulGaugeRight.animSize.cy = 64 * (float)((float)this->soulGauge / (maxSoulGauge / 4));
-		soulGaugeRight.drwrc = {	(LONG)this->pos.x  , (LONG)this->pos.y - 94 ,
-									(LONG)this->pos.x + soulGaugeRight.animSize.cx , (LONG)this->pos.y - 94 + soulGaugeRight.animSize.cy };
-		soulGaugeLeft.animSize = { 0,0 };
-		soulGaugeLeft.size = { 0,0 };
-		
-	}
-	else if (this->soulGauge < maxSoulGauge / 2)
-	{
-		soulGaugeRight.animSize.cx = 64;
-		soulGaugeRight.animSize.cy = 128 * (float)((float)this->soulGauge / (maxSoulGauge / 2));
-		soulGaugeRight.drwrc = {	(LONG)this->pos.x  , (LONG)this->pos.y - 94 ,
-									(LONG)this->pos.x + 64 , (LONG)this->pos.y - 94 + soulGaugeRight.animSize.cy };
-		soulGaugeLeft.animSize = { 0,0 };
-		soulGaugeLeft.size = { 0,0 };
-	}
-	else if (this->soulGauge < ((maxSoulGauge / 4) * 3))
-	{
-		soulGaugeRight.animSize.cx = 64;
-		soulGaugeRight.animSize.cy = 128;
-		soulGaugeRight.drwrc = { (LONG)this->pos.x ,(LONG)this->pos.y - 94,
-								 (LONG)this->pos.x + 64 , (LONG)this->pos.y + 34  };
+	this->SpecialAbilityGauge();
+
 	
-	
-		soulGaugeLeft.animSize.cx = 64  * (float)((float)(this->soulGauge - maxSoulGauge/2) / (maxSoulGauge / 4));
-		soulGaugeLeft.animSize.cy = 64 * (float)((float)(this->soulGauge - maxSoulGauge / 2) / (maxSoulGauge / 4));
-		soulGaugeLeft.startx = 64 - soulGaugeLeft.animSize.cx;
-		soulGaugeLeft.starty = 128 - soulGaugeLeft.animSize.cy;
-		soulGaugeLeft.isAnimStartRest = true;
-		soulGaugeLeft.framey = 1;
-		soulGaugeLeft.framex = 0;
-		soulGaugeLeft.drwrc = { (LONG)pos.x - soulGaugeLeft.animSize.cx , (LONG)pos.y +34 -soulGaugeLeft.animSize.cy,
-								(LONG)pos.x , (LONG)pos.y + 34 };
-	}
-	else
-	{
-		soulGaugeRight.animSize.cx = 64;
-		soulGaugeRight.animSize.cy = 128;
-		soulGaugeRight.drwrc = { (LONG)this->pos.x ,(LONG)this->pos.y - 94,
-								 (LONG)this->pos.x + 64 , (LONG)this->pos.y + 34 };
-
-		
-		
-		soulGaugeLeft.animSize.cx = 64;
-		soulGaugeLeft.animSize.cy = 128 * (float)((float)(this->soulGauge - (maxSoulGauge / 2)) / (maxSoulGauge / 2));
-		soulGaugeLeft.startx = 0;// -soulGaugeLeft.animSize.cx;
-		soulGaugeLeft.starty = 128 - soulGaugeLeft.animSize.cy;
-		soulGaugeLeft.isAnimStartRest = true;
-		soulGaugeLeft.framey = 0;
-		soulGaugeLeft.framex = 0;
-		soulGaugeLeft.drwrc = { (LONG)pos.x - 64 , (LONG)pos.y + 34 - soulGaugeLeft.animSize.cy,
-								(LONG)pos.x , (LONG)pos.y + 34 };
-	}
-
-
-	//if (this->soulGauge < maxSoulGauge / 4)
-	//{
-	//	soulGaugeRight.animSize.cx = 64 * (float)((float)this->soulGauge / (maxSoulGauge / 4));
-	//	soulGaugeRight.animSize.cy = 64;
-	//	soulGaugeRight.drwrc = { (LONG)this->pos.x  , (LONG)this->pos.y - 94 ,
-	//								(LONG)this->pos.x + soulGaugeRight.animSize.cx , (LONG)this->pos.y - 30 };
-	//	soulGaugeLeft.animSize = { 0,0 };
-	//	soulGaugeLeft.size = { 0,0 };
-
-	//}
-	//else if (this->soulGauge < maxSoulGauge / 2)
-	//{
-	//	soulGaugeRight.animSize.cx = 64;
-	//	soulGaugeRight.animSize.cy = 128 * (float)((float)this->soulGauge / (maxSoulGauge / 2));
-	//	soulGaugeRight.drwrc = { (LONG)this->pos.x  , (LONG)this->pos.y - 94 ,
-	//								(LONG)this->pos.x + 64 , (LONG)this->pos.y - 94 + soulGaugeRight.animSize.cy };
-	//	soulGaugeLeft.animSize = { 0,0 };
-	//	soulGaugeLeft.size = { 0,0 };
-	//}
-	//else if (this->soulGauge < ((maxSoulGauge / 4) * 3))
-	//{
-	//	soulGaugeRight.animSize.cx = 64;
-	//	soulGaugeRight.animSize.cy = 128;
-	//	soulGaugeRight.drwrc = { (LONG)this->pos.x ,(LONG)this->pos.y - 94,
-	//							 (LONG)this->pos.x + 64 , (LONG)this->pos.y + 34 };
-
-
-	//	soulGaugeLeft.animSize.cx = 64 * (float)((float)(this->soulGauge - maxSoulGauge / 2) / (maxSoulGauge / 4));
-	//	soulGaugeLeft.animSize.cy = 64;
-	//	soulGaugeLeft.startx = 64 - soulGaugeLeft.animSize.cx;
-	//	soulGaugeLeft.starty = 64;
-	//	soulGaugeLeft.isAnimStartRest = true;
-	//	soulGaugeLeft.framey = 1;
-	//	soulGaugeLeft.framex = 0;
-	//	soulGaugeLeft.drwrc = { (LONG)pos.x - soulGaugeLeft.animSize.cx , (LONG)pos.y - 30,
-	//							(LONG)pos.x , (LONG)pos.y + 34 };
-	//}
-	//else
-	//{
-	//	soulGaugeRight.animSize.cx = 64;
-	//	soulGaugeRight.animSize.cy = 128;
-	//	soulGaugeRight.drwrc = { (LONG)this->pos.x ,(LONG)this->pos.y - 94,
-	//							 (LONG)this->pos.x + 64 , (LONG)this->pos.y + 34 };
-
-
-
-	//	soulGaugeLeft.animSize.cx = 64;
-	//	soulGaugeLeft.animSize.cy = 128 * (float)((float)(this->soulGauge - (maxSoulGauge / 2)) / (maxSoulGauge / 2));
-	//	soulGaugeLeft.startx = 0;// -soulGaugeLeft.animSize.cx;
-	//	soulGaugeLeft.starty = 128 - soulGaugeLeft.animSize.cy;
-	//	soulGaugeLeft.isAnimStartRest = true;
-	//	soulGaugeLeft.framey = 0;
-	//	soulGaugeLeft.framex = 0;
-	//	soulGaugeLeft.drwrc = { (LONG)pos.x - 64 , (LONG)pos.y + 34 - soulGaugeLeft.animSize.cy,
-	//							(LONG)pos.x , (LONG)pos.y + 34 };
-	//}
 	if (moveState == MoveState::SLOW)
 	{
 		PlayScene* playscene = Cast<PlayScene>(GamePlayStatic::GetScene());
@@ -258,7 +123,9 @@ void Player::Render(HDC hdc)
 #endif // _DEBUG
 	{
 		ImageManager::GetSingleton()->DrawAnimImage(hdc, soulGaugeLeft);
+		ImageManager::GetSingleton()->DrawAnimImage(hdc, soulGaugeLeft2);
 		ImageManager::GetSingleton()->DrawAnimImage(hdc, soulGaugeRight);
+		ImageManager::GetSingleton()->DrawAnimImage(hdc, soulGaugeRight2);
 	}
 	
 }
@@ -482,6 +349,190 @@ void Player::Boom()
 		boomtest = { 0,0,0,0 };
 		boom = 0;
 	}
+}
+
+void Player::SpecialAbilityGauge()
+{
+	// 특수능력 해제부분
+	if (isSpecialAbility)
+	{
+		//isSpecialAbility = false;
+		this->soulGauge -= 3;
+		if (this->soulGauge <= 0)
+		{
+			this->soulGauge = 0;
+			isSpecialAbility = false;
+			this->damge = 1;
+			missileSize = normalMissileSize;
+		}
+	}
+	float ratio = 0;
+	if (this->soulGauge < maxSoulGauge / 4)
+	{
+		ratio = (float)((float)this->soulGauge / (maxSoulGauge / 4));
+		soulGaugeRight.animSize.cx = 64 * ratio;
+		soulGaugeRight.animSize.cy = 30 + 34 * ratio;
+		soulGaugeRight.drwrc = { (LONG)this->pos.x  , (LONG)this->pos.y - 94 ,
+									(LONG)this->pos.x + soulGaugeRight.animSize.cx , (LONG)this->pos.y - 94 + soulGaugeRight.animSize.cy };
+		soulGaugeLeft.animSize = { 0,0 };
+		soulGaugeLeft.size = { 0,0 };
+		soulGaugeLeft2.animSize = { 0,0 };
+		soulGaugeLeft2.size = { 0,0 };
+		soulGaugeRight2.animSize = { 0,0 };
+		soulGaugeRight2.size = { 0,0 };
+
+	}
+	else if (this->soulGauge < maxSoulGauge / 2)
+	{
+		soulGaugeRight.animSize.cx = 64;
+		soulGaugeRight.animSize.cy = 64;
+		soulGaugeRight.drwrc = { (LONG)this->pos.x  , (LONG)this->pos.y - 94 ,
+									(LONG)this->pos.x + 64 , (LONG)this->pos.y - 30 };
+
+
+		ratio = (float)((float)(this->soulGauge - (maxSoulGauge / 4)) / (maxSoulGauge / 4));
+		soulGaugeRight2.animSize.cx = 24 + 40 * ratio;
+		soulGaugeRight2.animSize.cy = 64 * ratio;
+		soulGaugeRight2.isAnimStartRest = true;
+		soulGaugeRight2.framex = 1;
+		soulGaugeRight2.framey = 1;
+		soulGaugeRight2.startx = 64 - soulGaugeRight2.animSize.cx;
+		soulGaugeRight2.starty = 64;
+		soulGaugeRight2.drwrc = { (LONG)this->pos.x + 64 - soulGaugeRight2.animSize.cx , (LONG)this->pos.y - 30 ,
+									(LONG)this->pos.x + 64 , (LONG)this->pos.y - 30 + soulGaugeRight2.animSize.cy };
+
+
+		soulGaugeLeft.animSize = { 0,0 };
+		soulGaugeLeft.size = { 0,0 };
+		soulGaugeLeft2.animSize = { 0,0 };
+		soulGaugeLeft2.size = { 0,0 };
+	}
+	else if (this->soulGauge < ((maxSoulGauge / 4) * 3))
+	{
+		soulGaugeRight.animSize.cx = 64;
+		soulGaugeRight.animSize.cy = 128;
+		soulGaugeRight.drwrc = { (LONG)this->pos.x ,(LONG)this->pos.y - 94,
+								 (LONG)this->pos.x + 64 , (LONG)this->pos.y + 34 };
+
+
+		ratio = (float)((float)(this->soulGauge - maxSoulGauge / 2) / (maxSoulGauge / 4));
+		soulGaugeLeft.animSize.cx = 64 * ratio;
+		soulGaugeLeft.animSize.cy = 30 + 34 * ratio;
+		soulGaugeLeft.startx = 64 - soulGaugeLeft.animSize.cx;
+		soulGaugeLeft.starty = 128 - (soulGaugeLeft.animSize.cy);
+		soulGaugeLeft.isAnimStartRest = true;
+		soulGaugeLeft.framey = 1;
+		soulGaugeLeft.framex = 0;
+		soulGaugeLeft.drwrc = { (LONG)pos.x - soulGaugeLeft.animSize.cx , (LONG)pos.y + 34 - soulGaugeLeft.animSize.cy,
+								(LONG)pos.x , (LONG)pos.y + 34 };
+
+		soulGaugeRight2.animSize = { 0,0 };
+		soulGaugeRight2.size = { 0,0 };
+	}
+	else
+	{
+		soulGaugeRight.animSize.cx = 64;
+		soulGaugeRight.animSize.cy = 128;
+		soulGaugeRight.drwrc = { (LONG)this->pos.x ,(LONG)this->pos.y - 94,
+								 (LONG)this->pos.x + 64 , (LONG)this->pos.y + 34 };
+
+
+		soulGaugeLeft.animSize.cx = 64;
+		soulGaugeLeft.animSize.cy = 64;
+		soulGaugeLeft.startx = 0;
+		soulGaugeLeft.starty = 64;
+		soulGaugeLeft.isAnimStartRest = true;
+		soulGaugeLeft.framey = 1;
+		soulGaugeLeft.framex = 0;
+		soulGaugeLeft.drwrc = { (LONG)pos.x - 64 , (LONG)pos.y - 30,
+								(LONG)pos.x , (LONG)pos.y + 34 };
+
+
+		soulGaugeLeft2.animSize.cx = 64;
+		soulGaugeLeft2.animSize.cy = 64;
+		soulGaugeLeft2.drwrc = { (LONG)pos.x - 64 , (LONG)pos.y - 30,
+								(LONG)pos.x , (LONG)pos.y + 34 };
+
+		ratio = (float)((float)(this->soulGauge - ((maxSoulGauge / 4) * 3)) / (maxSoulGauge / 4));
+		soulGaugeLeft2.animSize.cx = 24 + 40 * ratio;
+		soulGaugeLeft2.animSize.cy = 64 * ratio;
+		soulGaugeLeft2.startx = 0;
+		soulGaugeLeft2.starty = 64 - soulGaugeLeft2.animSize.cy;
+		soulGaugeLeft2.isAnimStartRest = true;
+		soulGaugeLeft2.framey = 1;
+		soulGaugeLeft2.framex = 0;
+		soulGaugeLeft2.drwrc = { (LONG)pos.x - 64 , (LONG)pos.y - 30 - soulGaugeLeft2.animSize.cy,
+								(LONG)pos.x - 64 + soulGaugeLeft2.animSize.cx, (LONG)pos.y - 30 };
+		soulGaugeRight2.animSize = { 0,0 };
+		soulGaugeRight2.size = { 0,0 };
+	}
+
+
+
+
+
+
+
+#pragma region 이전 코드 부자연스럽지만 기본적인 코드
+
+	//if (this->soulGauge < maxSoulGauge / 4)
+	//{
+	//	soulGaugeRight.animSize.cx = 64 * (float)((float)this->soulGauge / (maxSoulGauge / 4));
+	//	soulGaugeRight.animSize.cy = 64;
+	//	soulGaugeRight.drwrc = { (LONG)this->pos.x  , (LONG)this->pos.y - 94 ,
+	//								(LONG)this->pos.x + soulGaugeRight.animSize.cx , (LONG)this->pos.y - 30 };
+	//	soulGaugeLeft.animSize = { 0,0 };
+	//	soulGaugeLeft.size = { 0,0 };
+
+	//}
+	//else if (this->soulGauge < maxSoulGauge / 2)
+	//{
+	//	soulGaugeRight.animSize.cx = 64;
+	//	soulGaugeRight.animSize.cy = 128 * (float)((float)this->soulGauge / (maxSoulGauge / 2));
+	//	soulGaugeRight.drwrc = { (LONG)this->pos.x  , (LONG)this->pos.y - 94 ,
+	//								(LONG)this->pos.x + 64 , (LONG)this->pos.y - 94 + soulGaugeRight.animSize.cy };
+	//	soulGaugeLeft.animSize = { 0,0 };
+	//	soulGaugeLeft.size = { 0,0 };
+	//}
+	//else if (this->soulGauge < ((maxSoulGauge / 4) * 3))
+	//{
+	//	soulGaugeRight.animSize.cx = 64;
+	//	soulGaugeRight.animSize.cy = 128;
+	//	soulGaugeRight.drwrc = { (LONG)this->pos.x ,(LONG)this->pos.y - 94,
+	//							 (LONG)this->pos.x + 64 , (LONG)this->pos.y + 34 };
+
+
+	//	soulGaugeLeft.animSize.cx = 64 * (float)((float)(this->soulGauge - maxSoulGauge / 2) / (maxSoulGauge / 4));
+	//	soulGaugeLeft.animSize.cy = 64;
+	//	soulGaugeLeft.startx = 64 - soulGaugeLeft.animSize.cx;
+	//	soulGaugeLeft.starty = 64;
+	//	soulGaugeLeft.isAnimStartRest = true;
+	//	soulGaugeLeft.framey = 1;
+	//	soulGaugeLeft.framex = 0;
+	//	soulGaugeLeft.drwrc = { (LONG)pos.x - soulGaugeLeft.animSize.cx , (LONG)pos.y - 30,
+	//							(LONG)pos.x , (LONG)pos.y + 34 };
+	//}
+	//else
+	//{
+	//	soulGaugeRight.animSize.cx = 64;
+	//	soulGaugeRight.animSize.cy = 128;
+	//	soulGaugeRight.drwrc = { (LONG)this->pos.x ,(LONG)this->pos.y - 94,
+	//							 (LONG)this->pos.x + 64 , (LONG)this->pos.y + 34 };
+
+
+
+	//	soulGaugeLeft.animSize.cx = 64;
+	//	soulGaugeLeft.animSize.cy = 128 * (float)((float)(this->soulGauge - (maxSoulGauge / 2)) / (maxSoulGauge / 2));
+	//	soulGaugeLeft.startx = 0;// -soulGaugeLeft.animSize.cx;
+	//	soulGaugeLeft.starty = 128 - soulGaugeLeft.animSize.cy;
+	//	soulGaugeLeft.isAnimStartRest = true;
+	//	soulGaugeLeft.framey = 0;
+	//	soulGaugeLeft.framex = 0;
+	//	soulGaugeLeft.drwrc = { (LONG)pos.x - 64 , (LONG)pos.y + 34 - soulGaugeLeft.animSize.cy,
+	//							(LONG)pos.x , (LONG)pos.y + 34 };
+	//}
+#pragma endregion
+
 }
 
 void Player::Idle()

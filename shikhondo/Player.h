@@ -50,6 +50,9 @@ private:
 	void Invincibility();
 
 	void Boom();
+
+	//특수 능력 게이지 플레이어 표시
+	void SpecialAbilityGauge();
 private:
 	void Idle();
 private:
@@ -57,7 +60,8 @@ private:
 	MoveState moveState;
 	ImageDrawInfo soulGaugeLeft;
 	ImageDrawInfo soulGaugeRight;
-
+	ImageDrawInfo soulGaugeLeft2;
+	ImageDrawInfo soulGaugeRight2;
 	
 	SIZE missileSize;
 
