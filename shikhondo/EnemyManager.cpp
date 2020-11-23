@@ -30,7 +30,7 @@ void EnemyManager::DieEnemy(Enemy* enemy)
 		if (enemy == *eit)
 		{
 			Enemy* enemy = *eit;
-			//enemy->Death();
+			enemy->Death();
 			spawnEnemyList.erase(eit);
 			break;
 		}
