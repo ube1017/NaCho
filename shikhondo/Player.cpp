@@ -323,6 +323,8 @@ void Player::Fire()
 				else
 					continue;
 			}
+			
+			break;
 		}
 		
 
