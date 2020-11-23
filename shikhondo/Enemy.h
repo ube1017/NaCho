@@ -20,7 +20,7 @@ public:
 	void OnHit(class Missile* hitMissile) override;
 
 	void SetTargetPOS(FPOINT POS) { this->RandPos = POS; }
-
+	FPOINT GetPos() { return  this->RandPos; }
 protected:
 	FPOINT RandPos;
 	int RandNum;
