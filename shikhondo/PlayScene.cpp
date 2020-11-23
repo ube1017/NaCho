@@ -16,7 +16,7 @@
 
 PlayScene::PlayScene()
 {
-	spawnStart.BindObject(this,&PlayScene::SpawnStartFun);
+	spawnStart.BindObject(this, &PlayScene::SpawnStartFun);
 }
 
 HRESULT PlayScene::Init()
@@ -61,12 +61,13 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("Bar1", "Bar1", { 512,128 }, { 1,1 });
 	imageManager->_LoadBitmap("Bar2", "Bar2", { 512,128 }, { 1,1 });
 	imageManager->_LoadBitmap("Bar3", "Bar3", { 512,128 }, { 10,1 });
-	
-	// 도영 적 위치 설정
+
+	// 도영
 	EPos.x = 500;
 	EPos.y = 200;
 	pattenX = 100;
-	
+	pattenChange = false;
+
 	GamePlayStatic::SetScene(this);
 	backGround = CreateObject<BackGround>();
 	player = CreateObject<Player>();
@@ -78,13 +79,11 @@ HRESULT PlayScene::Init()
 	player->SetMissileManager(missileManager);
 	enemyManager->SetMainGame(this);
 
-
-
-	for (int i = 0 ; i <20 ;i++)
+	for (int i = 0; i < 20; i++)
 		enemyManager->CreateEeney<Enemy1>(missileManager);
-	for (int i = 0; i < 5;i++)
+	for (int i = 0; i < 5; i++)
 		enemyManager->CreateEeney<Enemy2>(missileManager);
-	for (int i = 0; i < 2;i++)
+	for (int i = 0; i < 2; i++)
 		enemyManager->CreateEeney<Enemy3>(missileManager);
 	for (int i = 0; i < 1; i++)
 		enemyManager->CreateEeney<EnemyBoss>(missileManager);
@@ -170,25 +169,50 @@ void PlayScene::StageSpawn()
 
 void PlayScene::SpawnPatten1()
 {
-	enemyManager->SpawnEeney<Enemy1>(EPos);
 
-	if (EPos.x == 900)
+	if (!pattenChange)
 	{
-		EPos.x = 950;
-		EPos.y = 150;
-		pattenX *= -1;
+		enemyManager->SpawnEeney<Enemy1>();
+		spawnCount++;
+		if (spawnCount == (int)(10 * spawnNum))
+		{
+			spawnCount = 0;
+			TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
+			nowPatten = SpawnPatten::ENEMY2;
+		}
+		
 	}
-
-	spawnCount++;
-	if (spawnCount == (int)(10 * spawnNum))
+	else if (pattenChange)
 	{
-		spawnCount = 0;
-		TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
-		 nowPatten = SpawnPatten::ENEMY2;
-	}
+		enemyManager->SpawnEeney<Enemy1>(EPos);
 
-	EPos.x += pattenX;
-	EPos.y -= 5;
+		if (EPos.x == 900)
+		{
+			EPos.x = 950;
+			EPos.y = 150;
+			pattenX *= -1;
+		}
+		else if (EPos.x == 350)
+		{
+			pattenX *= -1;
+			EPos.y = 150;
+		}
+		else if (EPos.x == 950)
+		{
+			pattenX *= -1;
+			EPos.y = 150;
+		}
+		spawnCount++;
+		if (spawnCount == (int)(10 * spawnNum))
+		{
+			spawnCount = 0;
+			TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
+			nowPatten = SpawnPatten::ENEMY2;
+		}
+
+		EPos.x += pattenX;
+		EPos.y -= 5;
+	}
 }
 
 void PlayScene::SpawnPatten2()
@@ -217,9 +241,15 @@ void PlayScene::SpawnPatten3()
 		TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 10.0f);
 		spawnNum += 0.5f;
 		if (spawnNum == 2.0f)
+		{
 			nowPatten = SpawnPatten::BOSS1;
+		}
 		else
+		{
 			nowPatten = SpawnPatten::ENEMY1;
+			if(!pattenChange)
+			pattenChange = true;
+		}
 		nextspawnCount = 0;
 	}
 }

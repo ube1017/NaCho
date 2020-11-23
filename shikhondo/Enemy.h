@@ -21,6 +21,8 @@ public:
 
 	void SetTargetPOS(FPOINT POS) { this->RandPos = POS; }
 	FPOINT GetPos() { return  this->RandPos; }
+	void SetPatCheck(bool pattenCheck) { this->pattenCheck = pattenCheck; }
+
 protected:
 	FPOINT RandPos;
 	int RandNum;
@@ -31,5 +33,6 @@ protected:
 	bool AutomaticMissile;
 	bool mapInCheck;
 	bool mapOutCheck;
+	bool pattenCheck;
 };
 

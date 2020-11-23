@@ -75,6 +75,8 @@ public:
 					enemy->SetIsValid(true);
 					enemy->Init();
 					enemy->SetTargetPOS(pos);
+					enemy->SetPatCheck(true);
+					enemy->SetPos({ WINSIZE_X / 2, -100 });
 					enemyList.splice(enemyList.end(), enemyList, eit);
 					spawnEnemyList.push_back(enemy);
 					return enemy;

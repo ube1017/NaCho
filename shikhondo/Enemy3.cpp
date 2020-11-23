@@ -8,6 +8,7 @@ HRESULT Enemy3::Init()
 	hp = 100;
 	damge = 1;
 	speed = 1.0f;
+	missileSpeed = 2.0f;
 	size.cx = 40;
 	size.cy = 70;
 	hitBoxSize = size;
@@ -53,7 +54,7 @@ void Enemy3::Update()
 					{
 						Missile* Em = playScene->SpawnMissile(this, "21", this->pos, { 25, 25 });
 						Em->SetAngle(DegreeToRadian(angleNum));		// 각도 값
-						Em->SetSpeed(speed);					// 총알 스피드
+						Em->SetSpeed(missileSpeed);					// 총알 스피드
 						Em->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
 						angleNum += 20;
 					}

@@ -45,6 +45,7 @@ private:
 	// Àû À§Ä¡
 	FPOINT EPos;
 	int pattenX;
+	bool pattenChange;
 
 public:
 	SpawnStart spawnStart;
