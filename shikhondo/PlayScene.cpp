@@ -68,14 +68,16 @@ HRESULT PlayScene::Init()
 	
 	GamePlayStatic::SetScene(this);
 	backGround = CreateObject<BackGround>();
-	ui = CreateObject<UI>();
-	ui->SetZOrder(1);
 	player = CreateObject<Player>();
 	GamePlayStatic::SetPlayerCharacter(player);
+	ui = CreateObject<UI>();
+	ui->SetZOrder(1);
 	enemyManager = CreateObject<EnemyManager>(false);
 	missileManager = CreateObject<MissileManager>(false);
 	player->SetMissileManager(missileManager);
 	enemyManager->SetMainGame(this);
+
+
 
 	for (int i = 0 ; i <20 ;i++)
 		enemyManager->CreateEeney<Enemy1>(missileManager);

@@ -9,6 +9,8 @@ enum class MoveState
 
 const float missileSpeed = 7.0f;
 const int maxSoulGauge = 2000;
+const SIZE normalMissileSize = { 30,30 };
+const SIZE specialAbilityMissileSize = { 50,50 };
 
 class Player : public Character
 {
@@ -29,6 +31,7 @@ public:
 	int* GetBoom_ptr() { return &this->boomCount; }
 
 	int GetHp() { return this->hp; }
+	int* GetHp_ptr() { return &this->hp; }
 	FPOINT Getpos() { return { this->pos.x , this->pos.y - 4}; }
 
 	void OnHit(class Missile* hitMissile) override;
@@ -53,7 +56,9 @@ private:
 	MoveState moveState;
 	ImageDrawInfo soulGaugeLeft;
 	ImageDrawInfo soulGaugeRight;
-	//HeroProgress
+	
+	SIZE missileSize;
+
 	// ÆøÅº °¹¼ö
 	int boomCount;
 	int soulGauge;

@@ -5,6 +5,15 @@
 
 HRESULT UI::Init()
 {
+
+	Player* player = Cast<Player>(GamePlayStatic::GetPlayerCharacter());
+	if (player)
+	{
+		playerHp = player->GetHp_ptr();
+		playerSoulGauge = player->GetSoulGauge_ptr();
+		playerBoom = player->GetBoom_ptr();
+	}
+
 	leftBack1pos.x = Play_LeftX;
 	leftBack1pos.y = 0;
 	leftBack1.drwrc = { (LONG)Play_LeftX, (LONG)-10, (LONG)Play_LeftX + PlayXSize /2 , WINSIZE_Y+20};
@@ -32,13 +41,11 @@ HRESULT UI::Init()
 	RightSideDownBackground.imageName = "RightSideDownBackground";
 	RightSideDownBackground.drwrc = { (LONG)850 , (LONG)400 , (LONG)WINSIZE_X , WINSIZE_Y };
 	isFullOpen = false;
-	playerHp = 0;
-	playerSoulGauge = 0;
-	playerBoom = 0;
 	Soulgeiji2.imageName = "Soulgeiji2";  // 오른쪽위 불꽃
 	Soulgeiji2.drwrc = { (LONG)935 , (LONG)18 , (LONG)1010 , 115 };
 	Soulgeiji2.framex = 0;
 	Soulgeiji2.framey = 0;
+
 	Soulgeiji2Time = 0.0f;
 	for (int i = 0; i < 4; i++)
 	{
@@ -47,6 +54,7 @@ HRESULT UI::Init()
 		SkillGeiji[i].framex = 9;
 		SkillGeijiTime = 0.0f;
 	}
+
 	for (int i = 0; i < 4; i++)
 	{
 		Life[i].imageName = "Life";   //왼쪽아래 나비모양
@@ -54,6 +62,7 @@ HRESULT UI::Init()
 		Life[i].framex = 0;
 		LifeTime = 0.0f;
 	}
+
 	test.imageName = "test";   //오른쪽위 소울컬렉트
 	test.drwrc = { (LONG)780 , (LONG)150 , (LONG)1450, 340 };
 	SoulGeijiBack.imageName = "SoulGeijiBack";  //오른쪽위 소울게이지 검은바탕
@@ -178,21 +187,15 @@ void UI::Update()
 		}
 	}
 
-	Player* player = Cast<Player>(GamePlayStatic::GetPlayerCharacter());
-	if (player)
-	{
-		playerHp = player->GetHp();
-		playerSoulGauge = player->GetSoulGauge();
-		playerBoom = player->GetBoom();
-	}
+
 }
 
 void UI::Render(HDC hdc)
 {
 	BaseUI::Render(hdc);
 	ImageManager* imageManager = ImageManager::GetSingleton();
-	//imageManager->DrawAnimImage(hdc, leftBack1);
-	//imageManager->DrawAnimImage(hdc, leftBack2);
+	imageManager->DrawAnimImage(hdc, leftBack1);
+	imageManager->DrawAnimImage(hdc, leftBack2);
 	imageManager->DrawAnimImage(hdc, LeftBackground);
 	imageManager->DrawAnimImage(hdc, LeftSideDownBackground);
 	imageManager->DrawAnimImage(hdc, LeftUpBackground);
@@ -202,13 +205,19 @@ void UI::Render(HDC hdc)
 	imageManager->DrawAnimImage(hdc, test);
 	imageManager->DrawAnimImage(hdc, SoulGeijiBack);
 	imageManager->DrawAnimImage(hdc, Soulgeiji2);
-	for (int i = 0; i < 4; i++)
+	if (playerBoom)
 	{
-		imageManager->DrawAnimImage(hdc, SkillGeiji[i]);
+		for (int i = 0; i < *playerBoom; i++)
+		{
+			imageManager->DrawAnimImage(hdc, SkillGeiji[i]);
+		}
 	}
-	for (int i = 0; i < 4; i++)
+	if (playerHp)
 	{
-		imageManager->DrawAnimImage(hdc, Life[i]);
+		for (int i = 0; i < *playerHp; i++)
+		{
+			imageManager->DrawAnimImage(hdc, Life[i]);
+		}
 	}
 	//imageManager->DrawAnimImage(hdc, SideSoul);
 	imageManager->DrawAnimImage(hdc, boss_Hp_Bar2);
