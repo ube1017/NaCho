@@ -5,7 +5,8 @@ class Enemy1 : public Enemy
 {
 private:
 	TimerHandle idleTimer;
-
+	int pattenX;
+	int pattenY;
 public:
 
 	HRESULT Init();				// 멤버 변수 초기화, 메모리 할당
@@ -19,5 +20,7 @@ public:
 	void Death() override;
 private:
 	void Idle();
+	void monsterPatten(int locationCount);
+	void monsterPatten2();
 };
 

@@ -74,7 +74,7 @@ public:
 				{
 					enemy->SetIsValid(true);
 					enemy->Init();
-					//enemy->
+					enemy->SetTargetPOS(pos);
 					enemyList.splice(enemyList.end(), enemyList, eit);
 					spawnEnemyList.push_back(enemy);
 					return enemy;

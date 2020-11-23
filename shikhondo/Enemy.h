@@ -19,11 +19,15 @@ public:
 
 	void OnHit(class Missile* hitMissile) override;
 
+	void SetTargetPOS(FPOINT POS) { this->RandPos = POS; }
+
 protected:
 	FPOINT RandPos;
 	int RandNum;
 	int locationCount;
+	int missileSpeed;
 	float checkTime;
+	
 	bool AutomaticMissile;
 	bool mapInCheck;
 	bool mapOutCheck;
