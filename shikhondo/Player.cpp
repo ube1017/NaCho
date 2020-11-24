@@ -405,8 +405,8 @@ void Player::SpecialAbilityGauge()
 	if (this->soulGauge < maxSoulGauge / 4)
 	{
 		ratio = (float)((float)this->soulGauge / (maxSoulGauge / 4));
-		soulGaugeRight.animSize.cx = 64 * ratio;
-		soulGaugeRight.animSize.cy = 30 + 34 * ratio;
+		soulGaugeRight.animSize.cx = (LONG)(64 * ratio);
+		soulGaugeRight.animSize.cy = (LONG)(30 + 34 * ratio);
 		soulGaugeRight.drwrc = { (LONG)this->pos.x  , (LONG)this->pos.y - 94 ,
 									(LONG)this->pos.x + soulGaugeRight.animSize.cx , (LONG)this->pos.y - 94 + soulGaugeRight.animSize.cy };
 		soulGaugeLeft.animSize = { 0,0 };
@@ -426,8 +426,8 @@ void Player::SpecialAbilityGauge()
 
 
 		ratio = (float)((float)(this->soulGauge - (maxSoulGauge / 4)) / (maxSoulGauge / 4));
-		soulGaugeRight2.animSize.cx = 24 + 40 * ratio;
-		soulGaugeRight2.animSize.cy = 64 * ratio;
+		soulGaugeRight2.animSize.cx = (LONG)(24 + 40 * ratio);
+		soulGaugeRight2.animSize.cy = (LONG)(64 * ratio);
 		soulGaugeRight2.isAnimStartRest = true;
 		soulGaugeRight2.framex = 1;
 		soulGaugeRight2.framey = 1;
@@ -451,8 +451,8 @@ void Player::SpecialAbilityGauge()
 
 
 		ratio = (float)((float)(this->soulGauge - maxSoulGauge / 2) / (maxSoulGauge / 4));
-		soulGaugeLeft.animSize.cx = 64 * ratio;
-		soulGaugeLeft.animSize.cy = 30 + 34 * ratio;
+		soulGaugeLeft.animSize.cx = (LONG)(64 * ratio);
+		soulGaugeLeft.animSize.cy = (LONG)(30 + 34 * ratio);
 		soulGaugeLeft.startx = 64 - soulGaugeLeft.animSize.cx;
 		soulGaugeLeft.starty = 128 - (soulGaugeLeft.animSize.cy);
 		soulGaugeLeft.isAnimStartRest = true;
@@ -489,8 +489,8 @@ void Player::SpecialAbilityGauge()
 								(LONG)pos.x , (LONG)pos.y + 34 };
 
 		ratio = (float)((float)(this->soulGauge - ((maxSoulGauge / 4) * 3)) / (maxSoulGauge / 4));
-		soulGaugeLeft2.animSize.cx = 24 + 40 * ratio;
-		soulGaugeLeft2.animSize.cy = 64 * ratio;
+		soulGaugeLeft2.animSize.cx = (LONG)(24 + 40 * ratio);
+		soulGaugeLeft2.animSize.cy = (LONG)(64 * ratio);
 		soulGaugeLeft2.startx = 0;
 		soulGaugeLeft2.starty = 64 - soulGaugeLeft2.animSize.cy;
 		soulGaugeLeft2.isAnimStartRest = true;

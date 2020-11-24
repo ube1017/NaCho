@@ -120,8 +120,8 @@ void Enemy2::Render(HDC hdc)
 void Enemy2::RandLocation()
 {
 	RandNum = rand() % 2;
-	RandPos.x = rand() % PlayXSize + Play_LeftX;
-	RandPos.y = rand() % (WINSIZE_Y / 2);
+	RandPos.x = (float)(rand() % PlayXSize + Play_LeftX);
+	RandPos.y = (float)(rand() % (WINSIZE_Y / 2));
 	if (RandNum == 0)
 	{
 		RandPos.y *= -1;
@@ -149,13 +149,13 @@ void Enemy2::LocationReset()
 	locationCount++;
 	if (locationCount < 3)
 	{
-		RandPos.x = (rand() % (PlayXSize - size.cx)) + (size.cx / 2 + Play_LeftX);
-		RandPos.y = (rand() % (WINSIZE_Y / 2 - size.cy)) + (size.cy / 2);
+		RandPos.x = (float)(rand() % (PlayXSize - size.cx)) + (size.cx / 2 + Play_LeftX);
+		RandPos.y = (float)(rand() % (WINSIZE_Y / 2 - size.cy)) + (size.cy / 2);
 	}
 	else
 	{
-		RandPos.x = rand() % PlayXSize + Play_LeftX;
-		RandPos.y = rand() % (WINSIZE_Y / 2) + 50;
+		RandPos.x = (float)(rand() % PlayXSize + Play_LeftX);
+		RandPos.y = (float)(rand() % (WINSIZE_Y / 2) + 50);
 
 		if (RandPos.x > WINSIZE_X / 2)
 		{

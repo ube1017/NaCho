@@ -29,8 +29,8 @@ void CollisionManager::Render(HDC hdc)
 	FPOINT playerPos = player->Getpos();
 	SIZE playerSize = player->GetSize();
 	playerSize = { playerSize.cx - 30, playerSize.cy - 30 };
-	Rectangle(hdc,  playerPos.x - playerSize.cx /2, playerPos.y - playerSize.cy /2, 
-					playerPos.x + playerSize.cx /2, playerPos.y + playerSize.cy /2);
+	Rectangle(hdc,  (int)(playerPos.x - playerSize.cx /2), (int)(playerPos.y - playerSize.cy /2), 
+					(int)(playerPos.x + playerSize.cx /2), (int)(playerPos.y + playerSize.cy /2));
 }
 
 void CollisionManager::CollisinCheck()
@@ -46,7 +46,7 @@ void CollisionManager::CollisinCheck()
 	SIZE playerSize = player->GetSize();
 	playerSize = { playerSize.cx - 30, playerSize.cy - 30 };
 	RECT playerHitBox = player->GetHitBox();
-	RECT missileHitBox;
+	//RECT missileHitBox;
 	FPOINT otherPos;
 	POINT pos;
 	if (!player->GetIsInvincibility())

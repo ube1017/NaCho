@@ -91,7 +91,7 @@ void Enemy3::Render(HDC hdc)
 {
 	ImageManager::GetSingleton()->DrawAnimImage(hdc, imageinfo);
 #ifdef _DEBUG
-	Rectangle(hdc, pos.x - (size.cx / 2), pos.y - (size.cy / 2), pos.x + (size.cx / 2), pos.y + (size.cy / 2));
+	Rectangle(hdc, (int)(pos.x - (size.cx / 2)), (int)(pos.y - (size.cy / 2)), (int)(pos.x + (size.cx / 2)), (int)(pos.y + (size.cy / 2)));
 #endif // _DEBUG
 
 
@@ -100,8 +100,8 @@ void Enemy3::Render(HDC hdc)
 void Enemy3::RandLocation()
 {
 	RandNum = rand() % 2;
-	RandPos.x = rand() % PlayXSize + Play_LeftX;
-	RandPos.y = rand() % (WINSIZE_Y / 2);
+	RandPos.x = (float)(rand() % PlayXSize + Play_LeftX);
+	RandPos.y = (float)(rand() % (WINSIZE_Y / 2));
 	if (RandNum == 0)
 	{
 		RandPos.y *= -1;
