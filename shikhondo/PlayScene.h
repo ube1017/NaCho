@@ -46,6 +46,7 @@ private:
 	FPOINT EPos;
 	int pattenX;
 	bool pattenChange;
+	bool pattenChangeEnemy1;
 
 public:
 	SpawnStart spawnStart;

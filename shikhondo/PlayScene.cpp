@@ -67,6 +67,7 @@ HRESULT PlayScene::Init()
 	EPos.y = 200;
 	pattenX = 100;
 	pattenChange = false;
+	pattenChangeEnemy1 = false;
 
 	GamePlayStatic::SetScene(this);
 	backGround = CreateObject<BackGround>();
@@ -148,7 +149,7 @@ void PlayScene::StageSpawn()
 	switch (nowPatten)
 	{
 	case SpawnPatten::ENEMY1:
-		TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::SpawnPatten1, 0.5f);
+		TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::SpawnPatten1, 0.8f);
 		break;
 	case SpawnPatten::ENEMY2:
 		TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::SpawnPatten2, 1.0f);
@@ -169,22 +170,34 @@ void PlayScene::StageSpawn()
 
 void PlayScene::SpawnPatten1()
 {
-
 	if (!pattenChange)
 	{
-		enemyManager->SpawnEeney<Enemy1>();
-		spawnCount++;
-		if (spawnCount == (int)(10 * spawnNum))
+		if (!pattenChangeEnemy1)
 		{
-			spawnCount = 0;
-			TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
-			nowPatten = SpawnPatten::ENEMY2;
+			enemyManager->SpawnEeney<Enemy1>({ WINSIZE_X / 2 + 400, -40 });
+			spawnCount++;
+			if (spawnCount == (int)(10 * spawnNum))
+			{
+				spawnCount = 0;
+				TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
+				nowPatten = SpawnPatten::ENEMY2;
+			}
 		}
-		
+		else
+		{
+			enemyManager->SpawnEeney<Enemy1>({ WINSIZE_X / 2 - 400, -40 });
+			spawnCount++;
+			if (spawnCount == (int)(10 * spawnNum))
+			{
+				spawnCount = 0;
+				TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
+				nowPatten = SpawnPatten::ENEMY2;
+			}
+		}
 	}
 	else if (pattenChange)
 	{
-		enemyManager->SpawnEeney<Enemy1>(EPos);
+		enemyManager->SpawnEeney<Enemy1>(EPos, { WINSIZE_X / 2 , -100 });
 
 		if (EPos.x == 900)
 		{
@@ -227,7 +240,10 @@ void PlayScene::SpawnPatten2()
 		if (nextspawnCount == 2)
 			nowPatten = SpawnPatten::ENEMY3;
 		else
+		{
+			pattenChangeEnemy1 = true;
 			nowPatten = SpawnPatten::ENEMY1;
+		}
 	}
 }
 
@@ -247,8 +263,8 @@ void PlayScene::SpawnPatten3()
 		else
 		{
 			nowPatten = SpawnPatten::ENEMY1;
-			if(!pattenChange)
-			pattenChange = true;
+			if (!pattenChange)
+				pattenChange = true;
 		}
 		nextspawnCount = 0;
 	}

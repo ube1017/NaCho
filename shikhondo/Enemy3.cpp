@@ -84,7 +84,7 @@ void Enemy3::Update()
 			}
 		}
 	}
-	
+
 }
 
 void Enemy3::Render(HDC hdc)
@@ -94,7 +94,7 @@ void Enemy3::Render(HDC hdc)
 	Rectangle(hdc, pos.x - (size.cx / 2), pos.y - (size.cy / 2), pos.x + (size.cx / 2), pos.y + (size.cy / 2));
 #endif // _DEBUG
 
-	
+
 }
 
 void Enemy3::RandLocation()

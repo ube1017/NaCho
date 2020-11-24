@@ -7,8 +7,10 @@ private:
 	TimerHandle idleTimer;
 	int pattenX;
 	int pattenY;
+	int leftCheck;
 	bool angleCheck;
 	float EAngle;
+	bool startCheck;
 public:
 
 	HRESULT Init();				// 멤버 변수 초기화, 메모리 할당
