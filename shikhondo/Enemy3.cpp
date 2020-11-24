@@ -23,6 +23,8 @@ HRESULT Enemy3::Init()
 	////imageinfo.imageName = "enemy1";
 	imageinfo.DrawRectSetting("enemy3", this->pos, { 145,158 }, true, { 145,158 });
 	TimerManager::GetSingleton()->SetTimer(idleTimer, this, &Enemy3::Idle, 0.070f);
+
+	missileName = ImageManager::GetSingleton()->GetRandMissileImageName();
 	return E_NOTIMPL;
 }
 
@@ -52,7 +54,7 @@ void Enemy3::Update()
 					// 각도를 받고
 					for (int i = 0; i < 5; i++)
 					{
-						Missile* Em = playScene->SpawnMissile(this, "21", this->pos, { 25, 25 });
+						Missile* Em = playScene->SpawnMissile(this, missileName, this->pos, { 25, 25 });
 						Em->SetAngle(DegreeToRadian(angleNum));		// 각도 값
 						Em->SetSpeed(missileSpeed);					// 총알 스피드
 						Em->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴

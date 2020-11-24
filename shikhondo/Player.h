@@ -31,8 +31,10 @@ public:
 	int* GetBoom_ptr() { return &this->boomCount; }
 
 	int GetHp() { return this->hp; }
-	int* GetHp_ptr() { return &this->hp; }
 	FPOINT Getpos() { return { this->pos.x , this->pos.y - 4}; }
+
+	void SetIsKeyLock(bool value) { this->isKeyLock = value; }
+	bool GetIsKeyLock(bool value) { return this->isKeyLock; }
 
 	// ÆøÅº ¸î¹øÀç °ø°ÝÀÎÁö
 	int GetBoomAttackCount() { return this->boomAttackCount; }
@@ -80,6 +82,7 @@ private:
 	bool isFire;
 	bool isSoulGaudeRender;
 	bool isSpecialAbility;
+	bool isKeyLock;
 	TimerHandle homingShooteridleTimer;
 	TimerHandle idleTimer;
 	TimerHandle fireTimer;

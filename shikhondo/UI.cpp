@@ -5,7 +5,7 @@
 
 HRESULT UI::Init()
 {
-
+	isbossSpawn = false;
 	Player* player = Cast<Player>(GamePlayStatic::GetPlayerCharacter());
 	if (player)
 	{
@@ -116,36 +116,36 @@ void UI::Update()
 	Soulgeiji2Time += TimerManager::GetSingleton()->GettimeElapsed();
 
 
-		if (Soulgeiji2Time >= 0.05f)
+	if (Soulgeiji2Time >= 0.05f)
+	{
+		Soulgeiji2.framex++;
+		if (Soulgeiji2.framey == 0)
 		{
-			Soulgeiji2.framex++;
-			if (Soulgeiji2.framey == 0)
+			if (Soulgeiji2.framex >= 2)
 			{
-				if (Soulgeiji2.framex >= 2)
-				{
-					Soulgeiji2.framex = 0;
-					Soulgeiji2.framey = 1;
-				}
+				Soulgeiji2.framex = 0;
+				Soulgeiji2.framey = 1;
+			}
 
-			}
-			else if (Soulgeiji2.framey == 1)
-			{
-				if (Soulgeiji2.framex >= 2)
-				{
-					Soulgeiji2.framex = 0;
-					Soulgeiji2.framey = 2;
-				}
-			}
-			else
-			{
-				if (Soulgeiji2.framex >= 2)
-				{
-					Soulgeiji2.framex = 0;
-					Soulgeiji2.framey = 0;
-				}
-			}
-			Soulgeiji2Time = 0.0f;
 		}
+		else if (Soulgeiji2.framey == 1)
+		{
+			if (Soulgeiji2.framex >= 2)
+			{
+				Soulgeiji2.framex = 0;
+				Soulgeiji2.framey = 2;
+			}
+		}
+		else
+		{
+			if (Soulgeiji2.framex >= 2)
+			{
+				Soulgeiji2.framex = 0;
+				Soulgeiji2.framey = 0;
+			}
+		}
+		Soulgeiji2Time = 0.0f;
+	}
 
 	SkillGeijiTime += TimerManager::GetSingleton()->GettimeElapsed();
 	if (SkillGeijiTime >= 0.1f)
@@ -160,6 +160,7 @@ void UI::Update()
 		}
 		SkillGeijiTime = 0.0f;
 	}
+
 	LifeTime += TimerManager::GetSingleton()->GettimeElapsed();
 	if (LifeTime >= 0.1f)
 	{
@@ -173,6 +174,7 @@ void UI::Update()
 		}
 		LifeTime = 0.0f;
 	}
+
 	SideSoulTime += TimerManager::GetSingleton()->GettimeElapsed();
 	if (SideSoulTime >= 0.05f)
 	{
@@ -224,6 +226,21 @@ void UI::Update()
 	Bar2.drwrc = { (LONG)Play_RightX + 30, (LONG)229 , (LONG)Play_RightX + 30 + drwrcR, 297 };
 	Bar2.animSize = { bar2AnimR,128 };
 
+
+	if (isbossSpawn)
+	{
+		float hpPersent = (((float)*bossHp / (float)bossMaxHp));
+		int width = 865 - 395;
+		// 검은색
+		boss_Hp_Bar1.drwrc = { (LONG)395 , (LONG)41 , (LONG)395 + (LONG)(width * hpPersent), 52 };
+		int boss_bar_left = (LONG)boss_Hp_Bar1.drwrc.right - 201;
+		if (boss_bar_left  <= boss_Hp_Bar2.drwrc.left)
+			boss_bar_left = boss_Hp_Bar2.drwrc.left;
+		//내용물
+		boss_Hp_Bar3.drwrc = { boss_bar_left , (LONG)41 , boss_Hp_Bar1.drwrc.right + 55, 52 };
+
+		boss_Hp_Bar2.drwrc = { (LONG)320 , (LONG)0 , (LONG)950, 80 };
+	}
 }
 
 void UI::Render(HDC hdc)
@@ -257,9 +274,14 @@ void UI::Render(HDC hdc)
 			imageManager->DrawAnimImage(hdc, Life[0]);
 		}
 	}
-	imageManager->DrawAnimImage(hdc, boss_Hp_Bar2);
-	imageManager->DrawAnimImage(hdc, boss_Hp_Bar1);
-	imageManager->DrawAnimImage(hdc, boss_Hp_Bar3);
+
+	if (isbossSpawn)
+	{
+		imageManager->DrawAnimImage(hdc, boss_Hp_Bar2);
+		imageManager->DrawAnimImage(hdc, boss_Hp_Bar1);
+		imageManager->DrawAnimImage(hdc, boss_Hp_Bar3);
+	}
+
 	for (int i = 0; i < 14; i++)
 	{
 		imageManager->DrawAnimImage(hdc, Font1[i]);

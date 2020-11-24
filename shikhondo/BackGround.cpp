@@ -1,5 +1,4 @@
 #include "BackGround.h"
-#include "ImageManager.h"
 #include "Image.h"
 
 HRESULT BackGround::Init()

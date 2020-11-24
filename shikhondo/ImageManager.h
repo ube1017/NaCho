@@ -4,6 +4,7 @@
 #include <map>
 
 using namespace std;
+
 struct ImageDrawInfo
 {
 	// 그릴 이미지 사각형 사이즈
@@ -95,9 +96,20 @@ enum class ImageType : UINT8
 	SPRITE
 };
 
+const int enemyMissileImageToken_Max = 5;
 class ImageManager : public Singleton<ImageManager>
 {
-
+public:
+	typedef const char* Token;
+	Token enemyMissileImage[enemyMissileImageToken_Max] =
+	{
+		"21",
+		"22",
+		"23",
+		"24",
+		"25",
+	};
+	
 public:
 	ImageManager();
 	~ImageManager();
@@ -121,8 +133,11 @@ public:
 	void DrawAnimImage(HDC hdc, const ImageDrawInfo& imageDrawInfo);
 
 	void AlphaRender(HDC hdc, const ImageDrawInfo& imageDrawInfo, BYTE alpha);
+
+
+	inline Token GetRandMissileImageName()	{ return enemyMissileImage[rand() % enemyMissileImageToken_Max]; }
+	inline Token GetIndexMissileImageName(int index) { if (index < enemyMissileImageToken_Max) return enemyMissileImage[index]; return ""; }
 private:
 	std::map <string, class Image*> images;
 
 };
-

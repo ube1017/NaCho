@@ -2,12 +2,13 @@
 #include "BaseUI.h"
 class UI : public BaseUI
 {
+public:
 	virtual HRESULT Init();				// 멤버 변수 초기화, 메모리 할당
 	virtual void Release();				// 메모리 해제
 	virtual void Update();				// 프레임 단위 게임 로직 실행 (데이터 변경)
 	virtual void Render(HDC hdc);		// 프레임 단위 출력 (이미지, 텍스트 등)
 
-
+	void SetBossHp(int* hp) { bossHp = hp; bossMaxHp = *hp;isbossSpawn = true; }
 	bool GetIsFullOpen() { return isFullOpen; }
 private:
 	FPOINT leftBack2pos;
@@ -24,6 +25,9 @@ private:
 	const int* playerHp;
 	const int* playerSoulGauge;
 	const int* playerBoom;
+	const int* bossHp;
+	int bossMaxHp;
+	bool isbossSpawn;
 	bool isFullOpen;
 
 	ImageDrawInfo Soulgeiji2;

@@ -58,8 +58,12 @@ void Missile::Update()
 void Missile::Render(HDC hdc)
 {
 	GameNode::Render(hdc);
+#ifdef _DEBUG
+	Rectangle(hdc, hitBox.left, hitBox.top, hitBox.right, hitBox.bottom);
+#endif // _DEBUG
 	if (imaginfo.imageName != "")
 		ImageManager::GetSingleton()->DrawAnimImage(hdc, imaginfo);
+	
 }
 
 void Missile::OnHit()

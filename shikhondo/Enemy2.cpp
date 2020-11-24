@@ -27,6 +27,8 @@ HRESULT Enemy2::Init()
 	CircleImage.DrawRectSetting("enemy2_1", this->pos, size, true, { 400,400 });
 	imageinfo.DrawRectSetting("enemy2_2", this->pos, size, true, { 500,500 });
 	TimerManager::GetSingleton()->SetTimer(idleTimer, this, &Enemy2::Idle, 0.07f);
+
+	missileName = ImageManager::GetSingleton()->GetRandMissileImageName();
 	return E_NOTIMPL;
 }
 
@@ -55,8 +57,8 @@ void Enemy2::Update()
 				{// 탄 발사전 좌표지정
 					PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
 					// 각도를 받고
-					Missile* Em1 = playScene->SpawnMissile(this, "21", { pos.x - (CircleImage.size.cx / 2), pos.y }, { 20, 20 });
-					Missile* Em2 = playScene->SpawnMissile(this, "21", { pos.x + (CircleImage.size.cx / 2), pos.y }, { 20, 20 });
+					Missile* Em1 = playScene->SpawnMissile(this, missileName, { pos.x - (CircleImage.size.cx / 2), pos.y }, { 20, 20 });
+					Missile* Em2 = playScene->SpawnMissile(this, missileName, { pos.x + (CircleImage.size.cx / 2), pos.y }, { 20, 20 });
 					Em1->SetAngle(this->GetAngle({ pos.x - (CircleImage.size.cx / 2), pos.y }));		// 각도 값
 					Em1->SetSpeed(missileSpeed);					// 총알 스피드
 					Em1->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴

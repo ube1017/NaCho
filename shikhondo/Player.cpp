@@ -12,8 +12,10 @@ HRESULT Player::Init()
 	
 	imageinfo.imageName = "Player";
 	hp = 6;
-	boomCount = 6;
+	boomCount = 4;
 	soulGauge = 0;
+	damge = 1;
+	isKeyLock = false;
 	pos = { 640.0f ,WINSIZE_Y - 100.0f };
 	size = { 123,141 };
 	hitBoxSize = { 20,20 };
@@ -60,6 +62,9 @@ void Player::Update()
 
 	
 	this->SpecialAbilityGauge();
+#ifdef _DEBUG
+	boomCount = 4;
+#endif // _DEBUG
 
 	
 	if (moveState == MoveState::SLOW)
@@ -132,7 +137,7 @@ void Player::Render(HDC hdc)
 
 #ifdef _DEBUG
 	Rectangle(hdc, hitBox.left, hitBox.top, hitBox.right, hitBox.bottom);
-	Rectangle(hdc, boomBox.left, boomBox.top, boomBox.right, boomBox.bottom);
+	//Rectangle(hdc, boomBox.left, boomBox.top, boomBox.right, boomBox.bottom);
 #else
 	if (isSoulGaudeRender)
 #endif // _DEBUG
@@ -170,6 +175,8 @@ void Player::OnHit(Missile * hitMissile)
 
 void Player::KeyChack()
 {
+	if (this->isKeyLock)
+		return;
 	KeyManager* keyManager = KeyManager::GetSingleton();
 	if (keyManager)
 	{
