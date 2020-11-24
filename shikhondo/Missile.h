@@ -51,6 +51,7 @@ private:
 	void HomingMove();
 	void AngleMove();
 	void SevenMove();
+	void NoneMove();
 
 	// 미사일 애니메이션
 	void MissileAnim();

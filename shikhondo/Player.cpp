@@ -11,8 +11,8 @@ HRESULT Player::Init()
 {
 	
 	imageinfo.imageName = "Player";
-	hp = 4;
-	boomCount = 4;
+	hp = 6;
+	boomCount = 6;
 	soulGauge = 0;
 	pos = { 640.0f ,WINSIZE_Y - 100.0f };
 	size = { 123,141 };
@@ -132,7 +132,7 @@ void Player::Render(HDC hdc)
 
 #ifdef _DEBUG
 	Rectangle(hdc, hitBox.left, hitBox.top, hitBox.right, hitBox.bottom);
-	//Rectangle(hdc, boomBox.left, boomBox.top, boomBox.right, boomBox.bottom);
+	Rectangle(hdc, boomBox.left, boomBox.top, boomBox.right, boomBox.bottom);
 #else
 	if (isSoulGaudeRender)
 #endif // _DEBUG
@@ -371,7 +371,9 @@ void Player::Boom()
 	boomBox = { Play_LeftX + (PlayXSize / 4) * ((LONG)boomAttackCount) ,0,Play_LeftX + (PlayXSize / 4) * (1 + (LONG)boomAttackCount) , WINSIZE_Y };
 	TimerManager::GetSingleton()->SetTimer(boomTimer, this, &Player::Boom, 0.5f);
 	boomAttackCount++;
-	boomMissile->SetPos({(float)boomBox.left, (float)boomBox.top});
+	boomMissile->SetPos({ (float)(Play_LeftX + (PlayXSize / 8) + (PlayXSize/4) * (boomAttackCount - 1)), (float)(WINSIZE_Y / 2) });
+	boomMissile->SetMovePatten(Patten::NONE);
+	boomMissile->SetHitBox(boomBox);
 	if (boomAttackCount == 5)
 	{
 		TimerManager::GetSingleton()->DeleteTimer(boomTimer);

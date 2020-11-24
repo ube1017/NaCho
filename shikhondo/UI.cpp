@@ -245,14 +245,16 @@ void UI::Render(HDC hdc)
 	{
 		for (int i = 0; i < *playerBoom; i++)
 		{
-			imageManager->DrawAnimImage(hdc, SkillGeiji[i]);
+			SkillGeiji[0].drwrc = { (LONG)715 + (i * 35), (LONG)798 , (LONG)779 + (i * 35) , 926 };
+			imageManager->DrawAnimImage(hdc, SkillGeiji[0]);
 		}
 	}
 	if (playerHp)
 	{
 		for (int i = 0; i < *playerHp; i++)
 		{
-			imageManager->DrawAnimImage(hdc, Life[i]);
+			Life[0].drwrc = { (LONG)340 + (i * 40) , (LONG)860 , (LONG)390 + (i * 40) , 905 };
+			imageManager->DrawAnimImage(hdc, Life[0]);
 		}
 	}
 	imageManager->DrawAnimImage(hdc, boss_Hp_Bar2);

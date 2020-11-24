@@ -89,6 +89,7 @@ extern HINSTANCE g_hInstance;
 
 enum class Patten
 {
+	NONE,
 	NORMALMOVE,
 	HOMINGMOVE,
 	ANGLEMOVE,

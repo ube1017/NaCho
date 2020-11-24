@@ -9,10 +9,11 @@ Missile::Missile()
 {
 	zOrder = 9;
 	nowMovePatten = Patten::NORMALMOVE;
+	movePatten[MISSILEPATTEN(Patten::NONE)] = &Missile::NoneMove;
 	movePatten[MISSILEPATTEN(Patten::NORMALMOVE)] = &Missile::NormalMove;
 	movePatten[MISSILEPATTEN(Patten::HOMINGMOVE)] = &Missile::HomingMove;
 	movePatten[MISSILEPATTEN(Patten::ANGLEMOVE)] = &Missile::AngleMove;
-
+	//NONE
 
 
 	misiileAnimTimerHandle.timerName = "미사일 애니메이션";
@@ -42,7 +43,7 @@ void Missile::Release()
 void Missile::Update()
 {
 	GameNode::Update();
-	this->imaginfo.MovePos(this->pos);
+	//this->imaginfo.MovePos(this->pos);
 	(this->*movePatten[MISSILEPATTEN(nowMovePatten)])();
 	if (pos.x <= Play_LeftX || pos.x >= Play_RightX ||
 		pos.y <= 0 || pos.y >= WINSIZE_Y)
@@ -57,7 +58,8 @@ void Missile::Update()
 void Missile::Render(HDC hdc)
 {
 	GameNode::Render(hdc);
-	ImageManager::GetSingleton()->DrawAnimImage(hdc, imaginfo);
+	if (imaginfo.imageName != "")
+		ImageManager::GetSingleton()->DrawAnimImage(hdc, imaginfo);
 }
 
 void Missile::OnHit()
@@ -132,21 +134,28 @@ void Missile::SevenMove()
 
 }
 
+void Missile::NoneMove()
+{
+	imaginfo.MovePos(pos);
+}
+
 void Missile::MissileAnim()
 {
 	if (isActivation)
 	{
 		Image* findImage = ImageManager::GetSingleton()->FindImage(this->imaginfo.imageName);
-		int X_max = findImage->GetMaxFramX();
-		int Y_max = findImage->GetMaxFramY();
-		this->imaginfo.framex++;
-		if (this->imaginfo.framex >= X_max)
+		if (findImage)
 		{
-			this->imaginfo.framex = 0;
-			this->imaginfo.framey++;
-			if (this->imaginfo.framey >= Y_max)
-				this->imaginfo.framey = 0;
+			int X_max = findImage->GetMaxFramX();
+			int Y_max = findImage->GetMaxFramY();
+			this->imaginfo.framex++;
+			if (this->imaginfo.framex >= X_max)
+			{
+				this->imaginfo.framex = 0;
+				this->imaginfo.framey++;
+				if (this->imaginfo.framey >= Y_max)
+					this->imaginfo.framey = 0;
+			}
 		}
-
 	}
 }
