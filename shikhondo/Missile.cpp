@@ -42,6 +42,7 @@ void Missile::Release()
 void Missile::Update()
 {
 	GameNode::Update();
+	this->imaginfo.MovePos(this->pos);
 	(this->*movePatten[MISSILEPATTEN(nowMovePatten)])();
 	if (pos.x <= Play_LeftX || pos.x >= Play_RightX ||
 		pos.y <= 0 || pos.y >= WINSIZE_Y)

@@ -86,7 +86,8 @@ void CollisionManager::CollisinCheck()
 	Enemy* enemy;
 	if (player->GetBoomAttackCount() != 0)
 	{
-		RECT boomBox = player->GetBoomBox();
+		Missile* boomMissile = player->GetBoomMissile();
+		RECT boomBox = boomMissile->GetHitBox();
 		for (; eiter != enemys->end(); )
 		{
 			if (!(*eiter)->GetMapInCheck())
@@ -100,8 +101,9 @@ void CollisionManager::CollisinCheck()
 			pos = { (LONG)enemyPos.x , (LONG)enemyPos.y };
 			if (PtInRect(&boomBox, pos))
 			{
-				//enemy->
-				//enemyManager->DieEnemy(releaseEnemy[i]);
+				enemy->OnHit(boomMissile);
+				if (!enemy->GetisActivation())
+					enemyManager->DieEnemy(enemy);
 			}
 		}
 	}

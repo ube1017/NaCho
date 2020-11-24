@@ -85,6 +85,7 @@ void Player::Update()
 				{
 					homingShooterPos[i].x += missileSpeed * cosf(angle);
 					homingShooterPos[i].y += missileSpeed * sinf(angle);
+					homingShooter[i].MovePos(homingShooterPos[i]);
 				}
 				i++;
 				if (i == 2)
@@ -103,6 +104,7 @@ void Player::Update()
 			{
 				homingShooterPos[1].x += missileSpeed * cosf(angle);
 				homingShooterPos[1].y += missileSpeed * sinf(angle);
+				homingShooter[1].MovePos(homingShooterPos[1]);
 			}
 			//homingShooterPos[1] = { homingShooterPos[0].x + 110.0f,homingShooterPos[0].y };
 		}
@@ -130,7 +132,7 @@ void Player::Render(HDC hdc)
 
 #ifdef _DEBUG
 	Rectangle(hdc, hitBox.left, hitBox.top, hitBox.right, hitBox.bottom);
-	Rectangle(hdc, boomBox.left, boomBox.top, boomBox.right, boomBox.bottom);
+	//Rectangle(hdc, boomBox.left, boomBox.top, boomBox.right, boomBox.bottom);
 #else
 	if (isSoulGaudeRender)
 #endif // _DEBUG
@@ -348,7 +350,8 @@ void Player::SpecialAbility()
 			PlayScene* playScene = Cast<PlayScene>(GamePlayStatic::GetScene());
 			MissileManager* missilemanager = playScene->GetMissileManager();
 			missilemanager->MissileAllChangeSoul(this);
-			boomMissile = missilemanager->SpawnPlayerMissile(this, "21", { 0,0 }, { (PlayXSize / 4) , WINSIZE_Y});
+			boomMissile = missilemanager->SpawnPlayerMissile(this, "21", { Play_LeftX + (PlayXSize / 8), WINSIZE_Y/2 }, { (PlayXSize / 4) , WINSIZE_Y});
+			boomMissile->SetDamage(70);
 			Boom();
 			this->boomCount--;
 			if (this->boomCount <= 0)
@@ -368,6 +371,7 @@ void Player::Boom()
 	boomBox = { Play_LeftX + (PlayXSize / 4) * ((LONG)boomAttackCount) ,0,Play_LeftX + (PlayXSize / 4) * (1 + (LONG)boomAttackCount) , WINSIZE_Y };
 	TimerManager::GetSingleton()->SetTimer(boomTimer, this, &Player::Boom, 0.5f);
 	boomAttackCount++;
+	boomMissile->SetPos({(float)boomBox.left, (float)boomBox.top});
 	if (boomAttackCount == 5)
 	{
 		TimerManager::GetSingleton()->DeleteTimer(boomTimer);
