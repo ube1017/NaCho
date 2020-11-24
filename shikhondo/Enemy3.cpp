@@ -14,6 +14,7 @@ HRESULT Enemy3::Init()
 	hitBoxSize = size;
 	locationCount = 0;
 	ShootCount = 0;
+	moveTime = 0;
 	angleNum = 50;
 	mapInCheck = false;
 	mapOutCheck = false;
@@ -42,50 +43,55 @@ void Enemy3::Update()
 	imageinfo.MovePos(pos);
 
 	checkTime += TimerManager::GetSingleton()->GettimeElapsed();
-	if (checkTime >= 0.5f)
+	if (!AutomaticMissile && checkTime >= 0.5f)
 	{
-		if (!AutomaticMissile)
+		// 탄 발사전 좌표지정
+		PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
+		// 각도를 받고
+		for (int i = 0; i < 5; i++)
 		{
-			if (pos.x < RandPos.x + 5 && pos.x >= RandPos.x - 5)
-			{
-				if (pos.y < RandPos.y + 5 && pos.y >= RandPos.y - 5)
-				{// 탄 발사전 좌표지정
-					PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
-					// 각도를 받고
-					for (int i = 0; i < 5; i++)
-					{
-						Missile* Em = playScene->SpawnMissile(this, missileName, this->pos, { 25, 25 });
-						Em->SetAngle(DegreeToRadian(angleNum));		// 각도 값
-						Em->SetSpeed(missileSpeed);					// 총알 스피드
-						Em->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
-						angleNum += 20;
-					}
-					angleNum = 50;
-					ShootCount++;
-					//그 각도로 움직이는 코드
-					checkTime = 0;
-
-					if (ShootCount > 3)
-					{
-						checkTime = 0;
-						AutomaticMissile = true;
-						speed = 0;
-					}
-				}
-			}
+			Missile* Em = playScene->SpawnMissile(this, missileName, this->pos, { 25, 25 });
+			Em->SetAngle(DegreeToRadian(angleNum));		// 각도 값
+			Em->SetSpeed(missileSpeed);					// 총알 스피드
+			Em->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
+			angleNum += 20;
 		}
-		else if (AutomaticMissile)
+		angleNum = 50;
+		ShootCount++;
+		//그 각도로 움직이는 코드
+		checkTime = 0;
+
+		if (ShootCount > 3)
 		{
-			if (checkTime >= 1.0f)
+			checkTime = 0;
+			AutomaticMissile = true;
+			speed = 0;
+		}
+	}
+	else if (AutomaticMissile)
+	{
+		if (checkTime >= 1.0f)
+		{
+			ShootCount = 0;
+			checkTime = 0;
+			AutomaticMissile = false;
+			speed = 2.0f;
+		}
+	}
+	moveTime += TimerManager::GetSingleton()->GettimeElapsed();
+	if (moveTime >= 1.0f)
+	{
+		if (pos.x < RandPos.x + 5 && pos.x >= RandPos.x - 5)
+		{
+			if (pos.y < RandPos.y + 5 && pos.y >= RandPos.y - 5)
 			{
 				LocationReset();
-				ShootCount = 0;
-				checkTime = 0;
-				AutomaticMissile = false;
-				speed = 2.0f;
+				moveTime = 0;
 			}
 		}
 	}
+
+	
 
 }
 
