@@ -31,6 +31,7 @@ HRESULT Enemy1::Init()
 	imageinfo.DrawRectSetting("enemy1", this->pos, { 100,100 }, true, { 100,100 });
 	TimerManager::GetSingleton()->SetTimer(idleTimer, this, &Enemy1::Idle, 0.070f);
 
+	missileName = ImageManager::GetSingleton()->GetRandMissileImageName();
 	return E_NOTIMPL;
 }
 
@@ -60,7 +61,7 @@ void Enemy1::Update()
 		// 탄 발사전 좌표지정
 		PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
 		// 각도를 받고
-		Missile* Em1 = playScene->SpawnMissile(this, "EnemyMissile", this->pos, { 30, 30 });
+		Missile* Em1 = playScene->SpawnMissile(this, missileName, this->pos, { 30, 30 });
 
 		Em1->SetAngle(this->GetAngle());		// 각도 값
 		Em1->SetSpeed(missileSpeed);			// 총알 스피드

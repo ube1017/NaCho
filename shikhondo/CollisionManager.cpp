@@ -97,7 +97,7 @@ void CollisionManager::CollisinCheck()
 			}
 			enemy = *eiter;
 			eiter++;
-			enemyPos = enemy->GetPos();
+			enemyPos = enemy->Getpos();
 			pos = { (LONG)enemyPos.x , (LONG)enemyPos.y };
 			if (PtInRect(&boomBox, pos))
 			{
@@ -108,7 +108,7 @@ void CollisionManager::CollisinCheck()
 		}
 	}
 	
-	
+	eiter = enemys->begin();
 	
 	for (; eiter != enemys->end(); eiter++)
 	{

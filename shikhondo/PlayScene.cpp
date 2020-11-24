@@ -31,6 +31,10 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("enemy3", "enemy3", { 512 , 512 }, { 3,3 });
 	imageManager->_LoadBitmap("Boss", "Boss", { 204 , 403 }, { 1,1 });
 	imageManager->_LoadBitmap("21", "21", { 400,100 }, { 4,1 });
+	imageManager->_LoadBitmap("22", "22", { 400,100 }, { 4,1 });
+	imageManager->_LoadBitmap("23", "23", { 400,100 }, { 4,1 });
+	imageManager->_LoadBitmap("24", "24", { 400,100 }, { 4,1 });
+	imageManager->_LoadBitmap("25", "25", { 400,100 }, { 4,1 });
 	imageManager->_LoadBitmap("EnemyMissile", "EnemyMissile", { 192,72 }, { 8,1 });
 	imageManager->_LoadBitmap("Background2", "Background2", { 512,512 }, { 1,1 });
 	imageManager->_LoadBitmap("Background5", "Background5", { 512,1024 }, { 1,1 });
@@ -76,6 +80,7 @@ HRESULT PlayScene::Init()
 	backGround = CreateObject<BackGround>();
 	player = CreateObject<Player>();
 	GamePlayStatic::SetPlayerCharacter(player);
+	player->SetIsKeyLock(true);
 	ui = CreateObject<UI>();
 	ui->SetZOrder(1);
 	enemyManager = CreateObject<EnemyManager>(false);
@@ -129,7 +134,10 @@ void PlayScene::Update()
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(0x45)) //e~
 		enemyManager->SpawnEeney<Enemy3>();
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_SPACE))
-		enemyManager->SpawnEeney<EnemyBoss>();
+	{ 
+		Enemy* boss = enemyManager->SpawnEeney<EnemyBoss>();
+		ui->SetBossHp(boss->GetHp_ptr());
+	}
 #endif // _DEBUG
 
 }
@@ -279,8 +287,11 @@ void PlayScene::SpawnBoss()
 	list<Enemy*>::const_iterator const_it;
 	if (enemys->size() == 0)
 	{
-		enemyManager->SpawnEeney<EnemyBoss>();
+		
+		Enemy* boss = enemyManager->SpawnEeney<EnemyBoss>();
 		nowPatten = SpawnPatten::NONE;
+		ui->SetBossHp(boss->GetHp_ptr());
+		this->PlayScene::StageSpawn();
 	}
 	//else
 	//	TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::SpawnBoss, 0.3f);
@@ -289,5 +300,5 @@ void PlayScene::SpawnBoss()
 void PlayScene::SpawnStartFun()
 {
 	TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
-
+	player->SetIsKeyLock(false);
 }

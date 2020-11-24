@@ -31,6 +31,7 @@ void EnemyManager::DieEnemy(Enemy* enemy)
 		{
 			Enemy* enemy = *eit;
 			enemy->Death();
+			enemy->SetPos({-10.0f,-10.f});
 			spawnEnemyList.erase(eit);
 			break;
 		}

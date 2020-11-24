@@ -28,6 +28,9 @@ public:
 
 	const RECT GetHitBox() { return hitBox; }
 
+	// 객체들의 체력 포인터
+	int* GetHp_ptr() { return &this->hp; }
+
 	// 캐릭터 사망함수
 	virtual void Death();
 

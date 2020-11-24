@@ -24,6 +24,7 @@ public:
 	void SetPatCheck(bool pattenCheck) { this->pattenCheck = pattenCheck; }
 
 protected:
+	string missileName;
 	FPOINT RandPos;
 	int RandNum;
 	int locationCount;

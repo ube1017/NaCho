@@ -31,8 +31,10 @@ public:
 	int* GetBoom_ptr() { return &this->boomCount; }
 
 	int GetHp() { return this->hp; }
-	int* GetHp_ptr() { return &this->hp; }
 	FPOINT Getpos() { return { this->pos.x , this->pos.y - 4}; }
+
+	void SetIsKeyLock(bool value) { this->isKeyLock = value; }
+	bool GetIsKeyLock(bool value) { return this->isKeyLock; }
 
 	// 폭탄 몇번재 공격인지
 	int GetBoomAttackCount() { return this->boomAttackCount; }
@@ -61,6 +63,9 @@ private:
 private:
 	void Idle();
 	void HomingShooterIdle();
+
+	// 등장 모션
+	void StratMove();
 private:
 	FPOINT homingShooterPos[2];
 	MoveState moveState;
@@ -80,14 +85,18 @@ private:
 	bool isFire;
 	bool isSoulGaudeRender;
 	bool isSpecialAbility;
+	bool isKeyLock;
 	TimerHandle homingShooteridleTimer;
 	TimerHandle idleTimer;
 	TimerHandle fireTimer;
 	TimerHandle invincibilityTimer;
 	TimerHandle boomTimer;
+	TimerHandle startMoveTimer;
+
 
 	class Missile* boomMissile;
 	RECT boomBox;
 	int boomAttackCount;
+	bool startMove_back;
 };
 
