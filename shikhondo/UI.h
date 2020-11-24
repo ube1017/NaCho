@@ -46,6 +46,9 @@ private:
 	ImageDrawInfo Bar2;
 	ImageDrawInfo Bar3;
 	ImageDrawInfo Impact;
+	float ImpactTime;
+	ImageDrawInfo Impact2;
+	float Impact2Time;
 	ImageDrawInfo Back;
 
 	

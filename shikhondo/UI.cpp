@@ -104,7 +104,11 @@ HRESULT UI::Init()
 	Bar3.imageName = "Bar3";
 	Bar3.drwrc = { (LONG)350 , (LONG)20 , (LONG)910, 70 };
 	Impact.imageName = "Impact";
-	Impact.drwrc = { (LONG)350 , (LONG)20 , (LONG)910, 70 };
+	Impact.drwrc = { (LONG)350 , (LONG)20 , (LONG)550, 70 };
+	ImpactTime = 0.0f;
+	Impact2.imageName = "Impact2";
+	Impact2.drwrc = { (LONG)350 , (LONG)20 , (LONG)550, 70 };
+	Impact2Time = 0.0f;
 	Back.imageName = "Back";
 	Back.drwrc = { (LONG)0 , (LONG)0 , (LONG)WINSIZE_X, WINSIZE_Y };
 	
@@ -190,6 +194,18 @@ void UI::Update()
 			}
 		}
 		SideSoulTime = 0.0f;
+	}
+	ImpactTime += TimerManager::GetSingleton()->GettimeElapsed();
+	if (ImpactTime >= 0.05f)
+	{
+
+		Impact.framex++;
+		if (Impact.framex >= 8)
+		{
+			Impact.framex = 0;
+		}
+
+		ImpactTime = 0.0f;
 	}
 
 	if (!isFullOpen)
@@ -287,6 +303,7 @@ void UI::Render(HDC hdc)
 	imageManager->DrawAnimImage(hdc, Bar2);
 	//imageManager->DrawAnimImage(hdc, Bar3);
 	imageManager->DrawAnimImage(hdc, Impact);
+	imageManager->DrawAnimImage(hdc, Impact2);
 	
 	
 	
