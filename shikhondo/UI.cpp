@@ -103,6 +103,9 @@ HRESULT UI::Init()
 	Bar2.animSize = { 512,128 };
 	Bar3.imageName = "Bar3";
 	Bar3.drwrc = { (LONG)350 , (LONG)20 , (LONG)910, 70 };
+	Impact.imageName = "Impact";
+	Impact.drwrc = { (LONG)350 , (LONG)20 , (LONG)910, 70 };
+	
 	return S_OK;
 }
 
@@ -115,7 +118,7 @@ void UI::Update()
 {
 	Soulgeiji2Time += TimerManager::GetSingleton()->GettimeElapsed();
 
-
+	
 		if (Soulgeiji2Time >= 0.05f)
 		{
 			Soulgeiji2.framex++;
@@ -278,6 +281,7 @@ void UI::Render(HDC hdc)
 	//imageManager->DrawAnimImage(hdc, Bar1);
 	imageManager->DrawAnimImage(hdc, Bar2);
 	//imageManager->DrawAnimImage(hdc, Bar3);
+	imageManager->DrawAnimImage(hdc, Impact);
 	
 	
 }

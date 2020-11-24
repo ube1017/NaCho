@@ -61,6 +61,8 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("Bar1", "Bar1", { 512,128 }, { 1,1 });
 	imageManager->_LoadBitmap("Bar2", "Bar2", { 512,128 }, { 1,1 });
 	imageManager->_LoadBitmap("Bar3", "Bar3", { 512,128 }, { 10,1 });
+	imageManager->_LoadBitmap("Impact", "Impact", { 1024,128 }, { 8,1 });
+	
 
 	// µµ¿µ
 	EPos.x = 500;
