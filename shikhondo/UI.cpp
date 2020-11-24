@@ -111,6 +111,10 @@ HRESULT UI::Init()
 	Impact2Time = 0.0f;
 	Back.imageName = "Back";
 	Back.drwrc = { (LONG)0 , (LONG)0 , (LONG)WINSIZE_X, WINSIZE_Y };
+	Back.imageName = "Back";
+	Back.drwrc = { (LONG)0 , (LONG)0 , (LONG)WINSIZE_X, WINSIZE_Y };
+	BossInit.imageName = "BossInit";
+	BossInit.drwrc = { (LONG)0 , (LONG)0 , (LONG)WINSIZE_X, WINSIZE_Y };
 	
 	return S_OK;
 }
@@ -330,6 +334,7 @@ void UI::Render(HDC hdc)
 	//imageManager->DrawAnimImage(hdc, Bar3);
 	imageManager->DrawAnimImage(hdc, Impact);
 	imageManager->DrawAnimImage(hdc, Impact2);
+	imageManager->DrawAnimImage(hdc, BossInit);
 	
 	
 	

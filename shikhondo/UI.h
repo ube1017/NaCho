@@ -54,7 +54,9 @@ private:
 	ImageDrawInfo Impact2;
 	float Impact2Time;
 	ImageDrawInfo Back;
-
+	ImageDrawInfo BossInit;
+	float BossInitTime;
+	
 	
 
 };

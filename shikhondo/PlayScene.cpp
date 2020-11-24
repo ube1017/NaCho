@@ -68,7 +68,7 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("Impact", "Impact", { 1024,128 }, { 8,1 });
 	imageManager->_LoadBitmap("Impact2", "Impact2", { 256,256 }, { 1,1 });
 	imageManager->_LoadBitmap("Back", "Back", { 1280,900 }, { 1,1 });
-	
+	imageManager->_LoadBitmap("BossInit", "BossInit", { 1024,1024 }, { 1,1 });
 	// µµ¿µ
 	EPos.x = 500;
 	EPos.y = 200;
