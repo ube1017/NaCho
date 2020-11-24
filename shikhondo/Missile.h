@@ -22,6 +22,8 @@ public:
 
 	void SetSpeed(float value) { this->speed = value; }
 
+	void SetDamage(int damage) { this->damage = damage;}
+	int GetDamage() { return this->damage; }
 	
 	void SetTaget(Character* tager)		{ this->taget = tager; }
 	void SetSize(SIZE sizs)				{ this->size = size; }
@@ -39,6 +41,7 @@ public:
 	void SetMovePatten(Patten movePatten);
 
 	void SetHitBox(RECT rect) { this->hitBox = rect; }
+	RECT GetHitBox() { return this->hitBox; }
 
 	// 플레이어가 스킬을 사용할때 영혼으로 변하는 함수
 	void ChangeSoul(Character* taget);
@@ -48,6 +51,7 @@ private:
 	void HomingMove();
 	void AngleMove();
 	void SevenMove();
+	void NoneMove();
 
 	// 미사일 애니메이션
 	void MissileAnim();
@@ -60,6 +64,7 @@ private:
 
 	ImageDrawInfo imaginfo;
 
+	int damage;
 	bool isSoul;
 	float angle;
 	float speed;

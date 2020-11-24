@@ -34,7 +34,7 @@ void EnemyBoss::Update()
 {
 	Enemy::Update();
 	imageinfo.MovePos(pos);
-
+	DEBUG_MASSAGE("보스체력이다 : %d \n", this->hp);
 	checkTime += TimerManager::GetSingleton()->GettimeElapsed();
 	ShootCount += TimerManager::GetSingleton()->GettimeElapsed();
 	hitBox = { (LONG)pos.x - hitBoxSize.cx / 2, (LONG)pos.y - hitBoxSize.cy / 2,

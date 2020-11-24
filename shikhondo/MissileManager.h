@@ -21,6 +21,8 @@ public:
 
 	void MissileRelease(Character* onwer,Missile* missile);
 
+	void MissileAllChangeSoul(Character* taget);
+
 	const list<Missile*>* GetMissileList() { return &missileList; }
 	const list<Missile*>* GetSpawnMissileList() { return &spawnMissileList; }
 	const list<Missile*>* GetSpawnPlayerMissileList() { return &spawnPlayerMissileList; }

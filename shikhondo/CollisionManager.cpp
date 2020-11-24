@@ -29,13 +29,13 @@ void CollisionManager::Render(HDC hdc)
 	FPOINT playerPos = player->Getpos();
 	SIZE playerSize = player->GetSize();
 	playerSize = { playerSize.cx - 30, playerSize.cy - 30 };
-	Rectangle(hdc,  playerPos.x - playerSize.cx /2, playerPos.y - playerSize.cy /2, 
-					playerPos.x + playerSize.cx /2, playerPos.y + playerSize.cy /2);
+	Rectangle(hdc,  (int)(playerPos.x - playerSize.cx /2), (int)(playerPos.y - playerSize.cy /2), 
+					(int)(playerPos.x + playerSize.cx /2), (int)(playerPos.y + playerSize.cy /2));
 }
 
 void CollisionManager::CollisinCheck()
 {
-	list<Enemy*>* enemy = const_cast<list<Enemy*>*>(enemyManager->GetSpawnEnemyList());
+	list<Enemy*>* enemys = const_cast<list<Enemy*>*>(enemyManager->GetSpawnEnemyList());
 	list<Missile*>* missile = const_cast<list<Missile*>*>(missileManager->GetSpawnMissileList());
 	deque<Missile*> releaseMissiles;
 	deque<Enemy*> releaseEnemy;
@@ -46,7 +46,7 @@ void CollisionManager::CollisinCheck()
 	SIZE playerSize = player->GetSize();
 	playerSize = { playerSize.cx - 30, playerSize.cy - 30 };
 	RECT playerHitBox = player->GetHitBox();
-	RECT missileHitBox;
+	//RECT missileHitBox;
 	FPOINT otherPos;
 	POINT pos;
 	if (!player->GetIsInvincibility())
@@ -64,7 +64,8 @@ void CollisionManager::CollisinCheck()
 					playerPos.y + playerSize.cy >= otherPos.y)
 				{
 					pos = { (LONG)otherPos.x,(LONG)otherPos.y };
-					player->AddSoulGauge(1);
+					if (!emissile->GetIsSoul())
+						player->AddSoulGauge(1);
 					if (PtInRect(&playerHitBox, pos))
 					{
 						player->OnHit(emissile);
@@ -77,12 +78,39 @@ void CollisionManager::CollisinCheck()
 			}
 		}
 	}
-	list<Enemy*>::iterator eiter = enemy->begin();
+	list<Enemy*>::iterator eiter = enemys->begin();
 	list<Missile*>* playerMissile = const_cast<list<Missile*>*>(missileManager->GetSpawnPlayerMissileList());
 	FPOINT enemyPos;
 	SIZE enemySize;
 	RECT enemyRect;
-	for (; eiter != enemy->end(); eiter++)
+	Enemy* enemy;
+	if (player->GetBoomAttackCount() != 0)
+	{
+		Missile* boomMissile = player->GetBoomMissile();
+		RECT boomBox = boomMissile->GetHitBox();
+		for (; eiter != enemys->end(); )
+		{
+			if (!(*eiter)->GetMapInCheck())
+			{
+				eiter++;
+				continue;
+			}
+			enemy = *eiter;
+			eiter++;
+			enemyPos = enemy->GetPos();
+			pos = { (LONG)enemyPos.x , (LONG)enemyPos.y };
+			if (PtInRect(&boomBox, pos))
+			{
+				enemy->OnHit(boomMissile);
+				if (!enemy->GetisActivation())
+					enemyManager->DieEnemy(enemy);
+			}
+		}
+	}
+	
+	
+	
+	for (; eiter != enemys->end(); eiter++)
 	{
 		if (!(*eiter)->GetMapInCheck())
 			continue;
