@@ -63,6 +63,9 @@ private:
 private:
 	void Idle();
 	void HomingShooterIdle();
+
+	// 등장 모션
+	void StratMove();
 private:
 	FPOINT homingShooterPos[2];
 	MoveState moveState;
@@ -88,9 +91,12 @@ private:
 	TimerHandle fireTimer;
 	TimerHandle invincibilityTimer;
 	TimerHandle boomTimer;
+	TimerHandle startMoveTimer;
+
 
 	class Missile* boomMissile;
 	RECT boomBox;
 	int boomAttackCount;
+	bool startMove_back;
 };
 

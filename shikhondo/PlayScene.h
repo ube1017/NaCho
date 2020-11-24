@@ -65,5 +65,6 @@ private:
 	UINT nextspawnCount;
 	float spawnNum;
 	bool isBoss;
+
 };
 

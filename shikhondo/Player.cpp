@@ -16,7 +16,8 @@ HRESULT Player::Init()
 	soulGauge = 0;
 	damge = 1;
 	isKeyLock = false;
-	pos = { 640.0f ,WINSIZE_Y - 100.0f };
+	//pos = { 640.0f ,WINSIZE_Y - 100.0f };
+	pos = { 640.0f , WINSIZE_Y + 100.0f };
 	size = { 123,141 };
 	hitBoxSize = { 20,20 };
 	boomAttackCount = 0;
@@ -29,13 +30,15 @@ HRESULT Player::Init()
 	timer->SetTimer(fireTimer, this, &Player::FireDelay, 0.085f);
 	homingShooteridleTimer.timerName = "플레이어 보조무기";
 	timer->SetTimer(homingShooteridleTimer, this, &Player::HomingShooterIdle, 0.04f);
+	timer->SetTimer(startMoveTimer, this, &Player::StratMove, 0.01f);
 	isFire = true;
 	speed = 4.0f;
 
-
+	startMove_back = false;
 	testMode = false;
 	isSoulGaudeRender = false;
 	isSpecialAbility = false;
+
 
 	missileSize = normalMissileSize;
 
@@ -592,4 +595,24 @@ void Player::HomingShooterIdle()
 		homingShooter[0].framex = 0;
 		homingShooter[1].framex = 0;
 	}
+}
+
+void Player::StratMove()
+{
+	
+	if (this->pos.y <= WINSIZE_Y - 200)
+		startMove_back = true;
+	if (!startMove_back)
+	{
+		this->pos.y -= 3.0f;
+		imageinfo.MovePos(this->pos);
+	}
+	else
+	{
+		this->pos.y += 2.0f;
+		imageinfo.MovePos(this->pos);
+		if (!isKeyLock)
+			TimerManager::GetSingleton()->DeleteTimer(startMoveTimer);
+	}
+
 }
