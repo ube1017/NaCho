@@ -49,7 +49,8 @@ private:
 	ImageDrawInfo Bar1;
 	ImageDrawInfo Bar2;
 	ImageDrawInfo Bar3;
-
+	ImageDrawInfo Impact;
+	ImageDrawInfo Back;
 
 	
 
