@@ -29,7 +29,7 @@ protected:
 	int locationCount;
 	int missileSpeed;
 	float checkTime;
-	
+	float moveTime;
 	bool AutomaticMissile;
 	bool mapInCheck;
 	bool mapOutCheck;
