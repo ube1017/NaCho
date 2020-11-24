@@ -56,7 +56,7 @@ void Enemy1::Update()
 	pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 
 	checkTime += TimerManager::GetSingleton()->GettimeElapsed();
-	if (!AutomaticMissile && checkTime >= 3.0f)
+	if (!AutomaticMissile && checkTime >= 2.0f)
 	{
 		// 탄 발사전 좌표지정
 		PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());

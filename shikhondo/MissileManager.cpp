@@ -45,6 +45,7 @@ Missile* MissileManager::SpawnMissile(Character* onwer, string imageName, FPOINT
 		if (!missile->GetIsValid())
 		{
 			missile->SetIsValid(true);
+			missile->Init();
 			missile->SetOwner(onwer);
 			missile->SetPos(pos);
 			missile->MissileSetting(imageName,pos,size);
@@ -69,6 +70,7 @@ Missile * MissileManager::SpawnPlayerMissile(Character* onwer, string imageName,
 			// 활성화 = true 비활성화 = false
 			missile->SetIsValid(true);
 			// 미사일의 주인설정
+			missile->Init();
 			missile->SetOwner(onwer);
 			// 미사일의 시작위치
 			missile->SetPos(pos);
