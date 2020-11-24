@@ -105,6 +105,8 @@ HRESULT UI::Init()
 	Bar3.drwrc = { (LONG)350 , (LONG)20 , (LONG)910, 70 };
 	Impact.imageName = "Impact";
 	Impact.drwrc = { (LONG)350 , (LONG)20 , (LONG)910, 70 };
+	Back.imageName = "Back";
+	Back.drwrc = { (LONG)0 , (LONG)0 , (LONG)WINSIZE_X, WINSIZE_Y };
 	
 	return S_OK;
 }
@@ -235,12 +237,13 @@ void UI::Render(HDC hdc)
 	ImageManager* imageManager = ImageManager::GetSingleton();
 	imageManager->DrawAnimImage(hdc, leftBack1);
 	imageManager->DrawAnimImage(hdc, leftBack2);
-	imageManager->DrawAnimImage(hdc, LeftBackground);
+	imageManager->DrawAnimImage(hdc, Back);
+	/*imageManager->DrawAnimImage(hdc, LeftBackground);
 	imageManager->DrawAnimImage(hdc, LeftSideDownBackground);
 	imageManager->DrawAnimImage(hdc, LeftUpBackground);
 	imageManager->DrawAnimImage(hdc, RightBackground);
 	imageManager->DrawAnimImage(hdc, RightSideDownBackground);
-	imageManager->DrawAnimImage(hdc, RightUpBackground);
+	imageManager->DrawAnimImage(hdc, RightUpBackground);*/
 	imageManager->DrawAnimImage(hdc, test);
 	imageManager->DrawAnimImage(hdc, SoulGeijiBack);
 	imageManager->DrawAnimImage(hdc, Soulgeiji2);
@@ -284,6 +287,7 @@ void UI::Render(HDC hdc)
 	imageManager->DrawAnimImage(hdc, Bar2);
 	//imageManager->DrawAnimImage(hdc, Bar3);
 	imageManager->DrawAnimImage(hdc, Impact);
+	
 	
 	
 }
