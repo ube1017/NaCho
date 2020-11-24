@@ -253,8 +253,11 @@ void UI::Render(HDC hdc)
 {
 	BaseUI::Render(hdc);
 	ImageManager* imageManager = ImageManager::GetSingleton();
-	imageManager->DrawAnimImage(hdc, leftBack1);
-	imageManager->DrawAnimImage(hdc, leftBack2);
+	if (!isFullOpen)
+	{
+		imageManager->DrawAnimImage(hdc, leftBack1);
+		imageManager->DrawAnimImage(hdc, leftBack2);
+	}
 	imageManager->DrawAnimImage(hdc, Back);
 	/*imageManager->DrawAnimImage(hdc, LeftBackground);
 	imageManager->DrawAnimImage(hdc, LeftSideDownBackground);
@@ -301,10 +304,10 @@ void UI::Render(HDC hdc)
 	{
 		imageManager->DrawAnimImage(hdc, Font3[i]);
 	}
-	for (int i = 0; i < 2; i++)
-	{
-		imageManager->DrawAnimImage(hdc, SideSoul[i]);
-	}
+	//for (int i = 0; i < 2; i++)
+	//{
+	//	imageManager->DrawAnimImage(hdc, SideSoul[i]);
+	//}
 	
 	//imageManager->DrawAnimImage(hdc, Bar1);
 	imageManager->DrawAnimImage(hdc, Bar2);

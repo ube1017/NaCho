@@ -79,6 +79,7 @@ HRESULT PlayScene::Init()
 	backGround = CreateObject<BackGround>();
 	player = CreateObject<Player>();
 	GamePlayStatic::SetPlayerCharacter(player);
+	player->SetIsKeyLock(true);
 	ui = CreateObject<UI>();
 	ui->SetZOrder(1);
 	enemyManager = CreateObject<EnemyManager>(false);
@@ -298,5 +299,5 @@ void PlayScene::SpawnBoss()
 void PlayScene::SpawnStartFun()
 {
 	TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
-
+	player->SetIsKeyLock(false);
 }
