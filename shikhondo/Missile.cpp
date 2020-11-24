@@ -13,6 +13,9 @@ Missile::Missile()
 	movePatten[MISSILEPATTEN(Patten::NORMALMOVE)] = &Missile::NormalMove;
 	movePatten[MISSILEPATTEN(Patten::HOMINGMOVE)] = &Missile::HomingMove;
 	movePatten[MISSILEPATTEN(Patten::ANGLEMOVE)] = &Missile::AngleMove;
+	movePatten[MISSILEPATTEN(Patten::TEST)] = &Missile::TestMove;
+	movePatten[MISSILEPATTEN(Patten::TEST2)] = &Missile::TestMove2;
+	
 	//NONE
 
 
@@ -31,6 +34,8 @@ HRESULT Missile::Init()
 	this->taget = nullptr;
 	this->damage = 1;
 	this->hitBox = { 0,0,0,0};
+
+	angle2 = 0.0f;
 	
 	return S_OK;
 }
@@ -103,6 +108,7 @@ void Missile::ChangeSoul(Character * taget)
 
 void Missile::NormalMove()
 {
+
 	this->pos.y += speed;
 	this->imaginfo.MovePos(this->pos);
 
@@ -141,6 +147,26 @@ void Missile::SevenMove()
 void Missile::NoneMove()
 {
 	imaginfo.MovePos(pos);
+}
+
+void Missile::TestMove()
+{
+	angle2 -= 0.010f;
+	pos.x += speed * cosf(angle2 - angle);
+	pos.y += speed * sinf(angle2 - angle);
+
+	//this->pos.y += speed;
+	this->imaginfo.MovePos(this->pos);
+}
+
+void Missile::TestMove2()
+{
+	angle2 += 0.010f;
+	pos.x += speed * cosf(angle2 - angle);
+	pos.y += speed * sinf(angle2 - angle);
+
+	//this->pos.y += speed;
+	this->imaginfo.MovePos(this->pos);
 }
 
 void Missile::MissileAnim()

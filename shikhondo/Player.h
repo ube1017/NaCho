@@ -7,7 +7,9 @@ enum class MoveState
 	SLOW,
 };
 
-const float missileSpeed = 7.0f;
+const float missileSpeed = 4.0f;
+// ¿ø¼Óµµ
+//const float missileSpeed = 7.0f;
 const int maxSoulGauge = 2000;
 const SIZE normalMissileSize = { 30,30 };
 const SIZE specialAbilityMissileSize = { 50,50 };

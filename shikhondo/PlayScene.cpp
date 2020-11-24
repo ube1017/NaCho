@@ -298,6 +298,6 @@ void PlayScene::SpawnBoss()
 
 void PlayScene::SpawnStartFun()
 {
-	TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
+	//TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
 	player->SetIsKeyLock(false);
 }

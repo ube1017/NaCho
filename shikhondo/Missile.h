@@ -52,6 +52,8 @@ private:
 	void AngleMove();
 	void SevenMove();
 	void NoneMove();
+	void TestMove();
+	void TestMove2();
 
 	// 미사일 애니메이션
 	void MissileAnim();
@@ -67,6 +69,7 @@ private:
 	int damage;
 	bool isSoul;
 	float angle;
+	float angle2;
 	float speed;
 	Patten nowMovePatten;
 

@@ -93,7 +93,8 @@ enum class Patten
 	NORMALMOVE,
 	HOMINGMOVE,
 	ANGLEMOVE,
-
+	TEST,
+	TEST2,
 
 
 

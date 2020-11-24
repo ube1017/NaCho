@@ -27,7 +27,8 @@ HRESULT Player::Init()
 	idleTimer.timerName = "플레이어 아이들 애니메이션타이머";
 	timer->SetTimer(idleTimer,this,&Player::Idle , 0.035f);
 	fireTimer.timerName = "플레이어 발사딜레이 간격";
-	timer->SetTimer(fireTimer, this, &Player::FireDelay, 0.085f);
+	timer->SetTimer(fireTimer, this, &Player::FireDelay, 0.185f);
+	//timer->SetTimer(fireTimer, this, &Player::FireDelay, 0.085f);
 	homingShooteridleTimer.timerName = "플레이어 보조무기";
 	timer->SetTimer(homingShooteridleTimer, this, &Player::HomingShooterIdle, 0.04f);
 	timer->SetTimer(startMoveTimer, this, &Player::StratMove, 0.01f);
@@ -243,6 +244,31 @@ void Player::Fire()
 		PlayScene* playscene = Cast<PlayScene>(GamePlayStatic::GetScene());
 		MissileManager* missileManager = playscene->GetMissileManager();
 
+		float angle = 0.0f;
+		
+		for (int i = 0 ; i < 20 ; i++)
+		{
+			missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", this->pos, this->missileSize);
+			missile->SetSpeed(-missileSpeed);
+			missile->SetDamage(this->damge);
+			missile->SetAngle(angle);
+			missile->SetMovePatten(Patten::TEST2);
+
+			missilePos.x -= 30.0f;
+			missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", this->pos, this->missileSize);
+			missile->SetSpeed(-missileSpeed);
+			missile->SetDamage(this->damge);
+			missile->SetAngle(angle);
+			missile->SetMovePatten(Patten::TEST);
+
+			angle += 0.3f;//(6.14 / 20.0f);
+
+
+		}
+
+		isFire = false;
+		return;
+
 		missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, this->missileSize);
 		missile->SetSpeed(-missileSpeed);
 		missile->SetDamage(this->damge);
@@ -253,6 +279,7 @@ void Player::Fire()
 		missile->SetSpeed(-missileSpeed);
 		missile->SetDamage(this->damge);
 		missile->SetMovePatten(Patten::NORMALMOVE);
+
 
 		missilePos.x += 15.0f;
 		missilePos.y -= 15.0f;
