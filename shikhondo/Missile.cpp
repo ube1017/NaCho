@@ -28,7 +28,8 @@ HRESULT Missile::Init()
 	this->isNotUPdate = false;
 	this->isSoul = false;
 	this->taget = nullptr;
-	
+	this->damage = 1;
+	this->hitBox = { 0,0,0,0};
 	
 	return S_OK;
 }

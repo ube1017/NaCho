@@ -5,22 +5,28 @@
 #include "MissileManager.h"
 #include "Missile.h"
 #include "EnemyManager.h"
+#include "Image.h"
 
 HRESULT Player::Init()
 {
 	
 	imageinfo.imageName = "Player";
-	this->hp = 4;
-	this->boomCount = 4;
-	this->soulGauge = 0;
-	this->pos = { 640.0f ,WINSIZE_Y - 100.0f };
-	this->size = { 123,141 };
-	this->hitBoxSize = { 20,20 };
+	hp = 4;
+	boomCount = 4;
+	soulGauge = 0;
+	pos = { 640.0f ,WINSIZE_Y - 100.0f };
+	size = { 123,141 };
+	hitBoxSize = { 20,20 };
+	boomAttackCount = 0;
 	imageinfo.DrawRectSetting("Player", this->pos, { 123,141 });
+	TimerManager* timer = TimerManager::GetSingleton();
+
 	idleTimer.timerName = "플레이어 아이들 애니메이션타이머";
-	TimerManager::GetSingleton()->SetTimer(idleTimer,this,&Player::Idle , 0.035f);
+	timer->SetTimer(idleTimer,this,&Player::Idle , 0.035f);
 	fireTimer.timerName = "플레이어 발사딜레이 간격";
-	TimerManager::GetSingleton()->SetTimer(fireTimer, this, &Player::FireDelay, 0.085f);
+	timer->SetTimer(fireTimer, this, &Player::FireDelay, 0.085f);
+	homingShooteridleTimer.timerName = "플레이어 보조무기";
+	timer->SetTimer(homingShooteridleTimer, this, &Player::HomingShooterIdle, 0.04f);
 	isFire = true;
 	speed = 4.0f;
 
@@ -35,6 +41,8 @@ HRESULT Player::Init()
 	soulGaugeRight.DrawRectSetting("RProgress", this->pos, { 64,128 }, true, {64,64});
 	soulGaugeLeft2.DrawRectSetting("LProgress", { this->pos.x, this->pos.y }, { 64,128 }, true, { 64,128 });
 	soulGaugeRight2.DrawRectSetting("RProgress", this->pos, { 64,128 }, true, { 64,64 });
+	homingShooter[0].DrawRectSetting("SideSoul", homingShooterPos[0], { 128,128 });  //플레이어 보조무기
+	homingShooter[1].DrawRectSetting("SideSoul", homingShooterPos[1], { 128,128 });  //플레이어 보조무기
 	return S_OK;
 }
 
@@ -103,7 +111,9 @@ void Player::Update()
 	{
 
 		homingShooterPos[0] = { (float)hitBox.left - 50, (float)hitBox.top + 10 };
+		homingShooter[0].MovePos(homingShooterPos[0]);
 		homingShooterPos[1] = { (float)hitBox.right + 50, (float)hitBox.top + 10 };
+		homingShooter[1].MovePos(homingShooterPos[1]);
 	}
 	
 }
@@ -111,29 +121,31 @@ void Player::Update()
 void Player::Render(HDC hdc)
 {
 	Character::Render(hdc);
-	ImageManager::GetSingleton()->DrawAnimImage(hdc, imageinfo);
-	Rectangle(hdc, (LONG)homingShooterPos[0].x -25 , (LONG)homingShooterPos[0].y - 25, (LONG)homingShooterPos[0].x + 25, (LONG)homingShooterPos[0].y + 25);
-	Rectangle(hdc, (LONG)homingShooterPos[1].x -25 , (LONG)homingShooterPos[1].y - 25, (LONG)homingShooterPos[1].x + 25, (LONG)homingShooterPos[1].y + 25);
+	ImageManager* imageManager = ImageManager::GetSingleton();
+	imageManager->DrawAnimImage(hdc, imageinfo);
+	imageManager->DrawAnimImage(hdc, homingShooter[0]);
+	imageManager->DrawAnimImage(hdc, homingShooter[1]);
+	//Rectangle(hdc, (LONG)homingShooterPos[0].x -25 , (LONG)homingShooterPos[0].y - 25, (LONG)homingShooterPos[0].x + 25, (LONG)homingShooterPos[0].y + 25);
+	//Rectangle(hdc, (LONG)homingShooterPos[1].x -25 , (LONG)homingShooterPos[1].y - 25, (LONG)homingShooterPos[1].x + 25, (LONG)homingShooterPos[1].y + 25);
 
 #ifdef _DEBUG
 	Rectangle(hdc, hitBox.left, hitBox.top, hitBox.right, hitBox.bottom);
-	Rectangle(hdc, boomtest.left, boomtest.top, boomtest.right, boomtest.bottom);
+	Rectangle(hdc, boomBox.left, boomBox.top, boomBox.right, boomBox.bottom);
 #else
 	if (isSoulGaudeRender)
 #endif // _DEBUG
 	{
-		ImageManager::GetSingleton()->DrawAnimImage(hdc, soulGaugeLeft);
-		ImageManager::GetSingleton()->DrawAnimImage(hdc, soulGaugeLeft2);
-		ImageManager::GetSingleton()->DrawAnimImage(hdc, soulGaugeRight);
-		ImageManager::GetSingleton()->DrawAnimImage(hdc, soulGaugeRight2);
+		imageManager->DrawAnimImage(hdc, soulGaugeLeft);
+		imageManager->DrawAnimImage(hdc, soulGaugeLeft2);
+		imageManager->DrawAnimImage(hdc, soulGaugeRight);
+		imageManager->DrawAnimImage(hdc, soulGaugeRight2);
 	}
 	
 }
 
-
 void Player::OnHit(Missile * hitMissile)
 {
-	if (isInvincibility || testMode)
+	if (isInvincibility || testMode || this->hp == 0)
 		return;
 	if (hitMissile->GetIsSoul())
 		return;
@@ -142,16 +154,17 @@ void Player::OnHit(Missile * hitMissile)
 	TimerManager::GetSingleton()->SetTimer(invincibilityTimer, this, &Player::Invincibility, 0.5f);
 	PlayScene* playScene = Cast<PlayScene>(GamePlayStatic::GetScene());
 	MissileManager* missilemanager = playScene->GetMissileManager();
-	const list<Missile*>* enemyMissile = missilemanager->GetSpawnMissileList();
-	list<Missile*>::const_iterator const_it;
-	for (const_it = enemyMissile->begin(); const_it != enemyMissile->end(); const_it++)
-	{
-		(*const_it)->OnHit();
-	}
+	missilemanager->MissileAllChangeSoul(this);
+	//const list<Missile*>* enemyMissile = missilemanager->GetSpawnMissileList();
+	//list<Missile*>::const_iterator const_it;
+	//for (const_it = enemyMissile->begin(); const_it != enemyMissile->end(); const_it++)
+	//{
+	//	//(*const_it)->OnHit();
+	//	(*const_it)->ChangeSoul(this);
+	//}
 	if (this->hp == 0)
 		isActivation = false;
 }
-
 
 void Player::KeyChack()
 {
@@ -220,17 +233,20 @@ void Player::Fire()
 
 		missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, this->missileSize);
 		missile->SetSpeed(-missileSpeed);
+		missile->SetDamage(this->damge);
 		missile->SetMovePatten(Patten::NORMALMOVE);
 
 		missilePos.x -= 30.0f;
 		missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, this->missileSize);
 		missile->SetSpeed(-missileSpeed);
+		missile->SetDamage(this->damge);
 		missile->SetMovePatten(Patten::NORMALMOVE);
 
 		missilePos.x += 15.0f;
 		missilePos.y -= 15.0f;
 		missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, this->missileSize);
 		missile->SetSpeed(-missileSpeed);
+		missile->SetDamage(this->damge);
 		missile->SetMovePatten(Patten::NORMALMOVE);
 
 
@@ -247,7 +263,7 @@ void Player::Fire()
 
 				missilePos = homingShooterPos[i];
 				homing[i] = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, this->missileSize);
-
+				homing[i]->SetDamage(this->damge);
 
 				homing[i]->SetTaget(*const_it);
 				homing[i]->SetMovePatten(Patten::HOMINGMOVE);
@@ -267,6 +283,7 @@ void Player::Fire()
 		{
 			missilePos = homingShooterPos[1];
 			homing[1] = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, this->missileSize);
+			homing[1]->SetDamage(this->damge);
 
 			homing[1]->SetTaget(homingTaget);
 			homing[1]->SetMovePatten(Patten::HOMINGMOVE);
@@ -311,13 +328,14 @@ void Player::SpecialAbility()
 	{
 		PlayScene* playScene =Cast<PlayScene>(GamePlayStatic::GetScene());
 		MissileManager* missilemanager = playScene->GetMissileManager();
-		const list<Missile*>* enemyMissile = missilemanager->GetSpawnMissileList();
-		list<Missile*>::const_iterator const_it;
-		for (const_it = enemyMissile->begin(); const_it != enemyMissile->end(); const_it++)
-		{
-			//(*const_it)->OnHit();
-			(*const_it)->ChangeSoul(this);
-		}
+		missilemanager->MissileAllChangeSoul(this);
+		//const list<Missile*>* enemyMissile = missilemanager->GetSpawnMissileList();
+		//list<Missile*>::const_iterator const_it;
+		//for (const_it = enemyMissile->begin(); const_it != enemyMissile->end(); const_it++)
+		//{
+		//	//(*const_it)->OnHit();
+		//	(*const_it)->ChangeSoul(this);
+		//}
 
 		isSpecialAbility = true;
 		damge = 2;
@@ -325,10 +343,17 @@ void Player::SpecialAbility()
 	}
 	else if (this->boomCount != 0)
 	{
-		Boom();
-		this->boomCount--;
-		if (this->boomCount <= 0)
-			this->boomCount = 0;
+		if (boomAttackCount == 0)
+		{
+			PlayScene* playScene = Cast<PlayScene>(GamePlayStatic::GetScene());
+			MissileManager* missilemanager = playScene->GetMissileManager();
+			missilemanager->MissileAllChangeSoul(this);
+			boomMissile = missilemanager->SpawnPlayerMissile(this, "21", { 0,0 }, { (PlayXSize / 4) , WINSIZE_Y});
+			Boom();
+			this->boomCount--;
+			if (this->boomCount <= 0)
+				this->boomCount = 0;
+		}
 	}
 }
 
@@ -340,14 +365,18 @@ void Player::Invincibility()
 
 void Player::Boom()
 {
-	boomtest = { Play_LeftX + (PlayXSize / 4) * ((LONG)boom) ,0,Play_LeftX + (PlayXSize / 4) * (1 + (LONG)boom) , WINSIZE_Y };
+	boomBox = { Play_LeftX + (PlayXSize / 4) * ((LONG)boomAttackCount) ,0,Play_LeftX + (PlayXSize / 4) * (1 + (LONG)boomAttackCount) , WINSIZE_Y };
 	TimerManager::GetSingleton()->SetTimer(boomTimer, this, &Player::Boom, 0.5f);
-	boom++;
-	if (boom == 5)
+	boomAttackCount++;
+	if (boomAttackCount == 5)
 	{
 		TimerManager::GetSingleton()->DeleteTimer(boomTimer);
-		boomtest = { 0,0,0,0 };
-		boom = 0;
+		boomBox = { 0,0,0,0 };
+		boomAttackCount = 0;
+		PlayScene* playScene = Cast<PlayScene>(GamePlayStatic::GetScene());
+		MissileManager* missilemanager = playScene->GetMissileManager();
+		missilemanager->MissileRelease(this,boomMissile);
+		
 	}
 }
 
@@ -469,10 +498,6 @@ void Player::SpecialAbilityGauge()
 
 
 
-
-
-
-
 #pragma region 이전 코드 부자연스럽지만 기본적인 코드
 
 	//if (this->soulGauge < maxSoulGauge / 4)
@@ -540,4 +565,18 @@ void Player::Idle()
 	imageinfo.framex++;
 	if (imageinfo.framex > 21)
 		imageinfo.framex = 0;
+}
+
+void Player::HomingShooterIdle()
+{
+	ImageManager* imageManger = ImageManager::GetSingleton();
+	Image* image = imageManger->FindImage(homingShooter[0].imageName);
+	int maxFrameX = image->GetMaxFramX();
+	homingShooter[0].framex++;
+	homingShooter[1].framex++;
+	if (homingShooter[0].framex == 18)
+	{
+		homingShooter[0].framex = 0;
+		homingShooter[1].framex = 0;
+	}
 }

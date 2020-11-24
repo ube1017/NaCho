@@ -125,3 +125,13 @@ void MissileManager::MissileRelease(Character* onwer, Missile* missile)
 
 
 }
+
+void MissileManager::MissileAllChangeSoul(Character* taget)
+{
+	list<Missile*>::const_iterator const_it;
+	for (const_it = spawnMissileList.begin(); const_it != spawnMissileList.end(); const_it++)
+	{
+		//(*const_it)->OnHit();
+		(*const_it)->ChangeSoul(taget);
+	}
+}

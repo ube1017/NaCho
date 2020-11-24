@@ -34,6 +34,11 @@ public:
 	int* GetHp_ptr() { return &this->hp; }
 	FPOINT Getpos() { return { this->pos.x , this->pos.y - 4}; }
 
+	// 폭탄 몇번재 공격인지
+	int GetBoomAttackCount() { return this->boomAttackCount; }
+	RECT GetBoomBox() { return this->boomBox; }
+	class Missile* GetBoomMissile() { return this->boomMissile; }
+
 	void OnHit(class Missile* hitMissile) override;
 private:
 	// 키 체크 함수
@@ -55,6 +60,7 @@ private:
 	void SpecialAbilityGauge();
 private:
 	void Idle();
+	void HomingShooterIdle();
 private:
 	FPOINT homingShooterPos[2];
 	MoveState moveState;
@@ -62,6 +68,7 @@ private:
 	ImageDrawInfo soulGaugeRight;
 	ImageDrawInfo soulGaugeLeft2;
 	ImageDrawInfo soulGaugeRight2;
+	ImageDrawInfo homingShooter[2];
 	
 	SIZE missileSize;
 
@@ -73,12 +80,14 @@ private:
 	bool isFire;
 	bool isSoulGaudeRender;
 	bool isSpecialAbility;
+	TimerHandle homingShooteridleTimer;
 	TimerHandle idleTimer;
 	TimerHandle fireTimer;
 	TimerHandle invincibilityTimer;
 	TimerHandle boomTimer;
 
-	RECT boomtest;
-	int boom = 0;
+	class Missile* boomMissile;
+	RECT boomBox;
+	int boomAttackCount;
 };
 

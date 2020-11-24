@@ -66,8 +66,9 @@ void Enemy::OnHit(Missile* hitMissile)
 {
 	Character::OnHit(hitMissile);
 	//Character* owner = hitMissile->GetOnwer()
-	Player* player = Cast<Player>(hitMissile->GetOnwer());
-	int dmage = player->GetDamge();
+	//Player* player = Cast<Player>(hitMissile->GetOnwer());
+	int dmage = hitMissile->GetDamage();
+	//int dmage = player->GetDamge();
 	this->hp -= damge;
 	if (this->hp <= 0)
 		this->Death();

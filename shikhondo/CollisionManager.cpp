@@ -35,7 +35,7 @@ void CollisionManager::Render(HDC hdc)
 
 void CollisionManager::CollisinCheck()
 {
-	list<Enemy*>* enemy = const_cast<list<Enemy*>*>(enemyManager->GetSpawnEnemyList());
+	list<Enemy*>* enemys = const_cast<list<Enemy*>*>(enemyManager->GetSpawnEnemyList());
 	list<Missile*>* missile = const_cast<list<Missile*>*>(missileManager->GetSpawnMissileList());
 	deque<Missile*> releaseMissiles;
 	deque<Enemy*> releaseEnemy;
@@ -64,7 +64,8 @@ void CollisionManager::CollisinCheck()
 					playerPos.y + playerSize.cy >= otherPos.y)
 				{
 					pos = { (LONG)otherPos.x,(LONG)otherPos.y };
-					player->AddSoulGauge(1);
+					if (!emissile->GetIsSoul())
+						player->AddSoulGauge(1);
 					if (PtInRect(&playerHitBox, pos))
 					{
 						player->OnHit(emissile);
@@ -77,12 +78,37 @@ void CollisionManager::CollisinCheck()
 			}
 		}
 	}
-	list<Enemy*>::iterator eiter = enemy->begin();
+	list<Enemy*>::iterator eiter = enemys->begin();
 	list<Missile*>* playerMissile = const_cast<list<Missile*>*>(missileManager->GetSpawnPlayerMissileList());
 	FPOINT enemyPos;
 	SIZE enemySize;
 	RECT enemyRect;
-	for (; eiter != enemy->end(); eiter++)
+	Enemy* enemy;
+	if (player->GetBoomAttackCount() != 0)
+	{
+		RECT boomBox = player->GetBoomBox();
+		for (; eiter != enemys->end(); )
+		{
+			if (!(*eiter)->GetMapInCheck())
+			{
+				eiter++;
+				continue;
+			}
+			enemy = *eiter;
+			eiter++;
+			enemyPos = enemy->GetPos();
+			pos = { (LONG)enemyPos.x , (LONG)enemyPos.y };
+			if (PtInRect(&boomBox, pos))
+			{
+				//enemy->
+				//enemyManager->DieEnemy(releaseEnemy[i]);
+			}
+		}
+	}
+	
+	
+	
+	for (; eiter != enemys->end(); eiter++)
 	{
 		if (!(*eiter)->GetMapInCheck())
 			continue;
