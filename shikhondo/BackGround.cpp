@@ -88,36 +88,6 @@ void BackGround::Update()
 		Background3Time = 0.0f;
 	}
 	
-	//Background2Time += TimerManager::GetSingleton()->GettimeElapsed();
-	//if (Background2Time >= 0.05f)//앞배경
-	//{
-	//	Background2PosY += 3;
-	//	if (Background2PosY < 1300)
-	//	{
-	//		Background2.drwrc = { (LONG)Play_LeftX - 200 , (LONG)Background2PosY - 200, (LONG)Play_RightX + 200 ,WINSIZE_Y + Background2PosY + 200 };
-	//		Background2Time = 0.0f;
-	//	}
-	//	else
-	//	{
-	//		Background2PosY = -1300;
-	//	}
-	//	Background3Time = 0.0f;
-	//}
-	//Background5Time += TimerManager::GetSingleton()->GettimeElapsed();
-	//if (Background5Time >= 0.05f)//앞배경
-	//{
-	//	Background5PosY += 3;
-	//	if (Background5PosY < 2600)
-	//	{
-	//		Background5.drwrc = { (LONG)Play_LeftX - 200 , (LONG)Background5PosY - 200 - 1300, (LONG)Play_RightX + 200 ,WINSIZE_Y + Background5PosY + 200 - 1300 };
-	//		Background5Time = 0.0f;
-	//	}
-	//	else
-	//	{
-	//		Background5PosY = 0;
-	//	}
-	//	Background5Time = 0.0f;
-	//}
 }
 
 void BackGround::Render(HDC hdc)
