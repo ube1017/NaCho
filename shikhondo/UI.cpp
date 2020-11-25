@@ -117,11 +117,7 @@ HRESULT UI::Init()
 	closeCount = DoorState::OPEN;
 	isWaring = false;
 
-	BossInit.imageName = "BossInit";
-	BossInit.drwrc = { (LONG)0 - (WINSIZE_X / 4) , (LONG)-(WINSIZE_Y / 3) ,
-		(LONG)WINSIZE_X + (WINSIZE_X / 4), WINSIZE_Y + (WINSIZE_Y / 3) };
-	Warning.imageName = "Warning";
-	Warning.drwrc = { (LONG)0 + (WINSIZE_X / 4)-100 , (LONG)40 , (LONG)WINSIZE_X - (WINSIZE_X / 4)+100, WINSIZE_Y+40 };
+
 
 	return S_OK;
 }
@@ -292,11 +288,11 @@ void UI::Update()
 		int width = 865 - 395;
 		// 검은색
 		boss_Hp_Bar1.drwrc = { (LONG)395 , (LONG)41 , (LONG)395 + (LONG)(width * hpPersent), 52 };
-		int boss_bar_left = (LONG)boss_Hp_Bar1.drwrc.right - 201;
-		if (boss_bar_left  <= boss_Hp_Bar2.drwrc.left)
+		int boss_bar_left  = (LONG)boss_Hp_Bar1.drwrc.right - 201;
+		if (boss_bar_left <= boss_Hp_Bar2.drwrc.left)
 			boss_bar_left = boss_Hp_Bar2.drwrc.left;
 		//내용물
-		boss_Hp_Bar3.drwrc = { boss_bar_left , (LONG)41 , boss_Hp_Bar1.drwrc.right + 55, 52 };
+		boss_Hp_Bar3.drwrc = { boss_bar_left -20 , (LONG)41 , boss_Hp_Bar1.drwrc.right + 75, 52 };
 
 		boss_Hp_Bar2.drwrc = { (LONG)320 , (LONG)0 , (LONG)950, 80 };
 	}
@@ -311,8 +307,11 @@ void UI::Render(HDC hdc)
 		imageManager->DrawAnimImage(hdc, leftBack1);
 		imageManager->DrawAnimImage(hdc, leftBack2);
 	}
-	imageManager->DrawAnimImage(hdc, BossInit);
-	imageManager->DrawAnimImage(hdc, Warning);
+	if (isWaring)
+	{
+		imageManager->DrawAnimImage(hdc, BossInit);
+		imageManager->DrawAnimImage(hdc, Warning);
+	}
 	imageManager->DrawAnimImage(hdc, Back);
 	/*imageManager->DrawAnimImage(hdc, LeftBackground);
 	imageManager->DrawAnimImage(hdc, LeftSideDownBackground);
@@ -369,8 +368,7 @@ void UI::Render(HDC hdc)
 	//imageManager->DrawAnimImage(hdc, Bar3);
 	imageManager->DrawAnimImage(hdc, Impact);
 	imageManager->DrawAnimImage(hdc, Impact2);
-	if (isWaring)
-		imageManager->DrawAnimImage(hdc, BossInit);
+
 }
 
 void UI::BossStage()
@@ -384,7 +382,10 @@ void UI::WarningUI()
 	isFullOpen = true;
 	closeCount = DoorState::HOLD;
 	BossInit.imageName = "BossInit";
-	BossInit.drwrc = { (LONG)0 , (LONG)0 , (LONG)WINSIZE_X, WINSIZE_Y };
+	BossInit.drwrc = { (LONG)0 - (WINSIZE_X / 4) , (LONG)-(WINSIZE_Y / 3) ,
+		(LONG)WINSIZE_X + (WINSIZE_X / 4), WINSIZE_Y + (WINSIZE_Y / 3) };
+	Warning.imageName = "Warning";
+	Warning.drwrc = { (LONG)0 + (WINSIZE_X / 4) - 100 , (LONG)40 , (LONG)WINSIZE_X - (WINSIZE_X / 4) + 100, WINSIZE_Y + 40 };
 	TimerManager::GetSingleton()->SetTimer(warningUIEndtimer, this, &UI::WarningUIEnd, 2.0f);
 }
 

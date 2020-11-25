@@ -141,6 +141,7 @@ void PlayScene::Update()
 		//Enemy* boss = enemyManager->SpawnEeney<EnemyBoss>();
 		//ui->SetBossHp(boss->GetHp_ptr());
 		ui->BossStage();
+		player->SetIsKeyLock(true);
 	}
 #endif // _DEBUG
 

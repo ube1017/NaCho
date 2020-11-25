@@ -46,7 +46,6 @@ private:
 	DoorState closeCount;
 	bool isbossSpawn;
 	bool isFullOpen;
-	bool isClose;
 	bool isWaring;
 	TimerHandle warningUIEndtimer;
 
