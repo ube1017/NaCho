@@ -71,7 +71,7 @@ void EnemyBoss::Update()
 			{
 				roundCheck++;
 				hp = 2000;
-				speed = 0.5;
+				speed = 2;
 				stop = true;
 			}
 		}
@@ -105,7 +105,7 @@ void EnemyBoss::Update()
 			{
 				roundCheck++;
 				hp = 3000;
-				speed = 0.5;
+				speed = 2;
 				stop = true;
 			}
 		}

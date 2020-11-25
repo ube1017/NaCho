@@ -26,6 +26,7 @@ private:
 	void WarningUI();
 	void WarningUIEnd();
 	void BossFontUI();
+	void BossSpawn();
 private:
 	FPOINT leftBack2pos;
 	FPOINT leftBack1pos;
@@ -52,6 +53,7 @@ private:
 	bool isbossFont;
 	TimerHandle warningUIEndtimer;
 	TimerHandle bossFontTimer;
+	TimerHandle bossSpawnTimer;
 
 	ImageDrawInfo Soulgeiji2;
 	float Soulgeiji2Time;

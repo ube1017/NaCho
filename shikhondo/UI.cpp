@@ -295,6 +295,8 @@ void UI::Update()
 
 	if (isbossSpawn)
 	{
+		if (*bossHp > bossMaxHp)
+			bossMaxHp = *bossHp;
 		float hpPersent = (((float)*bossHp / (float)bossMaxHp));
 		int width = 865 - 395;
 		// °ËÀº»ö
@@ -415,8 +417,6 @@ void UI::WarningUIEnd()
 	isFullOpen = false;
 	isWaring = false;
 	TimerManager::GetSingleton()->DeleteTimer(warningUIEndtimer);
-	PlayScene* plsyScene = Cast<PlayScene>(GamePlayStatic::GetScene());
-	plsyScene->BossSpawnBind();
 	TimerManager::GetSingleton()->SetTimer(warningUIEndtimer, this, &UI::BossFontUI, 0.5f);
 	bossFontUIcount = 0;
 	isbossFont = true;
@@ -430,8 +430,18 @@ void UI::BossFontUI()
 		TimerManager::GetSingleton()->DeleteTimer(warningUIEndtimer);
 		isbossFont = false;
 		bossFontUIcount = 0;
+		TimerManager::GetSingleton()->SetTimer(bossSpawnTimer, this, &UI::BossSpawn, 0.8f);
 	}
 	else
 		GamePlayStatic::GetScene()->SetSideShake(5, 0.2f);
 
+}
+
+void UI::BossSpawn()
+{
+	PlayScene* plsyScene = Cast<PlayScene>(GamePlayStatic::GetScene());
+	plsyScene->BossSpawnBind();
+	plsyScene->spawnStart.Execute();
+	plsyScene->spawnStart.UnBind();
+	TimerManager::GetSingleton()->DeleteTimer(bossSpawnTimer);
 }

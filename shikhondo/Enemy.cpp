@@ -73,6 +73,8 @@ float Enemy::GetAngle(FPOINT GetPos)
 void Enemy::OnHit(Missile* hitMissile) 
 {
 	Character::OnHit(hitMissile);
+	if (stop)
+		return;
 	//Character* owner = hitMissile->GetOnwer()
 	//Player* player = Cast<Player>(hitMissile->GetOnwer());
 	//int dmage = player->GetDamge();
