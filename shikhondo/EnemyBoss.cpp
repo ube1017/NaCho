@@ -2,7 +2,13 @@
 #include "PlayScene.h"
 #include "GamePlayStatic.h"
 #include "Missile.h"
+/*
+시작하자마자 멈추게 하고
 
+패턴 발사
+
+후 움직임 시작
+*/
 HRESULT EnemyBoss::Init()
 {
 	hp = 1500;
@@ -13,7 +19,7 @@ HRESULT EnemyBoss::Init()
 	size.cy = 160;
 	hitBoxSize = size;
 	ShootCount = 0;
-	angleNum = 20;
+	angleNum = 20; 
 	angleNum2 = 14;
 	movePCheck = 0;
 	movePosCheck = 0;
@@ -23,7 +29,7 @@ HRESULT EnemyBoss::Init()
 	// 시작 위치 설정
 	LocationReset();
 	RandLocation();
-	bossMove();
+	//bossMove();
 	////imageinfo.imageName = "enemy1";
 	imageinfo.DrawRectSetting("Boss", this->pos, { 110,220 }, true, { 204,403 });
 	//TimerManager::GetSingleton()->SetTimer(idleTimer, this, &EnemyBoss::Idle, 0.035f);
@@ -322,16 +328,30 @@ void EnemyBoss::bossMove()
 		switch (movePosCheck)
 		{
 		case 1:
-			RandPos.y = 750;
+			RandPos.y = 550;
 			break;
 		case 2:
-			RandPos.x = 200 + Play_LeftX;
-			RandPos.y = 450;
+			RandPos.x = 100 + Play_LeftX;
+			RandPos.y = 400;
 			break;
 		case 3:
-			RandPos.x = Play_RightX - 200;
+			RandPos.y = 200;
 			break;
 		case 4:
+			LocationReset();
+			break;
+		case 5:
+			RandPos.x = Play_RightX - 100;
+			RandPos.y = 200;
+			break;
+		case 6:
+			RandPos.y = 400;
+			break;
+		case 7:
+			LocationReset();
+			RandPos.y = 550;
+			break;
+		case 8:
 			LocationReset();
 			movePosCheck = 0;
 			movePCheck++;
@@ -371,30 +391,16 @@ void EnemyBoss::bossMove()
 		switch (movePosCheck)
 		{
 		case 1:
-			RandPos.y = 550;
+			RandPos.y = 750;
 			break;
 		case 2:
-			RandPos.x = 100 + Play_LeftX;
-			RandPos.y = 400;
+			RandPos.x = 200 + Play_LeftX;
+			RandPos.y = 450;
 			break;
 		case 3:
-			RandPos.y = 200;
+			RandPos.x = Play_RightX - 200;
 			break;
 		case 4:
-			LocationReset();
-			break;
-		case 5:
-			RandPos.x = Play_RightX - 100;
-			RandPos.y = 200;
-			break;
-		case 6:
-			RandPos.y = 400;
-			break;
-		case 7:
-			LocationReset();
-			RandPos.y = 550;
-			break;
-		case 8:
 			LocationReset();
 			movePosCheck = 0;
 			movePCheck++;
