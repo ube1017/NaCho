@@ -113,12 +113,23 @@ HRESULT UI::Init()
 	Back.drwrc = { (LONG)0 , (LONG)0 , (LONG)WINSIZE_X, WINSIZE_Y };
 	Back.imageName = "Back";
 	Back.drwrc = { (LONG)0 , (LONG)0 , (LONG)WINSIZE_X, WINSIZE_Y };
-
+	BossInit.imageName = "BossInit";
+	BossInit.drwrc = { (LONG)0 - (WINSIZE_X / 4) , (LONG)-(WINSIZE_Y / 3) ,
+		(LONG)WINSIZE_X + (WINSIZE_X / 4), WINSIZE_Y + (WINSIZE_Y / 3) };
+	Warning.imageName = "Warning";
+	Warning.drwrc = { (LONG)0 + (WINSIZE_X / 4)-100 , (LONG)40 , (LONG)WINSIZE_X - (WINSIZE_X / 4)+100, WINSIZE_Y+40 };
+	BossFont3.imageName = "BossFont3";
+	BossFont3.drwrc = { (LONG)840- 20 , (LONG)-130 , (LONG)1240 - 20, 300 };
+	BossFont1.imageName = "BossFont1";
+	BossFont1.drwrc = { (LONG)800 - 20 , (LONG)130 , (LONG)1200 - 20, 560 };
+	BossFont2.imageName = "BossFont2";
+	BossFont2.drwrc = { (LONG)750 - 20, (LONG)370 , (LONG)1150 - 20,800 };
+	BossFont4.imageName = "BossFont4";
+	BossFont4.drwrc = { (LONG)720 - 20 , (LONG)600 , (LONG)1120 - 20, 1030 };
+	BossFontBack.imageName = "BossFontBack";
+	BossFontBack.drwrc = { (LONG)520 , (LONG)-300 , (LONG)WINSIZE_X+20, WINSIZE_Y+300 };
 	closeCount = DoorState::OPEN;
 	isWaring = false;
-
-
-
 	return S_OK;
 }
 
@@ -368,7 +379,11 @@ void UI::Render(HDC hdc)
 	//imageManager->DrawAnimImage(hdc, Bar3);
 	imageManager->DrawAnimImage(hdc, Impact);
 	imageManager->DrawAnimImage(hdc, Impact2);
-
+	imageManager->DrawAnimImage(hdc, BossFontBack);
+	imageManager->DrawAnimImage(hdc, BossFont3);
+	imageManager->DrawAnimImage(hdc, BossFont1);
+	imageManager->DrawAnimImage(hdc, BossFont2);
+	imageManager->DrawAnimImage(hdc, BossFont4);
 }
 
 void UI::BossStage()

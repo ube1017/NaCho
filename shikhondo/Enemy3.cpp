@@ -90,9 +90,6 @@ void Enemy3::Update()
 			}
 		}
 	}
-
-	
-
 }
 
 void Enemy3::Render(HDC hdc)

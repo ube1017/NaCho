@@ -254,7 +254,6 @@ void Player::Fire()
 		//	missile->SetDamage(this->damge);
 		//	missile->SetAngle(angle);
 		//	missile->SetMovePatten(Patten::TEST2);
-		//
 		//	missilePos.x -= 30.0f;
 		//	missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", this->pos, this->missileSize);
 		//	missile->SetSpeed(-missileSpeed);
@@ -267,6 +266,8 @@ void Player::Fire()
 		//
 		//}
 		//
+		//	angle += 0.3f;//(6.14 / 20.0f);
+		//}
 		//isFire = false;
 		//return;
 

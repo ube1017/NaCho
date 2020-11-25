@@ -72,6 +72,11 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("BossInit", "BossInit", { 1024,1024 }, { 1,1 });
 	imageManager->_LoadBitmap("Warning", "Warning", { 1024,1024 }, { 1,1 });
 	imageManager->_LoadBitmap("Impact", "Impact", { 1024,128 }, { 8,1 });
+	imageManager->_LoadBitmap("BossFont1", "BossFont1", { 512,512 }, { 1,1 });
+	imageManager->_LoadBitmap("BossFont2", "BossFont2", { 512,512 }, { 1,1 });
+	imageManager->_LoadBitmap("BossFont3", "BossFont3", { 512,512 }, { 1,1 });
+	imageManager->_LoadBitmap("BossFont4", "BossFont4", { 512,512 }, { 1,1 });
+	imageManager->_LoadBitmap("BossFontBack", "BossFontBack", { 512,1024 }, { 1,1 });
 
 	
 	// µµ¿µ
