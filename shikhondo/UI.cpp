@@ -16,7 +16,7 @@ HRESULT UI::Init()
 
 	leftBack1pos.x = Play_LeftX;
 	leftBack1pos.y = 0;
-	leftBack1.drwrc = { (LONG)Play_LeftX, (LONG)-10, (LONG)Play_LeftX + PlayXSize /2 , WINSIZE_Y+20};
+	leftBack1.drwrc = { (LONG)Play_LeftX - 10, (LONG)-10, (LONG)Play_LeftX + PlayXSize /2 , WINSIZE_Y+20};
 	leftBack1.imageName = "leftBack";  //¹®
 	leftBack1.framex = 0;
 	leftBack1.framey = 0;
@@ -24,7 +24,7 @@ HRESULT UI::Init()
 	leftBack2pos.x = Play_LeftX + PlayXSize / 2;
 	leftBack2pos.y = 0;
 	leftBack2.imageName = "leftBack";  //¹®
-	leftBack2.drwrc = { (LONG)Play_LeftX + PlayXSize / 2   , (LONG)-10 , (LONG)Play_RightX , WINSIZE_Y + 20 };
+	leftBack2.drwrc = { (LONG)Play_LeftX + PlayXSize / 2   , (LONG)-10 , (LONG)Play_RightX + 10, WINSIZE_Y + 20 };
 	leftBack1.framex = 1;
 	leftBack1.framey = 0;
 
@@ -113,9 +113,10 @@ HRESULT UI::Init()
 	Back.drwrc = { (LONG)0 , (LONG)0 , (LONG)WINSIZE_X, WINSIZE_Y };
 	Back.imageName = "Back";
 	Back.drwrc = { (LONG)0 , (LONG)0 , (LONG)WINSIZE_X, WINSIZE_Y };
-	BossInit.imageName = "BossInit";
-	BossInit.drwrc = { (LONG)0 , (LONG)0 , (LONG)WINSIZE_X, WINSIZE_Y };
-	
+
+	closeCount = DoorState::OPEN;
+	isClose = false;
+	isWaring = false;
 	return S_OK;
 }
 
@@ -215,28 +216,57 @@ void UI::Update()
 		ImpactTime = 0.0f;
 	}
 
-	if (!isFullOpen)
-
+	if (!isFullOpen && (closeCount != DoorState::HOLD))
 	{
 		if (leftBack1pos.x > Play_LeftX - 225)
 		{
 			if (leftBack1.drwrc.right > Play_LeftX)
 			{
 				//leftBack1pos.x--;
-				leftBack1.MovePos(MovePosType::X_AIS, -2);
+				if (closeCount != DoorState::BOSSOPEN)
+					leftBack1.MovePos(MovePosType::X_AIS, -2);
+				else
+					leftBack1.MovePos(MovePosType::X_AIS, -8);
 			}
 
 			if (leftBack2.drwrc.left < Play_RightX)
 			{
 				//leftBack2pos.x++;
-				leftBack2.MovePos(MovePosType::X_AIS, +2);
+				if (closeCount != DoorState::BOSSOPEN)
+					leftBack2.MovePos(MovePosType::X_AIS, +2);
+				else
+					leftBack2.MovePos(MovePosType::X_AIS, +8);
 			}
 			else
 			{
+				closeCount = DoorState::NONE;
 				PlayScene* playScen = Cast<PlayScene>(GamePlayStatic::GetScene());
 				playScen->spawnStart.Execute();
 				playScen->spawnStart.UnBind();
 				isFullOpen = true;
+			
+			}
+		}
+	}
+	else if (closeCount != DoorState::NONE)
+	{
+		//if (leftBack1pos.x >= Play_LeftX - 225)
+		{
+			if (leftBack1.drwrc.right < Play_LeftX + PlayXSize / 2)
+			{
+				//leftBack1pos.x--;
+				leftBack1.MovePos(MovePosType::X_AIS, +8);
+			}
+
+			if (leftBack2.drwrc.left > Play_LeftX + PlayXSize / 2)
+			{
+				//leftBack2pos.x++;
+				leftBack2.MovePos(MovePosType::X_AIS, -8);
+			}
+			else
+			{
+				if (closeCount != DoorState::HOLD)
+					this->WarningUI();
 			}
 		}
 	}
@@ -273,7 +303,7 @@ void UI::Render(HDC hdc)
 {
 	BaseUI::Render(hdc);
 	ImageManager* imageManager = ImageManager::GetSingleton();
-	if (!isFullOpen)
+	if (closeCount != DoorState::NONE)
 	{
 		imageManager->DrawAnimImage(hdc, leftBack1);
 		imageManager->DrawAnimImage(hdc, leftBack2);
@@ -334,8 +364,31 @@ void UI::Render(HDC hdc)
 	//imageManager->DrawAnimImage(hdc, Bar3);
 	imageManager->DrawAnimImage(hdc, Impact);
 	imageManager->DrawAnimImage(hdc, Impact2);
-	imageManager->DrawAnimImage(hdc, BossInit);
-	
-	
-	
+	if (isWaring)
+		imageManager->DrawAnimImage(hdc, BossInit);
+}
+
+void UI::BossStage()
+{
+	closeCount = DoorState::CLOSE;
+}
+
+void UI::WarningUI()
+{
+	isWaring = true;
+	isFullOpen = true;
+	closeCount = DoorState::HOLD;
+	BossInit.imageName = "BossInit";
+	BossInit.drwrc = { (LONG)0 , (LONG)0 , (LONG)WINSIZE_X, WINSIZE_Y };
+	TimerManager::GetSingleton()->SetTimer(warningUIEndtimer, this, &UI::WarningUIEnd, 2.0f);
+}
+
+void UI::WarningUIEnd()
+{
+	closeCount = DoorState::BOSSOPEN;
+	isFullOpen = false;
+	isWaring = false;
+	TimerManager::GetSingleton()->DeleteTimer(warningUIEndtimer);
+	PlayScene* plsyScene = Cast<PlayScene>(GamePlayStatic::GetScene());
+	plsyScene->BossSpawnBind();
 }

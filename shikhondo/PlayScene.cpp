@@ -127,16 +127,17 @@ void PlayScene::Update()
 	GameNode::Update();
 	// 테스트용
 #ifdef _DEBUG
-	if (KeyManager::GetSingleton()->IsOnceKeyDown(0x51)) //q
-		enemyManager->SpawnEeney<Enemy1>();
+	//if (KeyManager::GetSingleton()->IsOnceKeyDown(0x51)) //q
+	//	enemyManager->SpawnEeney<Enemy1>();
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(0x57)) //w
 		enemyManager->SpawnEeney<Enemy2>();
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(0x45)) //e~
 		enemyManager->SpawnEeney<Enemy3>();
-	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_SPACE))
+	if (KeyManager::GetSingleton()->IsOnceKeyDown(0x51))
 	{ 
-		Enemy* boss = enemyManager->SpawnEeney<EnemyBoss>();
-		ui->SetBossHp(boss->GetHp_ptr());
+		//Enemy* boss = enemyManager->SpawnEeney<EnemyBoss>();
+		//ui->SetBossHp(boss->GetHp_ptr());
+		ui->BossStage();
 	}
 #endif // _DEBUG
 
@@ -153,6 +154,11 @@ Missile* PlayScene::SpawnMissile(Character* owner, string imageName, FPOINT miss
 	Missile* missile;
 	missile = missileManager->SpawnMissile(owner, imageName, missilePos, MissileSize);
 	return missile;
+}
+
+void PlayScene::BossSpawnBind()
+{
+	spawnStart.BindObject(this, &PlayScene::BossSpawn);
 }
 
 void PlayScene::StageSpawn()
@@ -301,4 +307,13 @@ void PlayScene::SpawnStartFun()
 {
 	//TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
 	player->SetIsKeyLock(false);
+
+}
+
+void PlayScene::BossSpawn()
+{
+	Enemy* boss = enemyManager->SpawnEeney<EnemyBoss>();
+	ui->SetBossHp(boss->GetHp_ptr());
+	player->SetIsKeyLock(false);
+	
 }
