@@ -62,7 +62,22 @@ void MainGame::Render()
 	GameNode::Render(MemDC);
 	TimerManager::GetSingleton()->Render(MemDC);
 	HDC hdc = GetDC(g_hWnd);
-	BitBlt(hdc,0,0,WINSIZE_X,WINSIZE_Y , MemDC, 0,0, SRCCOPY);
+	
+	if (scene->GetIsShake())
+	{
+		int ShackeX = scene->GetShackeMoveX();
+		int ShackeY = scene->GetShackeMoveY();
+		int Revision = scene->GetRevision();
+		int x = 0;
+		int y = 0;
+		if (ShackeX != 0)
+			x = rand() % ShackeX - Revision;
+		if (ShackeY != 0)
+			y = rand() % ShackeY - Revision;
+		BitBlt(hdc, x, y, WINSIZE_X, WINSIZE_Y, MemDC, 0, 0, SRCCOPY);
+	}
+	else
+		BitBlt(hdc, 0, 0, WINSIZE_X, WINSIZE_Y, MemDC, 0, 0, SRCCOPY);
 	DeleteDC(hdc);
 }
 

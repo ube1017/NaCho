@@ -4,6 +4,7 @@
 #include "MissileManager.h"
 #include "Missile.h"
 #include "Enemy.h"
+#include "GamePlayStatic.h"
 
 
 HRESULT CollisionManager::Init()
@@ -106,8 +107,9 @@ void CollisionManager::CollisinCheck()
 					enemyManager->DieEnemy(enemy);
 			}
 		}
+		boomMissile->SetHitBox({0,0,0,0});
 	}
-	
+
 	eiter = enemys->begin();
 	
 	for (; eiter != enemys->end(); eiter++)
@@ -138,6 +140,9 @@ void CollisionManager::CollisinCheck()
 							releaseEnemy.push_back(*eiter);
 							break;
 						}
+						if (player->GetIsSpecialAbility())
+							GamePlayStatic::GetScene()->SetAllShaek(1,-1,0.1f);
+						
 						DEBUG_MASSAGE("적충돌 충돌\n");
 					}
 

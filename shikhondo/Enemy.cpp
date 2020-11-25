@@ -4,6 +4,14 @@
 #include "Player.h"
 #include "PlayScene.h"
 #include "EnemyManager.h"
+#include "Impact.h"
+
+Enemy::Enemy()
+{
+	impact = GamePlayStatic::GetScene()->CreateObject<Impact>();
+	impact->SetIsValid(false);
+	impact->SetZOrder(7);
+}
 
 HRESULT Enemy::Init()
 {
@@ -65,6 +73,8 @@ float Enemy::GetAngle(FPOINT GetPos)
 void Enemy::OnHit(Missile* hitMissile) 
 {
 	Character::OnHit(hitMissile);
+	if (stop)
+		return;
 	//Character* owner = hitMissile->GetOnwer()
 	//Player* player = Cast<Player>(hitMissile->GetOnwer());
 	//int dmage = player->GetDamge();
@@ -72,6 +82,9 @@ void Enemy::OnHit(Missile* hitMissile)
 	
 	this->hp -= hitdmage;
 	if (this->hp <= 0)
+	{
+		impact->SetIsValid(true);
+		impact->SpawnImpact("Impact", this->pos, {256,256}, 0.01f);
 		this->Death();
-
+	}
 }

@@ -3,6 +3,7 @@
 
 
 class Character;
+class Impact;
 class Missile :public GameNode
 {
 public:
@@ -63,6 +64,8 @@ private:
 	FPOINT pos;
 	SIZE size;
 	RECT hitBox;
+	// ¿Ã∆Â∆Æ
+	Impact* impact;
 
 	ImageDrawInfo imaginfo;
 

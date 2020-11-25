@@ -117,6 +117,9 @@
     <ClCompile Include="UI.cpp">
       <Filter>Main\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Impact.cpp">
+      <Filter>Main\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -195,6 +198,9 @@
       <Filter>Main\UI</Filter>
     </ClInclude>
     <ClInclude Include="UI.h">
+      <Filter>Main\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Impact.h">
       <Filter>Main\UI</Filter>
     </ClInclude>
   </ItemGroup>

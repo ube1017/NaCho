@@ -8,8 +8,12 @@ private:
 	int angleNum2;
 	float ShootCount;
 	bool pattenCheck;
-
+	float missileSpeed2 = 4.0f;
 	class Missile* Em[8];
+	int movePCheck;
+	int movePosCheck;
+	int roundCheck;
+
 
 public:
 
@@ -22,6 +26,12 @@ public:
 	void LocationReset();
 
 	void patten1(FPOINT MPos, float MAngle);
+	void patten2();
+	void patten3();
+	void patten4();
+	void patten5();
+	void bossMove();
+
 private:
 	void Idle();
 

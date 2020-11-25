@@ -7,9 +7,9 @@ enum class MoveState
 	SLOW,
 };
 
-const float missileSpeed = 4.0f;
+//const float missileSpeed = 4.0f;
 // 원속도
-//const float missileSpeed = 7.0f;
+const float missileSpeed = 7.0f;
 const int maxSoulGauge = 2000;
 const SIZE normalMissileSize = { 30,30 };
 const SIZE specialAbilityMissileSize = { 50,50 };
@@ -42,6 +42,8 @@ public:
 	int GetBoomAttackCount() { return this->boomAttackCount; }
 	RECT GetBoomBox() { return this->boomBox; }
 	class Missile* GetBoomMissile() { return this->boomMissile; }
+
+	bool GetIsSpecialAbility() { return this->isSpecialAbility; }
 
 	void OnHit(class Missile* hitMissile) override;
 private:
@@ -77,16 +79,20 @@ private:
 	ImageDrawInfo soulGaugeRight2;
 	ImageDrawInfo homingShooter[2];
 	
+	string missileName;
 	SIZE missileSize;
 
 	// 폭탄 갯수
 	int boomCount;
 	int soulGauge;
 	
+	// 무적 모드
 	bool testMode;
 	bool isFire;
 	bool isSoulGaudeRender;
+	//특수능력 사용했는지
 	bool isSpecialAbility;
+	// 키잠금
 	bool isKeyLock;
 	TimerHandle homingShooteridleTimer;
 	TimerHandle idleTimer;

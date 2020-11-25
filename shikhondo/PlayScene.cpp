@@ -38,12 +38,11 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("EnemyMissile", "EnemyMissile", { 192,72 }, { 8,1 });
 	imageManager->_LoadBitmap("Background2", "Background2", { 512,512 }, { 1,1 });
 	imageManager->_LoadBitmap("Background5", "Background5", { 512,1024 }, { 1,1 });
-	imageManager->_LoadBitmap("Background6", "Background6", { 512,1024 }, { 1,1 });
 	imageManager->_LoadBitmap("Background3", "Background3", { 512,1024 }, { 1,1 });
 	imageManager->_LoadBitmap("Background4", "Background4", { 512,1024 }, { 1,1 });
-	imageManager->_LoadBitmap("Background7", "Background7", { 512,1024 }, { 1,1 });
 	imageManager->_LoadBitmap("Background1", "Background1", { 512,512 }, { 1,1 });
 	imageManager->_LoadBitmap("PlayerMissile", "PlayerMissile", { 128,128 }, { 1,1 });
+	imageManager->_LoadBitmap("PlayerMissile2", "PlayerMissile2", { 128,128 }, { 1,1 });
 	imageManager->_LoadBitmap("LeftSideDownBackground", "LeftSideDownBackground", { 512,512 }, { 1,1 });
 	imageManager->_LoadBitmap("LeftBackground", "LeftBackground", { 512,512 }, { 1,1 });
 	imageManager->_LoadBitmap("LeftUpBackground", "LeftUpBackground", { 1024,512 }, { 1,1 });
@@ -72,6 +71,7 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("Back", "Back", { 1280,900 }, { 1,1 });
 	imageManager->_LoadBitmap("BossInit", "BossInit", { 1024,1024 }, { 1,1 });
 	imageManager->_LoadBitmap("Warning", "Warning", { 1024,1024 }, { 1,1 });
+	imageManager->_LoadBitmap("Impact", "Impact", { 1024,128 }, { 8,1 });
 	imageManager->_LoadBitmap("BossFont1", "BossFont1", { 512,512 }, { 1,1 });
 	imageManager->_LoadBitmap("BossFont2", "BossFont2", { 512,512 }, { 1,1 });
 	imageManager->_LoadBitmap("BossFont3", "BossFont3", { 512,512 }, { 1,1 });
@@ -89,7 +89,7 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("SkillEffect2", "SkillEffect2", { 512,512 }, { 1,1 });
 	imageManager->_LoadBitmap("SkillEffect3", "SkillEffect3", { 430,138 }, { 1,1 });
 	imageManager->_LoadBitmap("SkillEffect4", "SkillEffect4", { 512,512 }, { 1,1 });
-	
+
 	// µµ¿µ
 	EPos.x = 500;
 	EPos.y = 200;
@@ -315,11 +315,12 @@ void PlayScene::SpawnBoss()
 	list<Enemy*>::const_iterator const_it;
 	if (enemys->size() == 0)
 	{
-		
-		Enemy* boss = enemyManager->SpawnEeney<EnemyBoss>();
+		ui->BossStage();
+		//Enemy* boss = enemyManager->SpawnEeney<EnemyBoss>();
 		nowPatten = SpawnPatten::NONE;
-		ui->SetBossHp(boss->GetHp_ptr());
 		this->PlayScene::StageSpawn();
+		//ui->SetBossHp(boss->GetHp_ptr());
+		
 	}
 	//else
 	//	TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::SpawnBoss, 0.3f);
@@ -327,7 +328,7 @@ void PlayScene::SpawnBoss()
 
 void PlayScene::SpawnStartFun()
 {
-	//TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
+	TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
 	player->SetIsKeyLock(false);
 
 }
