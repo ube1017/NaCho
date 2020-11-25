@@ -10,7 +10,7 @@ Enemy::Enemy()
 {
 	impact = GamePlayStatic::GetScene()->CreateObject<Impact>();
 	impact->SetIsValid(false);
-	impact->SetZOrder(8);
+	impact->SetZOrder(7);
 }
 
 HRESULT Enemy::Init()

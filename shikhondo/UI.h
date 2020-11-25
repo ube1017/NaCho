@@ -25,6 +25,7 @@ public:
 private:
 	void WarningUI();
 	void WarningUIEnd();
+	void BossFontUI();
 private:
 	FPOINT leftBack2pos;
 	FPOINT leftBack1pos;
@@ -42,12 +43,15 @@ private:
 	const int* playerBoom;
 	const int* bossHp;
 	int bossMaxHp;
+	int bossFontUIcount;
 
 	DoorState closeCount;
 	bool isbossSpawn;
 	bool isFullOpen;
 	bool isWaring;
+	bool isbossFont;
 	TimerHandle warningUIEndtimer;
+	TimerHandle bossFontTimer;
 
 	ImageDrawInfo Soulgeiji2;
 	float Soulgeiji2Time;
@@ -76,10 +80,11 @@ private:
 	ImageDrawInfo BossInit;
 	float BossInitTime;
 	ImageDrawInfo Warning;
-	ImageDrawInfo BossFont1;
-	ImageDrawInfo BossFont2;
-	ImageDrawInfo BossFont3;
-	ImageDrawInfo BossFont4;
+	ImageDrawInfo BossFont[4];
+	//ImageDrawInfo BossFont1;
+	//ImageDrawInfo BossFont2;
+	//ImageDrawInfo BossFont3;
+	//ImageDrawInfo BossFont4;
 	ImageDrawInfo BossFontBack;
 	
 	

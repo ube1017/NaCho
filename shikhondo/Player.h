@@ -43,6 +43,8 @@ public:
 	RECT GetBoomBox() { return this->boomBox; }
 	class Missile* GetBoomMissile() { return this->boomMissile; }
 
+	bool GetIsSpecialAbility() { return this->isSpecialAbility; }
+
 	void OnHit(class Missile* hitMissile) override;
 private:
 	// 키 체크 함수

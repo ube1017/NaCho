@@ -118,7 +118,7 @@
       <Filter>Main\UI</Filter>
     </ClCompile>
     <ClCompile Include="Impact.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Main\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -201,7 +201,7 @@
       <Filter>Main\UI</Filter>
     </ClInclude>
     <ClInclude Include="Impact.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Main\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
