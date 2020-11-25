@@ -8,7 +8,7 @@ HRESULT Enemy3::Init()
 	hp = 100;
 	damge = 1;
 	speed = 2.0f;
-	missileSpeed = 2.0f;
+	missileSpeed = 2.5f;
 	size.cx = 40;
 	size.cy = 70;
 	hitBoxSize = size;

@@ -5,9 +5,9 @@
 
 HRESULT EnemyBoss::Init()
 {
-	hp = 3000;
+	hp = 1500;
 	damge = 1;
-	speed = 1.0f;
+	speed = 1.5f;
 	missileSpeed = 1.5f;
 	size.cx = 80;
 	size.cy = 160;
@@ -17,7 +17,9 @@ HRESULT EnemyBoss::Init()
 	angleNum2 = 14;
 	movePCheck = 0;
 	movePosCheck = 0;
+	roundCheck = 0;
 	pattenCheck = false;
+	stop = true;
 	// 시작 위치 설정
 	LocationReset();
 	RandLocation();
@@ -38,26 +40,125 @@ void EnemyBoss::Update()
 	Enemy::Update();
 	imageinfo.MovePos(pos);
 	DEBUG_MASSAGE("보스체력이다 : %d \n", this->hp);
-	checkTime += TimerManager::GetSingleton()->GettimeElapsed();
-	ShootCount += TimerManager::GetSingleton()->GettimeElapsed();
-	hitBox = { (LONG)pos.x - hitBoxSize.cx / 2, (LONG)pos.y - hitBoxSize.cy / 2,
-				(LONG)pos.x + hitBoxSize.cx / 2, (LONG)pos.y + hitBoxSize.cy / 2 };
-
-	pos.x += cosf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
-	pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
-
-	if (pos.x < RandPos.x + 5 && pos.x >= RandPos.x - 5)
+	if (!stop)
 	{
-		if (pos.y < RandPos.y + 5 && pos.y >= RandPos.y - 5)
+		if (roundCheck == 0)
 		{
-			bossMove();
+			if (hp > 500)
+			{
+				checkTime += TimerManager::GetSingleton()->GettimeElapsed();
+				ShootCount += TimerManager::GetSingleton()->GettimeElapsed();
+				hitBox = { (LONG)pos.x - hitBoxSize.cx / 2, (LONG)pos.y - hitBoxSize.cy / 2,
+							(LONG)pos.x + hitBoxSize.cx / 2, (LONG)pos.y + hitBoxSize.cy / 2 };
+
+				pos.x += cosf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
+				pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
+
+				if (pos.x < RandPos.x + 5 && pos.x >= RandPos.x - 5)
+				{
+					if (pos.y < RandPos.y + 5 && pos.y >= RandPos.y - 5)
+					{
+						bossMove();
+					}
+				}
+				if (checkTime >= 1.0f)
+				{
+					patten2();
+					checkTime = 0;
+				}
+			}
+			else if (hp <= 500)
+			{
+				roundCheck++;
+				hp = 2000;
+				speed = 0.5;
+				stop = true;
+			}
+		}
+		else if (roundCheck == 1)
+		{
+			if (hp > 300)
+			{
+				checkTime += TimerManager::GetSingleton()->GettimeElapsed();
+				ShootCount += TimerManager::GetSingleton()->GettimeElapsed();
+				hitBox = { (LONG)pos.x - hitBoxSize.cx / 2, (LONG)pos.y - hitBoxSize.cy / 2,
+							(LONG)pos.x + hitBoxSize.cx / 2, (LONG)pos.y + hitBoxSize.cy / 2 };
+
+				pos.x += cosf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
+				pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
+
+				if (pos.x < RandPos.x + 5 && pos.x >= RandPos.x - 5)
+				{
+					if (pos.y < RandPos.y + 5 && pos.y >= RandPos.y - 5)
+					{
+						bossMove();
+					}
+				}
+				if (checkTime >= 0.5f)
+				{
+					patten2();
+					patten3();
+					checkTime = 0;
+				}
+			}
+			else if (hp <= 300)
+			{
+				roundCheck++;
+				hp = 3000;
+				speed = 0.5;
+				stop = true;
+			}
+		}
+		else if (roundCheck == 2)
+		{
+			if (hp > 0)
+			{
+				checkTime += TimerManager::GetSingleton()->GettimeElapsed();
+				ShootCount += TimerManager::GetSingleton()->GettimeElapsed();
+				hitBox = { (LONG)pos.x - hitBoxSize.cx / 2, (LONG)pos.y - hitBoxSize.cy / 2,
+							(LONG)pos.x + hitBoxSize.cx / 2, (LONG)pos.y + hitBoxSize.cy / 2 };
+
+				pos.x += cosf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
+				pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
+
+				if (pos.x < RandPos.x + 5 && pos.x >= RandPos.x - 5)
+				{
+					if (pos.y < RandPos.y + 5 && pos.y >= RandPos.y - 5)
+					{
+						bossMove();
+					}
+				}
+				if (checkTime >= 0.5f)
+				{
+					patten4();
+					patten5();
+					checkTime = 0;
+				}
+			}
+			else if (hp <= 0)
+			{
+				roundCheck++;
+			}
+		}
+		else
+		{
+			// 죽음
 		}
 	}
-	if (checkTime >= 0.5f)
+	else if (stop)
 	{
-		patten2();
-		patten3();
-		checkTime = 0;
+		LocationReset();
+		pos.x += cosf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
+		pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
+		if (pos.x < RandPos.x + 5 && pos.x >= RandPos.x - 5)
+		{
+			if (pos.y < RandPos.y + 5 && pos.y >= RandPos.y - 5)
+			{
+				stop = false;
+				speed = 2.0f;
+			}
+		}
+		//이미지 여기에
 	}
 }
 
@@ -103,6 +204,7 @@ void EnemyBoss::patten2()
 {
 	PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
 	float angle = 0.0f;
+
 	for (int i = 0; i < 20; i++)
 	{
 		Missile* Em = playScene->SpawnMissile(this, "21", this->pos, { 30, 30 });
@@ -117,6 +219,7 @@ void EnemyBoss::patten2()
 
 		angle += 0.3f;//(6.14 / 20.0f);
 	}
+
 }
 
 void EnemyBoss::patten3()
@@ -154,7 +257,7 @@ void EnemyBoss::patten3()
 			}
 			pattenCheck = false;
 		}
-		if (checkTime >= 5.0f)
+		if (checkTime >= 3.0f)
 		{
 			ShootCount = 0;
 			checkTime = 0;
@@ -167,7 +270,7 @@ void EnemyBoss::patten3()
 void EnemyBoss::patten4()
 {
 	PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
-	if (ShootCount >= 0.3f)
+	if (ShootCount >= 1.0f)
 	{
 		// 각도를 받고
 		for (int i = 0; i < 18; i++)
@@ -190,7 +293,7 @@ void EnemyBoss::patten4()
 void EnemyBoss::patten5()
 {
 	PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
-	if (ShootCount >= 0.3f)
+	if (ShootCount >= 1.0f)
 	{
 		// 각도를 받고
 		for (int i = 0; i < 14; i++)
