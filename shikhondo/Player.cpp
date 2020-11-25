@@ -244,30 +244,30 @@ void Player::Fire()
 		PlayScene* playscene = Cast<PlayScene>(GamePlayStatic::GetScene());
 		MissileManager* missileManager = playscene->GetMissileManager();
 
-		float angle = 0.0f;
-		
-		for (int i = 0 ; i < 20 ; i++)
-		{
-			missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", this->pos, this->missileSize);
-			missile->SetSpeed(-missileSpeed);
-			missile->SetDamage(this->damge);
-			missile->SetAngle(angle);
-			missile->SetMovePatten(Patten::TEST2);
+		//float angle = 0.0f;
+		//
+		//for (int i = 0 ; i < 20 ; i++)
+		//{
+		//	missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", this->pos, this->missileSize);
+		//	missile->SetSpeed(-missileSpeed);
+		//	missile->SetDamage(this->damge);
+		//	missile->SetAngle(angle);
+		//	missile->SetMovePatten(Patten::TEST2);
 
-			missilePos.x -= 30.0f;
-			missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", this->pos, this->missileSize);
-			missile->SetSpeed(-missileSpeed);
-			missile->SetDamage(this->damge);
-			missile->SetAngle(angle);
-			missile->SetMovePatten(Patten::TEST);
+		//	missilePos.x -= 30.0f;
+		//	missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", this->pos, this->missileSize);
+		//	missile->SetSpeed(-missileSpeed);
+		//	missile->SetDamage(this->damge);
+		//	missile->SetAngle(angle);
+		//	missile->SetMovePatten(Patten::TEST);
 
-			angle += 0.3f;//(6.14 / 20.0f);
+		//	angle += 0.3f;//(6.14 / 20.0f);
 
 
-		}
+		//}
 
-		isFire = false;
-		return;
+		//isFire = false;
+		//return;
 
 		missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, this->missileSize);
 		missile->SetSpeed(-missileSpeed);
