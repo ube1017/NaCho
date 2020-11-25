@@ -128,6 +128,32 @@ HRESULT UI::Init()
 	BossFont4.drwrc = { (LONG)720 - 20 , (LONG)600 , (LONG)1120 - 20, 1030 };
 	BossFontBack.imageName = "BossFontBack";
 	BossFontBack.drwrc = { (LONG)520 , (LONG)-300 , (LONG)WINSIZE_X+20, WINSIZE_Y+300 };
+	SkillEffect1.imageName = "SkillEffect1";
+	SkillEffect1.drwrc = { (LONG)300, (LONG)300 , (LONG)700, 500 };
+	SkillEffect2.imageName = "SkillEffect2";
+	SkillEffect2.drwrc = { (LONG)300, (LONG)300 , (LONG)700, 500 };
+	SkillEffect3.imageName = "SkillEffect3";
+	SkillEffect3.drwrc = { (LONG)300, (LONG)300 , (LONG)700, 500 };
+	SkillEffect4.imageName = "SkillEffect4";
+	SkillEffect4.drwrc = { (LONG)300, (LONG)300 , (LONG)700, 500 };
+	LeftCloud1.imageName = "LeftCloud1";
+	LeftCloud1.drwrc = { (LONG)300, (LONG)300 , (LONG)700, 500 };
+	LeftCloud2.imageName = "LeftCloud2";
+	LeftCloud2.drwrc = { (LONG)300, (LONG)300 , (LONG)700, 500 };
+	LeftCloud3.imageName = "LeftCloud3";
+	LeftCloud3.drwrc = { (LONG)300, (LONG)300 , (LONG)700, 500 };
+	RightCloud1.imageName = "RightCloud1";
+	RightCloud1.drwrc = { (LONG)300, (LONG)300 , (LONG)700, 500 };
+	RightCloud2.imageName = "RightCloud2";
+	RightCloud2.drwrc = { (LONG)300, (LONG)300 , (LONG)700, 500 };
+	RightCloud3.imageName = "RightCloud3";
+	RightCloud3.drwrc = { (LONG)300, (LONG)300 , (LONG)700, 500 };
+	RightCloud4.imageName = "RightCloud4";
+	RightCloud4.drwrc = { (LONG)300, (LONG)300 , (LONG)700, 500 };
+	SoulGeiji3.imageName = "SoulGeiji3";
+	SoulGeiji3.drwrc = { (LONG)300, (LONG)300 , (LONG)700, 500 };
+
+	
 	closeCount = DoorState::OPEN;
 	isWaring = false;
 	return S_OK;
@@ -379,11 +405,26 @@ void UI::Render(HDC hdc)
 	//imageManager->DrawAnimImage(hdc, Bar3);
 	imageManager->DrawAnimImage(hdc, Impact);
 	imageManager->DrawAnimImage(hdc, Impact2);
-	imageManager->DrawAnimImage(hdc, BossFontBack);
+	/*imageManager->DrawAnimImage(hdc, BossFontBack);
 	imageManager->DrawAnimImage(hdc, BossFont3);
 	imageManager->DrawAnimImage(hdc, BossFont1);
 	imageManager->DrawAnimImage(hdc, BossFont2);
-	imageManager->DrawAnimImage(hdc, BossFont4);
+	imageManager->DrawAnimImage(hdc, BossFont4);*/
+	//imageManager->DrawAnimImage(hdc, BossInit);
+	//imageManager->DrawAnimImage(hdc, Warning);
+	//imageManager->DrawAnimImage(hdc, SkillEffect1);
+	//imageManager->DrawAnimImage(hdc, SkillEffect2);
+	//imageManager->DrawAnimImage(hdc, SkillEffect3);
+	//imageManager->DrawAnimImage(hdc, SkillEffect4);
+	//imageManager->DrawAnimImage(hdc, LeftCloud1);
+	//imageManager->DrawAnimImage(hdc, LeftCloud2);
+	//imageManager->DrawAnimImage(hdc, LeftCloud3);
+	//imageManager->DrawAnimImage(hdc, RightCloud1);
+	//imageManager->DrawAnimImage(hdc, RightCloud2);
+	//imageManager->DrawAnimImage(hdc, RightCloud3);
+	//imageManager->DrawAnimImage(hdc, RightCloud4);
+	//imageManager->DrawAnimImage(hdc, SoulGeiji3);
+	
 }
 
 void UI::BossStage()

@@ -38,8 +38,10 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("EnemyMissile", "EnemyMissile", { 192,72 }, { 8,1 });
 	imageManager->_LoadBitmap("Background2", "Background2", { 512,512 }, { 1,1 });
 	imageManager->_LoadBitmap("Background5", "Background5", { 512,1024 }, { 1,1 });
+	imageManager->_LoadBitmap("Background6", "Background6", { 512,1024 }, { 1,1 });
 	imageManager->_LoadBitmap("Background3", "Background3", { 512,1024 }, { 1,1 });
 	imageManager->_LoadBitmap("Background4", "Background4", { 512,1024 }, { 1,1 });
+	imageManager->_LoadBitmap("Background7", "Background7", { 512,1024 }, { 1,1 });
 	imageManager->_LoadBitmap("Background1", "Background1", { 512,512 }, { 1,1 });
 	imageManager->_LoadBitmap("PlayerMissile", "PlayerMissile", { 128,128 }, { 1,1 });
 	imageManager->_LoadBitmap("LeftSideDownBackground", "LeftSideDownBackground", { 512,512 }, { 1,1 });
@@ -75,7 +77,18 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("BossFont3", "BossFont3", { 512,512 }, { 1,1 });
 	imageManager->_LoadBitmap("BossFont4", "BossFont4", { 512,512 }, { 1,1 });
 	imageManager->_LoadBitmap("BossFontBack", "BossFontBack", { 512,1024 }, { 1,1 });
-	
+	imageManager->_LoadBitmap("LeftCloud1", "LeftCloud1", { 1024,256 }, { 1,1 });
+	imageManager->_LoadBitmap("LeftCloud2", "LeftCloud2", { 1024,512 }, { 1,1 });
+	imageManager->_LoadBitmap("LeftCloud3", "LeftCloud3", { 1024,256 }, { 1,1 });
+	imageManager->_LoadBitmap("RightCloud1", "RightCloud1", { 1024,256 }, { 1,1 });
+	imageManager->_LoadBitmap("RightCloud2", "RightCloud2", { 1024,256 }, { 1,1 });
+	imageManager->_LoadBitmap("RightCloud3", "RightCloud3", { 512,256 }, { 1,1 });
+	imageManager->_LoadBitmap("RightCloud4", "RightCloud4", { 1024,512 }, { 1,1 });
+	imageManager->_LoadBitmap("SoulGeiji3", "SoulGeiji3", { 344,512 }, { 1,1 });
+	imageManager->_LoadBitmap("SkillEffect1", "SkillEffect1", { 641,257 }, { 1,1 });
+	imageManager->_LoadBitmap("SkillEffect2", "SkillEffect2", { 512,512 }, { 1,1 });
+	imageManager->_LoadBitmap("SkillEffect3", "SkillEffect3", { 430,138 }, { 1,1 });
+	imageManager->_LoadBitmap("SkillEffect4", "SkillEffect4", { 512,512 }, { 1,1 });
 	
 	// µµ¿µ
 	EPos.x = 500;

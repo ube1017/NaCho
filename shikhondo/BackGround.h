@@ -19,7 +19,7 @@ private:
 	ImageDrawInfo Background5;
 	float Background5Time;
 	int Background5PosY;
-	ImageDrawInfo Background3[2];
+	ImageDrawInfo Background3;
 	float Background3Time;
 	int Background3PosY;
 	ImageDrawInfo Background4;

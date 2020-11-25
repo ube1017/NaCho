@@ -81,8 +81,19 @@ private:
 	ImageDrawInfo BossFont3;
 	ImageDrawInfo BossFont4;
 	ImageDrawInfo BossFontBack;
-	
-	
+	ImageDrawInfo LeftCloud1;
+	ImageDrawInfo LeftCloud2;
+	ImageDrawInfo LeftCloud3;
+	ImageDrawInfo RightCloud1;
+	ImageDrawInfo RightCloud2;
+	ImageDrawInfo RightCloud3;
+	ImageDrawInfo RightCloud4;
+	ImageDrawInfo SoulGeiji3;
+	ImageDrawInfo SkillEffect1;
+	ImageDrawInfo SkillEffect2;
+	ImageDrawInfo SkillEffect3;
+	ImageDrawInfo SkillEffect4;
+
 
 };
 
