@@ -43,6 +43,8 @@ private:
 	const int* playerSoulGauge;
 	const int* playerBoom;
 	const int* bossHp;
+	const int* pSoulSocre;
+	int soulSocre[4];
 	int bossMaxHp;
 	int bossFontUIcount;
 

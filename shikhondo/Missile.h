@@ -41,6 +41,9 @@ public:
 
 	void SetMovePatten(Patten movePatten);
 
+	void SetisBoom(bool value) { this->isboom = value; }
+	bool GetisBoom() { return this->isboom; }
+
 	void SetHitBox(RECT rect) { this->hitBox = rect; }
 	RECT GetHitBox() { return this->hitBox; }
 
@@ -71,6 +74,7 @@ private:
 
 	int damage;
 	bool isSoul;
+	bool isboom;
 	float angle;
 	float angle2;
 	float speed;

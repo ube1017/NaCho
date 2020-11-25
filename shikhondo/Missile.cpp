@@ -35,6 +35,7 @@ HRESULT Missile::Init()
 	this->taget = nullptr;
 	this->damage = 1;
 	this->hitBox = { 0,0,0,0};
+	this->isboom = false;
 
 	angle2 = 0.0f;
 	if (impact == nullptr)
@@ -80,6 +81,8 @@ void Missile::Render(HDC hdc)
 void Missile::OnHit()
 {
 	// this->MissileRelease();
+	if (isboom)
+		return;
 	this->isActivation = false;
 	if (!this->isSoul)
 		impact->SpawnImpact("Impact", this->pos, {128,128});
