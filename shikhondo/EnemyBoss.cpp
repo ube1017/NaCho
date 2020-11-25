@@ -19,6 +19,7 @@ HRESULT EnemyBoss::Init()
 	movePosCheck = 0;
 	pattenCheck = false;
 	// 시작 위치 설정
+	LocationReset();
 	RandLocation();
 	bossMove();
 	////imageinfo.imageName = "enemy1";
@@ -225,7 +226,7 @@ void EnemyBoss::bossMove()
 			RandPos.y = 450;
 			break;
 		case 3:
-			RandPos.x = 700 + Play_LeftX;
+			RandPos.x = Play_RightX - 200;
 			break;
 		case 4:
 			LocationReset();
@@ -241,17 +242,17 @@ void EnemyBoss::bossMove()
 		switch (movePosCheck)
 		{
 		case 1:
-			RandPos.x = 200 + Play_LeftX;
+			RandPos.x = 100 + Play_LeftX;
 			RandPos.y = 400;
 			break;
 		case 2:
-			RandPos.x = 700 + Play_LeftX;
+			RandPos.x = Play_RightX - 100;
 			break;
 		case 3:
 			RandPos.x = 200 + Play_LeftX;
 			break;
 		case 4:
-			RandPos.x = 700 + Play_LeftX;
+			RandPos.x = Play_RightX - 100;
 			break;
 		case 5:
 			LocationReset();
@@ -270,7 +271,7 @@ void EnemyBoss::bossMove()
 			RandPos.y = 550;
 			break;
 		case 2:
-			RandPos.x = 200 + Play_LeftX;
+			RandPos.x = 100 + Play_LeftX;
 			RandPos.y = 400;
 			break;
 		case 3:
@@ -280,7 +281,7 @@ void EnemyBoss::bossMove()
 			LocationReset();
 			break;
 		case 5:
-			RandPos.x = 700 + Play_LeftX;
+			RandPos.x = Play_RightX - 100;
 			RandPos.y = 200;
 			break;
 		case 6:
@@ -307,14 +308,14 @@ void EnemyBoss::bossMove()
 			RandPos.y = 350;
 			break;
 		case 2:
-			RandPos.x = 200 + Play_LeftX;
+			RandPos.x = 100 + Play_LeftX;
 			RandPos.y = 600;
 			break;
 		case 3:
 			RandPos.y = 200;
 			break;
 		case 4:
-			RandPos.x = 700 + Play_LeftX;
+			RandPos.x = Play_RightX - 100;
 			RandPos.y = 600;
 			break;
 		case 5:
