@@ -114,8 +114,10 @@ HRESULT UI::Init()
 	Back.imageName = "Back";
 	Back.drwrc = { (LONG)0 , (LONG)0 , (LONG)WINSIZE_X, WINSIZE_Y };
 	BossInit.imageName = "BossInit";
-	BossInit.drwrc = { (LONG)0 , (LONG)0 , (LONG)WINSIZE_X, WINSIZE_Y };
-	
+	BossInit.drwrc = { (LONG)0 - (WINSIZE_X / 4) , (LONG)-(WINSIZE_Y / 3) ,
+		(LONG)WINSIZE_X + (WINSIZE_X / 4), WINSIZE_Y + (WINSIZE_Y / 3) };
+	Warning.imageName = "Warning";
+	Warning.drwrc = { (LONG)0 + (WINSIZE_X / 4)-100 , (LONG)40 , (LONG)WINSIZE_X - (WINSIZE_X / 4)+100, WINSIZE_Y+40 };
 	return S_OK;
 }
 
@@ -127,9 +129,6 @@ void UI::Release()
 void UI::Update()
 {
 	Soulgeiji2Time += TimerManager::GetSingleton()->GettimeElapsed();
-
-
-
 	if (Soulgeiji2Time >= 0.05f)
 	{
 		Soulgeiji2.framex++;
@@ -278,6 +277,8 @@ void UI::Render(HDC hdc)
 		imageManager->DrawAnimImage(hdc, leftBack1);
 		imageManager->DrawAnimImage(hdc, leftBack2);
 	}
+	imageManager->DrawAnimImage(hdc, BossInit);
+	imageManager->DrawAnimImage(hdc, Warning);
 	imageManager->DrawAnimImage(hdc, Back);
 	/*imageManager->DrawAnimImage(hdc, LeftBackground);
 	imageManager->DrawAnimImage(hdc, LeftSideDownBackground);
@@ -334,7 +335,8 @@ void UI::Render(HDC hdc)
 	//imageManager->DrawAnimImage(hdc, Bar3);
 	imageManager->DrawAnimImage(hdc, Impact);
 	imageManager->DrawAnimImage(hdc, Impact2);
-	imageManager->DrawAnimImage(hdc, BossInit);
+	
+	
 	
 	
 	

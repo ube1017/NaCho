@@ -56,6 +56,7 @@ private:
 	ImageDrawInfo Back;
 	ImageDrawInfo BossInit;
 	float BossInitTime;
+	ImageDrawInfo Warning;
 	
 	
 
