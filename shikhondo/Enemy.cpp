@@ -4,6 +4,14 @@
 #include "Player.h"
 #include "PlayScene.h"
 #include "EnemyManager.h"
+#include "Impact.h"
+
+Enemy::Enemy()
+{
+	impact = GamePlayStatic::GetScene()->CreateObject<Impact>();
+	impact->SetIsValid(false);
+	impact->SetZOrder(8);
+}
 
 HRESULT Enemy::Init()
 {
@@ -72,6 +80,9 @@ void Enemy::OnHit(Missile* hitMissile)
 	
 	this->hp -= hitdmage;
 	if (this->hp <= 0)
+	{
+		impact->SetIsValid(true);
+		impact->SpawnImpact("Impact", this->pos, {256,256}, 0.01f);
 		this->Death();
-
+	}
 }

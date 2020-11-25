@@ -27,8 +27,8 @@ HRESULT Player::Init()
 	idleTimer.timerName = "플레이어 아이들 애니메이션타이머";
 	timer->SetTimer(idleTimer,this,&Player::Idle , 0.035f);
 	fireTimer.timerName = "플레이어 발사딜레이 간격";
-	timer->SetTimer(fireTimer, this, &Player::FireDelay, 0.185f);
-	//timer->SetTimer(fireTimer, this, &Player::FireDelay, 0.085f);
+	//timer->SetTimer(fireTimer, this, &Player::FireDelay, 0.185f);
+	timer->SetTimer(fireTimer, this, &Player::FireDelay, 0.085f);
 	homingShooteridleTimer.timerName = "플레이어 보조무기";
 	timer->SetTimer(homingShooteridleTimer, this, &Player::HomingShooterIdle, 0.04f);
 	timer->SetTimer(startMoveTimer, this, &Player::StratMove, 0.01f);
@@ -42,6 +42,7 @@ HRESULT Player::Init()
 
 
 	missileSize = normalMissileSize;
+	missileName = "PlayerMissile";
 
 	soulGaugeLeft.DrawRectSetting("LProgress", { this->pos.x, this->pos.y }, { 64,128 }, true, {64,128});
 	soulGaugeRight.DrawRectSetting("RProgress", this->pos, { 64,128 }, true, {64,64});
@@ -244,38 +245,38 @@ void Player::Fire()
 		PlayScene* playscene = Cast<PlayScene>(GamePlayStatic::GetScene());
 		MissileManager* missileManager = playscene->GetMissileManager();
 
-		float angle = 0.0f;
-		
-		for (int i = 0 ; i < 20 ; i++)
-		{
-			missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", this->pos, this->missileSize);
-			missile->SetSpeed(-missileSpeed);
-			missile->SetDamage(this->damge);
-			missile->SetAngle(angle);
-			missile->SetMovePatten(Patten::TEST2);
+		//float angle = 0.0f;
+		//
+		//for (int i = 0 ; i < 20 ; i++)
+		//{
+		//	missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", this->pos, this->missileSize);
+		//	missile->SetSpeed(-missileSpeed);
+		//	missile->SetDamage(this->damge);
+		//	missile->SetAngle(angle);
+		//	missile->SetMovePatten(Patten::TEST2);
+		//
+		//	missilePos.x -= 30.0f;
+		//	missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", this->pos, this->missileSize);
+		//	missile->SetSpeed(-missileSpeed);
+		//	missile->SetDamage(this->damge);
+		//	missile->SetAngle(angle);
+		//	missile->SetMovePatten(Patten::TEST);
+		//
+		//	angle += 0.3f;//(6.14 / 20.0f);
+		//
+		//
+		//}
+		//
+		//isFire = false;
+		//return;
 
-			missilePos.x -= 30.0f;
-			missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", this->pos, this->missileSize);
-			missile->SetSpeed(-missileSpeed);
-			missile->SetDamage(this->damge);
-			missile->SetAngle(angle);
-			missile->SetMovePatten(Patten::TEST);
-
-			angle += 0.3f;//(6.14 / 20.0f);
-
-
-		}
-
-		isFire = false;
-		return;
-
-		missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, this->missileSize);
+		missile = missileManager->SpawnPlayerMissile(this, missileName, missilePos, this->missileSize);
 		missile->SetSpeed(-missileSpeed);
 		missile->SetDamage(this->damge);
 		missile->SetMovePatten(Patten::NORMALMOVE);
 
 		missilePos.x -= 30.0f;
-		missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, this->missileSize);
+		missile = missileManager->SpawnPlayerMissile(this, missileName, missilePos, this->missileSize);
 		missile->SetSpeed(-missileSpeed);
 		missile->SetDamage(this->damge);
 		missile->SetMovePatten(Patten::NORMALMOVE);
@@ -283,7 +284,7 @@ void Player::Fire()
 
 		missilePos.x += 15.0f;
 		missilePos.y -= 15.0f;
-		missile = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, this->missileSize);
+		missile = missileManager->SpawnPlayerMissile(this, missileName, missilePos, this->missileSize);
 		missile->SetSpeed(-missileSpeed);
 		missile->SetDamage(this->damge);
 		missile->SetMovePatten(Patten::NORMALMOVE);
@@ -301,7 +302,7 @@ void Player::Fire()
 			{
 
 				missilePos = homingShooterPos[i];
-				homing[i] = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, this->missileSize);
+				homing[i] = missileManager->SpawnPlayerMissile(this, missileName, missilePos, this->missileSize);
 				homing[i]->SetDamage(this->damge);
 
 				homing[i]->SetTaget(*const_it);
@@ -321,7 +322,7 @@ void Player::Fire()
 		if (i == 1)
 		{
 			missilePos = homingShooterPos[1];
-			homing[1] = missileManager->SpawnPlayerMissile(this, "PlayerMissile", missilePos, this->missileSize);
+			homing[1] = missileManager->SpawnPlayerMissile(this, missileName, missilePos, this->missileSize);
 			homing[1]->SetDamage(this->damge);
 
 			homing[1]->SetTaget(homingTaget);
@@ -379,6 +380,7 @@ void Player::SpecialAbility()
 		isSpecialAbility = true;
 		damge = 2;
 		missileSize = specialAbilityMissileSize;
+		missileName = "PlayerMissile2";
 	}
 	else if (this->boomCount != 0)
 	{
@@ -388,7 +390,7 @@ void Player::SpecialAbility()
 			MissileManager* missilemanager = playScene->GetMissileManager();
 			missilemanager->MissileAllChangeSoul(this);
 			boomMissile = missilemanager->SpawnPlayerMissile(this, "21", { Play_LeftX + (PlayXSize / 8), WINSIZE_Y/2 }, { (PlayXSize / 4) , WINSIZE_Y});
-			boomMissile->SetDamage(70);
+			boomMissile->SetDamage(50);
 			Boom();
 			this->boomCount--;
 			if (this->boomCount <= 0)
@@ -433,9 +435,10 @@ void Player::SpecialAbilityGauge()
 		if (this->soulGauge <= 0)
 		{
 			this->soulGauge = 0;
-			isSpecialAbility = false;
+			this->isSpecialAbility = false;
 			this->damge = 1;
-			missileSize = normalMissileSize;
+			this->missileName = "PlayerMissile";
+			this->missileSize = normalMissileSize;
 		}
 	}
 	float ratio = 0;

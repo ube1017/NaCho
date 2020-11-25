@@ -106,8 +106,9 @@ void CollisionManager::CollisinCheck()
 					enemyManager->DieEnemy(enemy);
 			}
 		}
+		boomMissile->SetHitBox({0,0,0,0});
 	}
-	
+
 	eiter = enemys->begin();
 	
 	for (; eiter != enemys->end(); eiter++)

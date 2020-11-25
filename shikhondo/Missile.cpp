@@ -4,6 +4,7 @@
 #include "GamePlayStatic.h"
 #include "Character.h"
 #include "Image.h"
+#include "Impact.h"
 
 Missile::Missile()
 {
@@ -36,7 +37,12 @@ HRESULT Missile::Init()
 	this->hitBox = { 0,0,0,0};
 
 	angle2 = 0.0f;
-	
+	if (impact == nullptr)
+	{
+		impact = GamePlayStatic::GetScene()->CreateObject<Impact>();
+		impact->SetZOrder(8);
+	}
+	impact->SetIsValid(false);
 	return S_OK;
 }
 
@@ -75,6 +81,8 @@ void Missile::OnHit()
 {
 	// this->MissileRelease();
 	this->isActivation = false;
+	if (!this->isSoul)
+		impact->SpawnImpact("Impact", this->pos, {128,128});
 	TimerManager::GetSingleton()->DeleteTimer(misiileAnimTimerHandle);
 }
 
