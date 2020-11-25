@@ -1,5 +1,15 @@
 #pragma once
 #include "BaseUI.h"
+
+enum class DoorState
+{
+	OPEN = 0,
+	BOSSOPEN,
+	CLOSE,
+	HOLD,
+	NONE,
+};
+
 class UI : public BaseUI
 {
 public:
@@ -10,6 +20,11 @@ public:
 
 	void SetBossHp(int* hp) { bossHp = hp; bossMaxHp = *hp;isbossSpawn = true; }
 	bool GetIsFullOpen() { return isFullOpen; }
+
+	void BossStage();
+private:
+	void WarningUI();
+	void WarningUIEnd();
 private:
 	FPOINT leftBack2pos;
 	FPOINT leftBack1pos;
@@ -27,8 +42,12 @@ private:
 	const int* playerBoom;
 	const int* bossHp;
 	int bossMaxHp;
+
+	DoorState closeCount;
 	bool isbossSpawn;
 	bool isFullOpen;
+	bool isWaring;
+	TimerHandle warningUIEndtimer;
 
 	ImageDrawInfo Soulgeiji2;
 	float Soulgeiji2Time;
@@ -56,6 +75,12 @@ private:
 	ImageDrawInfo Back;
 	ImageDrawInfo BossInit;
 	float BossInitTime;
+	ImageDrawInfo Warning;
+	ImageDrawInfo BossFont1;
+	ImageDrawInfo BossFont2;
+	ImageDrawInfo BossFont3;
+	ImageDrawInfo BossFont4;
+	ImageDrawInfo BossFontBack;
 	
 	
 

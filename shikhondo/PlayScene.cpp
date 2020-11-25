@@ -69,6 +69,14 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("Impact2", "Impact2", { 256,256 }, { 1,1 });
 	imageManager->_LoadBitmap("Back", "Back", { 1280,900 }, { 1,1 });
 	imageManager->_LoadBitmap("BossInit", "BossInit", { 1024,1024 }, { 1,1 });
+	imageManager->_LoadBitmap("Warning", "Warning", { 1024,1024 }, { 1,1 });
+	imageManager->_LoadBitmap("BossFont1", "BossFont1", { 512,512 }, { 1,1 });
+	imageManager->_LoadBitmap("BossFont2", "BossFont2", { 512,512 }, { 1,1 });
+	imageManager->_LoadBitmap("BossFont3", "BossFont3", { 512,512 }, { 1,1 });
+	imageManager->_LoadBitmap("BossFont4", "BossFont4", { 512,512 }, { 1,1 });
+	imageManager->_LoadBitmap("BossFontBack", "BossFontBack", { 512,1024 }, { 1,1 });
+	
+	
 	// 도영
 	EPos.x = 500;
 	EPos.y = 200;
@@ -127,16 +135,18 @@ void PlayScene::Update()
 	GameNode::Update();
 	// 테스트용
 #ifdef _DEBUG
-	if (KeyManager::GetSingleton()->IsOnceKeyDown(0x51)) //q
-		enemyManager->SpawnEeney<Enemy1>();
+	//if (KeyManager::GetSingleton()->IsOnceKeyDown(0x51)) //q
+	//	enemyManager->SpawnEeney<Enemy1>();
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(0x57)) //w
 		enemyManager->SpawnEeney<Enemy2>();
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(0x45)) //e~
 		enemyManager->SpawnEeney<Enemy3>();
-	if (KeyManager::GetSingleton()->IsOnceKeyDown(VK_SPACE))
+	if (KeyManager::GetSingleton()->IsOnceKeyDown(0x51))
 	{ 
-		Enemy* boss = enemyManager->SpawnEeney<EnemyBoss>();
-		ui->SetBossHp(boss->GetHp_ptr());
+		//Enemy* boss = enemyManager->SpawnEeney<EnemyBoss>();
+		//ui->SetBossHp(boss->GetHp_ptr());
+		ui->BossStage();
+		player->SetIsKeyLock(true);
 	}
 #endif // _DEBUG
 
@@ -153,6 +163,11 @@ Missile* PlayScene::SpawnMissile(Character* owner, string imageName, FPOINT miss
 	Missile* missile;
 	missile = missileManager->SpawnMissile(owner, imageName, missilePos, MissileSize);
 	return missile;
+}
+
+void PlayScene::BossSpawnBind()
+{
+	spawnStart.BindObject(this, &PlayScene::BossSpawn);
 }
 
 void PlayScene::StageSpawn()
@@ -301,4 +316,13 @@ void PlayScene::SpawnStartFun()
 {
 	//TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
 	player->SetIsKeyLock(false);
+
+}
+
+void PlayScene::BossSpawn()
+{
+	Enemy* boss = enemyManager->SpawnEeney<EnemyBoss>();
+	ui->SetBossHp(boss->GetHp_ptr());
+	player->SetIsKeyLock(false);
+	
 }

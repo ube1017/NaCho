@@ -32,6 +32,7 @@ public:
 	class Missile* SpawnMissile(class Character* owner,string imageName, FPOINT missilePos, SIZE MissileSize);
 
 
+	void BossSpawnBind();
 
 	void StageSpawn();
 	void SpawnPatten1();
@@ -41,6 +42,7 @@ public:
 	void None() {}
 private:
 	void SpawnStartFun();
+	void BossSpawn();
 	
 	// Àû À§Ä¡
 	FPOINT EPos;
