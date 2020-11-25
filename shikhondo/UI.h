@@ -57,6 +57,11 @@ private:
 	ImageDrawInfo BossInit;
 	float BossInitTime;
 	ImageDrawInfo Warning;
+	ImageDrawInfo BossFont1;
+	ImageDrawInfo BossFont2;
+	ImageDrawInfo BossFont3;
+	ImageDrawInfo BossFont4;
+	ImageDrawInfo BossFontBack;
 	
 	
 
