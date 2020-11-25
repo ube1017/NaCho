@@ -12,6 +12,7 @@ HRESULT UI::Init()
 		playerHp = player->GetHp_ptr();
 		playerSoulGauge = player->GetSoulGauge_ptr();
 		playerBoom = player->GetBoom_ptr();
+		pSoulSocre = player->GetSoulScore_ptr();
 	}
 
 	leftBack1pos.x = Play_LeftX;
@@ -156,6 +157,11 @@ HRESULT UI::Init()
 	
 	closeCount = DoorState::OPEN;
 	isWaring = false;
+
+	soulSocre[0] = -1;
+	soulSocre[1] = -1;
+	soulSocre[2] = -1;
+	soulSocre[3] = -1;
 	return S_OK;
 }
 
@@ -335,6 +341,20 @@ void UI::Update()
 
 		boss_Hp_Bar2.drwrc = { (LONG)320 , (LONG)0 , (LONG)950, 80 };
 	}
+	int sSocre = *pSoulSocre;
+	int temp = 0;
+
+	int j = 0;
+	for (int i = 3; i > -1; i--)
+	{
+		temp = sSocre / (int)pow(10, i);
+		//if (temp != 0)
+		{
+			soulSocre[j] = temp;
+			j++;
+		}
+	}
+
 }
 
 void UI::Render(HDC hdc)
@@ -395,7 +415,8 @@ void UI::Render(HDC hdc)
 	}
 	for (int i = 0; i < 4; i++)
 	{
-		imageManager->DrawAnimImage(hdc, Font3[i]);
+		if (soulSocre[0] != -1)
+			imageManager->DrawAnimImage(hdc, Font3[i]);
 	}
 	//for (int i = 0; i < 2; i++)
 	//{

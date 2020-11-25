@@ -35,6 +35,8 @@ public:
 	int GetHp() { return this->hp; }
 	FPOINT Getpos() { return { this->pos.x , this->pos.y - 4}; }
 
+	int* GetSoulScore_ptr() { return &this->soulScore; }
+
 	void SetIsKeyLock(bool value) { this->isKeyLock = value; }
 	bool GetIsKeyLock(bool value) { return this->isKeyLock; }
 
@@ -85,7 +87,7 @@ private:
 	// ÆøÅº °¹¼ö
 	int boomCount;
 	int soulGauge;
-	
+	int soulScore;
 	// ¹«Àû ¸ðµå
 	bool testMode;
 	bool isFire;

@@ -134,7 +134,8 @@ void CollisionManager::CollisinCheck()
 					{
 						(*eiter)->OnHit(emissile);
 						emissile->OnHit();
-						releaseMissiles.push_back(*missileit);
+						if (!emissile->GetisBoom())
+							releaseMissiles.push_back(*missileit);
 						if (!(*eiter)->GetisActivation())
 						{
 							releaseEnemy.push_back(*eiter);

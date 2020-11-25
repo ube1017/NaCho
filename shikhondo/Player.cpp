@@ -15,6 +15,7 @@ HRESULT Player::Init()
 	boomCount = 4;
 	soulGauge = 0;
 	damge = 1;
+	soulScore = 0;
 	isKeyLock = false;
 	//pos = { 640.0f ,WINSIZE_Y - 100.0f };
 	pos = { 640.0f , WINSIZE_Y + 100.0f };
@@ -391,7 +392,8 @@ void Player::SpecialAbility()
 			MissileManager* missilemanager = playScene->GetMissileManager();
 			missilemanager->MissileAllChangeSoul(this);
 			boomMissile = missilemanager->SpawnPlayerMissile(this, "21", { Play_LeftX + (PlayXSize / 8), WINSIZE_Y/2 }, { (PlayXSize / 4) , WINSIZE_Y});
-			boomMissile->SetDamage(50);
+			boomMissile->SetDamage(70);
+			boomMissile->SetisBoom(true);
 			Boom();
 			this->boomCount--;
 			if (this->boomCount <= 0)
