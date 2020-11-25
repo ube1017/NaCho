@@ -16,7 +16,7 @@ HRESULT UI::Init()
 
 	leftBack1pos.x = Play_LeftX;
 	leftBack1pos.y = 0;
-	leftBack1.drwrc = { (LONG)Play_LeftX, (LONG)-10, (LONG)Play_LeftX + PlayXSize /2 , WINSIZE_Y+20};
+	leftBack1.drwrc = { (LONG)Play_LeftX - 10, (LONG)-10, (LONG)Play_LeftX + PlayXSize /2 , WINSIZE_Y+20};
 	leftBack1.imageName = "leftBack";  //문
 	leftBack1.framex = 0;
 	leftBack1.framey = 0;
@@ -24,7 +24,7 @@ HRESULT UI::Init()
 	leftBack2pos.x = Play_LeftX + PlayXSize / 2;
 	leftBack2pos.y = 0;
 	leftBack2.imageName = "leftBack";  //문
-	leftBack2.drwrc = { (LONG)Play_LeftX + PlayXSize / 2   , (LONG)-10 , (LONG)Play_RightX , WINSIZE_Y + 20 };
+	leftBack2.drwrc = { (LONG)Play_LeftX + PlayXSize / 2   , (LONG)-10 , (LONG)Play_RightX + 10, WINSIZE_Y + 20 };
 	leftBack1.framex = 1;
 	leftBack1.framey = 0;
 
@@ -128,7 +128,8 @@ HRESULT UI::Init()
 	BossFont4.drwrc = { (LONG)720 - 20 , (LONG)600 , (LONG)1120 - 20, 1030 };
 	BossFontBack.imageName = "BossFontBack";
 	BossFontBack.drwrc = { (LONG)520 , (LONG)-300 , (LONG)WINSIZE_X+20, WINSIZE_Y+300 };
-	;
+	closeCount = DoorState::OPEN;
+	isWaring = false;
 	return S_OK;
 }
 
@@ -225,28 +226,57 @@ void UI::Update()
 		ImpactTime = 0.0f;
 	}
 
-	if (!isFullOpen)
-
+	if (!isFullOpen && (closeCount != DoorState::HOLD))
 	{
 		if (leftBack1pos.x > Play_LeftX - 225)
 		{
 			if (leftBack1.drwrc.right > Play_LeftX)
 			{
 				//leftBack1pos.x--;
-				leftBack1.MovePos(MovePosType::X_AIS, -2);
+				if (closeCount != DoorState::BOSSOPEN)
+					leftBack1.MovePos(MovePosType::X_AIS, -2);
+				else
+					leftBack1.MovePos(MovePosType::X_AIS, -8);
 			}
 
 			if (leftBack2.drwrc.left < Play_RightX)
 			{
 				//leftBack2pos.x++;
-				leftBack2.MovePos(MovePosType::X_AIS, +2);
+				if (closeCount != DoorState::BOSSOPEN)
+					leftBack2.MovePos(MovePosType::X_AIS, +2);
+				else
+					leftBack2.MovePos(MovePosType::X_AIS, +8);
 			}
 			else
 			{
+				closeCount = DoorState::NONE;
 				PlayScene* playScen = Cast<PlayScene>(GamePlayStatic::GetScene());
 				playScen->spawnStart.Execute();
 				playScen->spawnStart.UnBind();
 				isFullOpen = true;
+			
+			}
+		}
+	}
+	else if (closeCount != DoorState::NONE)
+	{
+		//if (leftBack1pos.x >= Play_LeftX - 225)
+		{
+			if (leftBack1.drwrc.right < Play_LeftX + PlayXSize / 2)
+			{
+				//leftBack1pos.x--;
+				leftBack1.MovePos(MovePosType::X_AIS, +8);
+			}
+
+			if (leftBack2.drwrc.left > Play_LeftX + PlayXSize / 2)
+			{
+				//leftBack2pos.x++;
+				leftBack2.MovePos(MovePosType::X_AIS, -8);
+			}
+			else
+			{
+				if (closeCount != DoorState::HOLD)
+					this->WarningUI();
 			}
 		}
 	}
@@ -269,11 +299,11 @@ void UI::Update()
 		int width = 865 - 395;
 		// 검은색
 		boss_Hp_Bar1.drwrc = { (LONG)395 , (LONG)41 , (LONG)395 + (LONG)(width * hpPersent), 52 };
-		int boss_bar_left = (LONG)boss_Hp_Bar1.drwrc.right - 201;
-		if (boss_bar_left  <= boss_Hp_Bar2.drwrc.left)
+		int boss_bar_left  = (LONG)boss_Hp_Bar1.drwrc.right - 201;
+		if (boss_bar_left <= boss_Hp_Bar2.drwrc.left)
 			boss_bar_left = boss_Hp_Bar2.drwrc.left;
 		//내용물
-		boss_Hp_Bar3.drwrc = { boss_bar_left , (LONG)41 , boss_Hp_Bar1.drwrc.right + 55, 52 };
+		boss_Hp_Bar3.drwrc = { boss_bar_left -20 , (LONG)41 , boss_Hp_Bar1.drwrc.right + 75, 52 };
 
 		boss_Hp_Bar2.drwrc = { (LONG)320 , (LONG)0 , (LONG)950, 80 };
 	}
@@ -283,13 +313,16 @@ void UI::Render(HDC hdc)
 {
 	BaseUI::Render(hdc);
 	ImageManager* imageManager = ImageManager::GetSingleton();
-	if (!isFullOpen)
+	if (closeCount != DoorState::NONE)
 	{
 		imageManager->DrawAnimImage(hdc, leftBack1);
 		imageManager->DrawAnimImage(hdc, leftBack2);
 	}
-	imageManager->DrawAnimImage(hdc, BossInit);
-	imageManager->DrawAnimImage(hdc, Warning);
+	if (isWaring)
+	{
+		imageManager->DrawAnimImage(hdc, BossInit);
+		imageManager->DrawAnimImage(hdc, Warning);
+	}
 	imageManager->DrawAnimImage(hdc, Back);
 	/*imageManager->DrawAnimImage(hdc, LeftBackground);
 	imageManager->DrawAnimImage(hdc, LeftSideDownBackground);
@@ -351,14 +384,33 @@ void UI::Render(HDC hdc)
 	imageManager->DrawAnimImage(hdc, BossFont1);
 	imageManager->DrawAnimImage(hdc, BossFont2);
 	imageManager->DrawAnimImage(hdc, BossFont4);
-	
-	;
-	;
-	;
-	;
-	
-	
-	
-	
-	
+}
+
+void UI::BossStage()
+{
+	closeCount = DoorState::CLOSE;
+}
+
+void UI::WarningUI()
+{
+	isWaring = true;
+	isFullOpen = true;
+	closeCount = DoorState::HOLD;
+	BossInit.imageName = "BossInit";
+	BossInit.drwrc = { (LONG)0 - (WINSIZE_X / 4) , (LONG)-(WINSIZE_Y / 3) ,
+		(LONG)WINSIZE_X + (WINSIZE_X / 4), WINSIZE_Y + (WINSIZE_Y / 3) };
+	Warning.imageName = "Warning";
+	Warning.drwrc = { (LONG)0 + (WINSIZE_X / 4) - 100 , (LONG)40 , (LONG)WINSIZE_X - (WINSIZE_X / 4) + 100, WINSIZE_Y + 40 };
+	TimerManager::GetSingleton()->SetTimer(warningUIEndtimer, this, &UI::WarningUIEnd, 2.0f);
+}
+
+void UI::WarningUIEnd()
+{
+	closeCount = DoorState::BOSSOPEN;
+	isFullOpen = false;
+	isWaring = false;
+	TimerManager::GetSingleton()->DeleteTimer(warningUIEndtimer);
+	PlayScene* plsyScene = Cast<PlayScene>(GamePlayStatic::GetScene());
+	plsyScene->BossSpawnBind();
+
 }
