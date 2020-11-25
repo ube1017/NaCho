@@ -15,6 +15,8 @@ public:
 	bool GetMapOutCheck() { return mapOutCheck; }
 	bool GetMapInCheck() { return mapInCheck; }
 
+	bool GetMonStop() { return stop; }
+
 	float GetAngle();
 	float GetAngle(FPOINT GetPos);
 
@@ -36,7 +38,7 @@ protected:
 	bool mapInCheck;
 	bool mapOutCheck;
 	bool pattenCheck;
-
+	bool stop;
 	class Impact* impact;
 };
 

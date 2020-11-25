@@ -12,6 +12,7 @@ private:
 	class Missile* Em[8];
 	int movePCheck;
 	int movePosCheck;
+	int roundCheck;
 
 
 public:
