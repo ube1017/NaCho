@@ -625,7 +625,7 @@ void UI::BossFontUI()
 	if (bossFontUIcount == 4)
 	{
 		delay += TimerManager::GetSingleton()->GettimeElapsed();
-		if (delay >= 0.15f)
+		if (delay >= 0.08f)
 		{
 			TimerManager::GetSingleton()->DeleteTimer(warningUIEndtimer);
 			isbossFont = false;
