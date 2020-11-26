@@ -630,10 +630,18 @@ void UI::Render(HDC hdc)
 	//}
 }
 
+void UI::SetCloseTimer(float timer)
+{
+	TimerManager::GetSingleton()->SetTimer(ReStartTimer, this, &UI::CloseDoor, timer);
+
+}
+
 void UI::CloseDoor()
 {
 	closeCount = DoorState::CLOSE;
 	isUsingBackImage = false;
+	if (ReStartTimer.timerNum != -1)
+		TimerManager::GetSingleton()->DeleteTimer(ReStartTimer);
 }
 
 void UI::BossStage()

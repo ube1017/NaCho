@@ -12,7 +12,7 @@ HRESULT Player::Init()
 {
 	
 	imageinfo.imageName = "Player";
-	hp = 1;
+	hp = 5;
 	boomCount = 4;
 	soulGauge = 0;
 	damge = 1;
@@ -193,7 +193,7 @@ void Player::KeyChack()
 	{
 		if (keyManager->IsStayKeyDown(VK_RIGHT))
 		{
-			if (pos.x + speed < Play_RightX)
+			if (pos.x + speed < Play_RightX - 10)
 			{
 				imageinfo.MovePos(MovePosType::X_AIS, speed);
 				pos.x += speed;
@@ -201,7 +201,7 @@ void Player::KeyChack()
 		}
 		else if (keyManager->IsStayKeyDown(VK_LEFT))
 		{
-			if (pos.x - speed > Play_LeftX)
+			if (pos.x - speed > Play_LeftX + 10)
 			{
 				imageinfo.MovePos(MovePosType::X_AIS, -speed);
 				pos.x -= speed;
@@ -210,7 +210,7 @@ void Player::KeyChack()
 
 		if (keyManager->IsStayKeyDown(VK_UP))
 		{
-			if (pos.y - speed > 0)
+			if (pos.y - speed > 10)
 			{
 				imageinfo.MovePos(MovePosType::Y_AIS, -speed);
 				pos.y -= speed;
@@ -218,7 +218,7 @@ void Player::KeyChack()
 		}
 		else if (keyManager->IsStayKeyDown(VK_DOWN))
 		{
-			if (pos.y + speed < WINSIZE_Y)
+			if (pos.y + speed < WINSIZE_Y -10)
 			{
 				imageinfo.MovePos(MovePosType::Y_AIS, +speed);
 				pos.y += speed;

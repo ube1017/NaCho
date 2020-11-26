@@ -29,6 +29,8 @@ public:
 	bool GetIsFullOpen() { return isFullOpen; }
 	void AddScore(int value) { this->socre += value; if (maxSocre <= this->socre) maxSocre = this->socre; }
 
+
+	void SetCloseTimer(float timer = 1.0f);
 	void CloseDoor();
 	void BossStage();
 private:
@@ -86,6 +88,7 @@ private:
 	TimerHandle bossSpawnTimer;
 	TimerHandle AlphaTimer;
 	TimerHandle skillEffectTimer;
+	TimerHandle ReStartTimer;
 
 	ImageDrawInfo Soulgeiji2;
 	float Soulgeiji2Time;
