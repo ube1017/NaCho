@@ -53,6 +53,7 @@ private:
 	ImageDrawInfo RightBackground;
 	ImageDrawInfo RightSideDownBackground;
 	ImageDrawInfo RightUpBackground;
+	ImageDrawInfo BossBackground;
 
 	const int* playerHp;
 	const int* playerSoulGauge;

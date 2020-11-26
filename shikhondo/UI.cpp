@@ -172,7 +172,8 @@ HRESULT UI::Init()
 	SoulGeiji3.drwrc = { (LONG)1015, (LONG)200 , (LONG)1265, 290 };
 	Bomb.imageName = "Bomb";
 	Bomb.drwrc = { (LONG)200, (LONG)200 , (LONG)400, 890 };
-	
+	BossBackground.imageName = "BossBackGround";
+	BossBackground.drwrc = { Play_LeftX  - 40, 0 , Play_RightX +40, WINSIZE_Y };
 	
 	closeCount = DoorState::OPEN;
 	isWaring = false;
@@ -470,6 +471,8 @@ void UI::Render(HDC hdc)
 		imageManager->DrawAnimImage(hdc, SkillEffect1);
 		imageManager->DrawAnimImage(hdc, SkillEffect3);
 	}
+	if (isbossFont)
+		imageManager->DrawAnimImage(hdc, BossBackground);
 
 	if (closeCount != DoorState::NONE)
 	{
@@ -505,6 +508,8 @@ void UI::Render(HDC hdc)
 		imageManager->DrawAnimImage(hdc, RightSideDownBackground);
 		imageManager->DrawAnimImage(hdc, RightUpBackground);
 	}
+
+
 
 	imageManager->DrawAnimImage(hdc, test);
 	imageManager->DrawAnimImage(hdc, SoulGeijiBack);
@@ -561,15 +566,17 @@ void UI::Render(HDC hdc)
 	imageManager->DrawAnimImage(hdc, BossFont2);
 	imageManager->DrawAnimImage(hdc, BossFont4);*/
 	//imageManager->DrawAnimImage(hdc, Impact);
-	imageManager->DrawAnimImage(hdc, Impact2);
+	//imageManager->DrawAnimImage(hdc, Impact2);
 	imageManager->DrawAnimImage(hdc, SoulGeiji3);
-	imageManager->DrawAnimImage(hdc, Bomb);
+	//imageManager->DrawAnimImage(hdc, Bomb);
+
 	if (isbossFont)
 	{
+
 		imageManager->DrawAnimImage(hdc, BossFontBack);
 		for (int i = 0; i < bossFontUIcount; i++)
 			imageManager->DrawAnimImage(hdc, BossFont[i]);
-		
+
 	}
 }
 
@@ -614,18 +621,25 @@ void UI::WarningUIEnd()
 
 void UI::BossFontUI()
 {
-	bossFontUIcount++;
-	if (bossFontUIcount == 5)
+	static float delay = 0;
+	if (bossFontUIcount == 4)
 	{
-		TimerManager::GetSingleton()->DeleteTimer(warningUIEndtimer);
-		isbossFont = false;
-		bossFontUIcount = 0;
-		TimerManager::GetSingleton()->SetTimer(bossSpawnTimer, this, &UI::BossSpawn, 0.8f);
-		isUsingBackImage = true;
+		delay += TimerManager::GetSingleton()->GettimeElapsed();
+		if (delay >= 0.15f)
+		{
+			TimerManager::GetSingleton()->DeleteTimer(warningUIEndtimer);
+			isbossFont = false;
+			bossFontUIcount = 0;
+			TimerManager::GetSingleton()->SetTimer(bossSpawnTimer, this, &UI::BossSpawn, 0.8f);
+			isUsingBackImage = true;
+			delay = 0;
+		}
 	}
 	else
+	{
+		bossFontUIcount++;
 		GamePlayStatic::GetScene()->SetSideShake(5, 0.2f);
-
+	}
 }
 
 void UI::BossSpawn()

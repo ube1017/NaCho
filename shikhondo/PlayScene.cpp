@@ -70,6 +70,7 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("Bomb", "Bomb", { 128,128 }, { 1,1 });
 	imageManager->_LoadBitmap("Back", "Back", { 1280,900 }, { 1,1 });
 	imageManager->_LoadBitmap("BossInit", "BossInit", { 1024,1024 }, { 1,1 });
+	imageManager->_LoadBitmap("BossBackGround", "BossBackGround", { 1024,1024 }, { 1,1 });
 	imageManager->_LoadBitmap("Warning", "Warning", { 1024,1024 }, { 1,1 });
 	imageManager->_LoadBitmap("Impact", "Impact", { 1024,128 }, { 8,1 });
 	imageManager->_LoadBitmap("BossFont1", "BossFont1", { 512,512 }, { 1,1 });
@@ -328,7 +329,7 @@ void PlayScene::SpawnBoss()
 
 void PlayScene::SpawnStartFun()
 {
-	TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
+	//TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
 	player->SetIsKeyLock(false);
 
 }
