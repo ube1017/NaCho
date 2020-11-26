@@ -60,7 +60,7 @@ void EnemyBoss::Update()
 	checkTime += TimerManager::GetSingleton()->GettimeElapsed();
 	ShootCount += TimerManager::GetSingleton()->GettimeElapsed();
 	pTime += TimerManager::GetSingleton()->GettimeElapsed();
-
+	P3Check += TimerManager::GetSingleton()->GettimeElapsed();
 	if (!stop)
 	{
 		if (roundCheck == 0)
@@ -72,7 +72,8 @@ void EnemyBoss::Update()
 				pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 				if (stopAttack)
 				{
-					patten8(0.3f, 1.5f);
+					speed = 0;
+					patten8(2.5f, 0.4f);
 					if (checkTime >= 5.0f)
 					{
 						stopAttack = false;
@@ -84,11 +85,15 @@ void EnemyBoss::Update()
 					{
 						if (pos.y < RandPos.y + 5 && pos.y >= RandPos.y - 5)
 						{
+							if (speed == 0) {
+								speed = 1.5f;
+							}
 							bossMove();
 						}
 					}
-					patten2(1.0f);
-					patten7(0.3f, 1.0f);
+
+					patten5(1.0f);
+					patten7(4.5f, 0.5f);
 				}
 			}
 			else if (hp <= 500)
@@ -102,6 +107,7 @@ void EnemyBoss::Update()
 				stopAttack = true;
 				checkTime = 0;
 				ShootCount = 0;
+				P3Check = 0;
 				pTime = 0;
 			}
 		}
@@ -113,8 +119,9 @@ void EnemyBoss::Update()
 				pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 				if (stopAttack)
 				{
+					speed = 0;
 					patten4(0.4f);
-					patten7(0.3f, 1.0f);
+					patten7(4.5f, 0.5f);
 					if (checkTime >= 5.0f)
 					{
 						stopAttack = false;
@@ -126,11 +133,14 @@ void EnemyBoss::Update()
 					{
 						if (pos.y < RandPos.y + 5 && pos.y >= RandPos.y - 5)
 						{
+							if (speed == 0) {
+								speed = 1.5f;
+							}
 							bossMove();
 						}
 					}
 					patten3(0.7f);
-					patten7(0.3f, 1.0f);
+					patten7(4.5f, 0.5f);
 				}
 			}
 			else if (hp <= 300)
@@ -145,6 +155,7 @@ void EnemyBoss::Update()
 				checkTime = 0;
 				ShootCount = 0;
 				pTime = 0;
+				P3Check = 0;
 			}
 		}
 		else if (roundCheck == 2)
@@ -155,8 +166,9 @@ void EnemyBoss::Update()
 				pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 				if (stopAttack)
 				{
+					speed = 0;
 					patten3(0.7f);
-					patten7(0.3f, 1.0f);
+					patten7(4.5f, 0.5f);
 					if (checkTime >= 5.0f)
 					{
 						stopAttack = false;
@@ -168,14 +180,21 @@ void EnemyBoss::Update()
 					{
 						if (pos.y < RandPos.y + 5 && pos.y >= RandPos.y - 5)
 						{
+							if (speed == 0) {
+								speed = 1.5f;
+							}
 							bossMove();
 						}
 					}
 					if (checkTime >= 0.5f)
 					{
+						patten2(1.0f);
+						patten7(4.5f, 0.5f);
 						patten4(0.7f);
-						patten5(1.0f);
-						patten7(0.3f, 1.0f);
+						if (hp < 2000)
+						{
+							patten3(2.0f);
+						}
 						checkTime = 0;
 					}
 				}
@@ -288,7 +307,7 @@ void EnemyBoss::patten3(float MSpeed)
 		ShootCount = 0;
 		boom = true;
 	}
-	if (checkTime >= (MSpeed + 1.5f) && boom)
+	if (P3Check >= (MSpeed + 1.5f) && boom)
 	{
 		// 1패턴boom
 		for (int i = 0; i < 8; i++)
@@ -296,7 +315,7 @@ void EnemyBoss::patten3(float MSpeed)
 			if (!Em[i]->GetIsSoul() && Em[i]->GetisActivation())
 				patten6(Em[i]->GetPos(), 3.5f);
 		}
-		checkTime = 0;
+		P3Check = 0;
 		boom = false;
 	}
 }
@@ -354,7 +373,6 @@ void EnemyBoss::patten6(FPOINT MPos, float speed)
 
 	int angleNum3 = 20;
 	// 1패턴
-	// 탄 발사전 좌표지정
 
 	for (int i = 0; i < 8; i++)
 	{
@@ -375,7 +393,7 @@ void EnemyBoss::patten7(float MSpeed, float Mtime)
 	{
 		// 각도를 받고
 		Missile* Em7;
-		Em7 = playScene->SpawnMissile(this, missileName, this->pos, { 30, 30 });
+		Em7 = playScene->SpawnMissile(this, "21", this->pos, { 30, 30 });
 		Em7->SetAngle(this->GetAngle());		// 각도 값
 		Em7->SetSpeed(MSpeed);			// 총알 스피드
 		Em7->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
@@ -392,7 +410,7 @@ void EnemyBoss::patten8(float MSpeed, float Mtime)
 		// 각도를 받고
 		for (int i = 0; i < 5; i++)
 		{
-			Missile* Em = playScene->SpawnMissile(this, missileName, this->pos, { 25, 25 });
+			Missile* Em = playScene->SpawnMissile(this, "21", this->pos, { 25, 25 });
 			Em->SetAngle(DegreeToRadian(num));		// 각도 값
 			Em->SetSpeed(MSpeed);					// 총알 스피드
 			Em->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴

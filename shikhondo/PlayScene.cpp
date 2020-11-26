@@ -70,6 +70,7 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("Bomb", "Bomb", { 128,128 }, { 1,1 });
 	imageManager->_LoadBitmap("Back", "Back", { 1280,900 }, { 1,1 });
 	imageManager->_LoadBitmap("BossInit", "BossInit", { 1024,1024 }, { 1,1 });
+	imageManager->_LoadBitmap("BossBackGround", "BossBackGround", { 1024,1024 }, { 1,1 });
 	imageManager->_LoadBitmap("Warning", "Warning", { 1024,1024 }, { 1,1 });
 	imageManager->_LoadBitmap("Impact", "Impact", { 1024,128 }, { 8,1 });
 	imageManager->_LoadBitmap("BossFont1", "BossFont1", { 512,512 }, { 1,1 });
@@ -154,15 +155,15 @@ void PlayScene::Update()
 		enemyManager->SpawnEeney<Enemy2>();
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(0x45)) //e~
 		enemyManager->SpawnEeney<Enemy3>();
-
-#endif // _DEBUG
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(0x51))
 	{
 		//Enemy* boss = enemyManager->SpawnEeney<EnemyBoss>();
 		//ui->SetBossHp(boss->GetHp_ptr());
 		ui->BossStage();
 		player->SetIsKeyLock(true);
-}
+	}
+#endif // _DEBUG
+
 }
 
 void PlayScene::Render(HDC hdc)

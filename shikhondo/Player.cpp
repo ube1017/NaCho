@@ -72,7 +72,7 @@ void Player::Update()
 	this->SpecialAbilityGauge();
 #ifdef _DEBUG
 	boomCount = 4;
-	soulScore++;
+	//soulScore++;
 	if (soulScore == 9999)
 		soulScore = 9998;
 #endif // _DEBUG
@@ -389,7 +389,8 @@ void Player::SpecialAbility()
 			PlayScene* playScene = Cast<PlayScene>(GamePlayStatic::GetScene());
 			MissileManager* missilemanager = playScene->GetMissileManager();
 			missilemanager->MissileAllChangeSoul(this);
-			boomMissile = missilemanager->SpawnPlayerMissile(this, "21", { Play_LeftX + (PlayXSize / 8), WINSIZE_Y/2 }, { (PlayXSize / 4) , WINSIZE_Y});
+			boomMissile = missilemanager->SpawnPlayerMissile(this, "Bomb", { Play_LeftX + (PlayXSize / 8), WINSIZE_Y/2 }, { (PlayXSize / 4) , WINSIZE_Y});
+			//boomMissile = missilemanager->SpawnPlayerMissile(this, "Bomb", { Play_LeftX + (PlayXSize / 8), WINSIZE_Y / 2 }, { (PlayXSize / 4) , 80 });
 			boomMissile->SetDamage(70);
 			boomMissile->SetisBoom(true);
 			Boom();
@@ -441,6 +442,9 @@ void Player::SpecialAbilityGauge()
 			this->damge = 1;
 			this->missileName = "PlayerMissile";
 			this->missileSize = normalMissileSize;
+			PlayScene* playScene = Cast<PlayScene>(GamePlayStatic::GetScene());
+			MissileManager* missilemanager = playScene->GetMissileManager();
+			missilemanager->MissileAllChangeSoul(this);
 		}
 	}
 	float ratio = 0;
