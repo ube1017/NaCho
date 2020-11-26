@@ -13,8 +13,8 @@ private:
 	int movePCheck;
 	int movePosCheck;
 	int roundCheck;
-
-
+	bool stopAttack;
+	bool boom;
 public:
 
 	HRESULT Init();				// 멤버 변수 초기화, 메모리 할당
@@ -26,10 +26,11 @@ public:
 	void LocationReset();
 
 	void patten1(FPOINT MPos, float MAngle);
-	void patten2();
-	void patten3();
-	void patten4();
-	void patten5();
+	void patten2(float MSpeed);
+	void patten3(float MSpeed);
+	void patten4(float MSpeed);
+	void patten5(float MSpeed);
+	void patten6(FPOINT MPos);
 	void bossMove();
 
 private:
