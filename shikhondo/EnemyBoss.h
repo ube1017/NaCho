@@ -8,6 +8,7 @@ private:
 	int angleNum2;
 	float ShootCount;
 	float pTime;
+	float P3Check;
 	bool pattenCheck;
 	float missileSpeed2 = 4.0f;
 	class Missile* Em[8];

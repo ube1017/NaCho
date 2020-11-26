@@ -60,7 +60,7 @@ void EnemyBoss::Update()
 	checkTime += TimerManager::GetSingleton()->GettimeElapsed();
 	ShootCount += TimerManager::GetSingleton()->GettimeElapsed();
 	pTime += TimerManager::GetSingleton()->GettimeElapsed();
-
+	P3Check += TimerManager::GetSingleton()->GettimeElapsed();
 	if (!stop)
 	{
 		if (roundCheck == 0)
@@ -107,6 +107,7 @@ void EnemyBoss::Update()
 				stopAttack = true;
 				checkTime = 0;
 				ShootCount = 0;
+				P3Check = 0;
 				pTime = 0;
 			}
 		}
@@ -154,6 +155,7 @@ void EnemyBoss::Update()
 				checkTime = 0;
 				ShootCount = 0;
 				pTime = 0;
+				P3Check = 0;
 			}
 		}
 		else if (roundCheck == 2)
@@ -189,6 +191,10 @@ void EnemyBoss::Update()
 						patten2(1.0f);
 						patten7(4.5f, 0.5f);
 						patten4(0.7f);
+						if (hp < 2000)
+						{
+							patten3(2.0f);
+						}
 						checkTime = 0;
 					}
 				}
@@ -301,7 +307,7 @@ void EnemyBoss::patten3(float MSpeed)
 		ShootCount = 0;
 		boom = true;
 	}
-	if (checkTime >= (MSpeed + 1.5f) && boom)
+	if (P3Check >= (MSpeed + 1.5f) && boom)
 	{
 		// 1패턴boom
 		for (int i = 0; i < 8; i++)
@@ -309,7 +315,7 @@ void EnemyBoss::patten3(float MSpeed)
 			if (!Em[i]->GetIsSoul() && Em[i]->GetisActivation())
 				patten6(Em[i]->GetPos(), 3.5f);
 		}
-		checkTime = 0;
+		P3Check = 0;
 		boom = false;
 	}
 }
@@ -367,7 +373,6 @@ void EnemyBoss::patten6(FPOINT MPos, float speed)
 
 	int angleNum3 = 20;
 	// 1패턴
-	// 탄 발사전 좌표지정
 
 	for (int i = 0; i < 8; i++)
 	{
