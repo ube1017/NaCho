@@ -110,6 +110,8 @@ HRESULT UI::Init()
 	Impact2.imageName = "Impact2";
 	Impact2.drwrc = { (LONG)350 , (LONG)20 , (LONG)550, 70 };
 	Impact2Time = 0.0f;
+	Impact2.framex = 0;
+	Impact2.framey = 0;
 	Back.imageName = "Back";
 	Back.drwrc = { (LONG)0 , (LONG)0 , (LONG)WINSIZE_X, WINSIZE_Y };
 	Back.imageName = "Back";
@@ -153,7 +155,9 @@ HRESULT UI::Init()
 	RightCloud1.drwrc = { (LONG)800, (LONG)280 , (LONG)1350, 400 };
 	SoulGeiji3.imageName = "SoulGeiji3";
 	SoulGeiji3.drwrc = { (LONG)1015, (LONG)200 , (LONG)1265, 290 };
-
+	Bomb.imageName = "Bomb";
+	Bomb.drwrc = { (LONG)200, (LONG)200 , (LONG)400, 890 };
+	
 	
 	closeCount = DoorState::OPEN;
 	isWaring = false;
@@ -217,7 +221,24 @@ void UI::Update()
 		}
 		SkillGeijiTime = 0.0f;
 	}
-
+	Impact2Time += TimerManager::GetSingleton()->GettimeElapsed();
+	if (Impact2Time >= 0.1f)
+	{
+		if (Impact2.framey < 2)
+		{
+			Impact2.framex++;
+			if (Impact2.framex >= 2)
+			{
+				Impact2.framex = 0;
+				Impact2.framey++;
+			}
+		}
+		else
+		{
+			Impact2.framey = 0;
+		}
+		Impact2Time = 0.0f;
+	}
 	LifeTime += TimerManager::GetSingleton()->GettimeElapsed();
 	if (LifeTime >= 0.1f)
 	{
@@ -392,7 +413,7 @@ void UI::Render(HDC hdc)
 		imageManager->DrawAnimImage(hdc, BossInit);
 		imageManager->DrawAnimImage(hdc, Warning);
 	}
-	//imageManager->DrawAnimImage(hdc, Back);
+	imageManager->DrawAnimImage(hdc, Back);
 	imageManager->DrawAnimImage(hdc, LeftBackground);
 	imageManager->DrawAnimImage(hdc, LeftSideDownBackground);
 	imageManager->DrawAnimImage(hdc, LeftUpBackground);
@@ -455,8 +476,9 @@ void UI::Render(HDC hdc)
 	imageManager->DrawAnimImage(hdc, BossFont2);
 	imageManager->DrawAnimImage(hdc, BossFont4);*/
 	//imageManager->DrawAnimImage(hdc, Impact);
-	//imageManager->DrawAnimImage(hdc, Impact2);
+	imageManager->DrawAnimImage(hdc, Impact2);
 	imageManager->DrawAnimImage(hdc, SoulGeiji3);
+	imageManager->DrawAnimImage(hdc, Bomb);
 	if (isbossFont)
 	{
 		imageManager->DrawAnimImage(hdc, BossFontBack);
