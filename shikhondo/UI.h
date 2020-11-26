@@ -126,7 +126,7 @@ private:
 	ImageDrawInfo SkillEffect2;
 	ImageDrawInfo SkillEffect3;
 	ImageDrawInfo SkillEffect4;
-
+	ImageDrawInfo Bomb;
 
 };
 

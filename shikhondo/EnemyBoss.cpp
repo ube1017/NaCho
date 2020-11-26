@@ -72,7 +72,8 @@ void EnemyBoss::Update()
 				pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 				if (stopAttack)
 				{
-					patten8(0.3f, 1.5f);
+					speed = 0;
+					patten8(2.5f, 0.4f);
 					if (checkTime >= 5.0f)
 					{
 						stopAttack = false;
@@ -84,11 +85,15 @@ void EnemyBoss::Update()
 					{
 						if (pos.y < RandPos.y + 5 && pos.y >= RandPos.y - 5)
 						{
+							if (speed == 0) {
+								speed = 1.5f;
+							}
 							bossMove();
 						}
 					}
-					patten2(1.0f);
-					patten7(0.3f, 1.0f);
+
+					patten5(1.0f);
+					patten7(4.5f, 0.5f);
 				}
 			}
 			else if (hp <= 500)
@@ -113,8 +118,9 @@ void EnemyBoss::Update()
 				pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 				if (stopAttack)
 				{
+					speed = 0;
 					patten4(0.4f);
-					patten7(0.3f, 1.0f);
+					patten7(4.5f, 0.5f);
 					if (checkTime >= 5.0f)
 					{
 						stopAttack = false;
@@ -126,11 +132,14 @@ void EnemyBoss::Update()
 					{
 						if (pos.y < RandPos.y + 5 && pos.y >= RandPos.y - 5)
 						{
+							if (speed == 0) {
+								speed = 1.5f;
+							}
 							bossMove();
 						}
 					}
 					patten3(0.7f);
-					patten7(0.3f, 1.0f);
+					patten7(4.5f, 0.5f);
 				}
 			}
 			else if (hp <= 300)
@@ -155,8 +164,9 @@ void EnemyBoss::Update()
 				pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 				if (stopAttack)
 				{
+					speed = 0;
 					patten3(0.7f);
-					patten7(0.3f, 1.0f);
+					patten7(4.5f, 0.5f);
 					if (checkTime >= 5.0f)
 					{
 						stopAttack = false;
@@ -168,14 +178,17 @@ void EnemyBoss::Update()
 					{
 						if (pos.y < RandPos.y + 5 && pos.y >= RandPos.y - 5)
 						{
+							if (speed == 0) {
+								speed = 1.5f;
+							}
 							bossMove();
 						}
 					}
 					if (checkTime >= 0.5f)
 					{
+						patten2(1.0f);
+						patten7(4.5f, 0.5f);
 						patten4(0.7f);
-						patten5(1.0f);
-						patten7(0.3f, 1.0f);
 						checkTime = 0;
 					}
 				}
@@ -375,7 +388,7 @@ void EnemyBoss::patten7(float MSpeed, float Mtime)
 	{
 		// 각도를 받고
 		Missile* Em7;
-		Em7 = playScene->SpawnMissile(this, missileName, this->pos, { 30, 30 });
+		Em7 = playScene->SpawnMissile(this, "21", this->pos, { 30, 30 });
 		Em7->SetAngle(this->GetAngle());		// 각도 값
 		Em7->SetSpeed(MSpeed);			// 총알 스피드
 		Em7->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
@@ -392,7 +405,7 @@ void EnemyBoss::patten8(float MSpeed, float Mtime)
 		// 각도를 받고
 		for (int i = 0; i < 5; i++)
 		{
-			Missile* Em = playScene->SpawnMissile(this, missileName, this->pos, { 25, 25 });
+			Missile* Em = playScene->SpawnMissile(this, "21", this->pos, { 25, 25 });
 			Em->SetAngle(DegreeToRadian(num));		// 각도 값
 			Em->SetSpeed(MSpeed);					// 총알 스피드
 			Em->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
