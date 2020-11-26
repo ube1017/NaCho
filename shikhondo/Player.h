@@ -35,6 +35,7 @@ public:
 	int GetHp() { return this->hp; }
 	FPOINT Getpos() { return { this->pos.x , this->pos.y - 4}; }
 
+	void AddSoulScore(int value) { this->soulScore += value; }
 	int* GetSoulScore_ptr() { return &this->soulScore; }
 
 	void SetIsKeyLock(bool value) { this->isKeyLock = value; }

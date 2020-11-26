@@ -51,7 +51,6 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("RightUpBackground", "RightUpBackground", { 1024,512 }, { 1,1 });
 	imageManager->_LoadBitmap("LProgress", "LProgress", { 64,128 }, { 1,1 });
 	imageManager->_LoadBitmap("RProgress", "RProgress", { 64,128 }, { 1,1 });
-	//heroProgress-sharedassets1.assets-159
 	imageManager->_LoadBitmap("Soulgeiji2", "Soulgeiji2", { 512,1024 }, { 2,3 });
 	imageManager->_LoadBitmap("SkillGeiji", "SkillGeiji", { 2048,128 }, { 33,1 });
 	imageManager->_LoadBitmap("Life", "Life", { 220,45 }, { 4,1 });
@@ -68,6 +67,7 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("Bar3", "Bar3", { 512,128 }, { 10,1 });
 	imageManager->_LoadBitmap("Impact", "Impact", { 1024,128 }, { 8,1 });
 	imageManager->_LoadBitmap("Impact2", "Impact2", { 256,256 }, { 1,1 });
+	imageManager->_LoadBitmap("Bomb", "Bomb", { 128,128 }, { 1,1 });
 	imageManager->_LoadBitmap("Back", "Back", { 1280,900 }, { 1,1 });
 	imageManager->_LoadBitmap("BossInit", "BossInit", { 1024,1024 }, { 1,1 });
 	imageManager->_LoadBitmap("Warning", "Warning", { 1024,1024 }, { 1,1 });
@@ -338,5 +338,5 @@ void PlayScene::BossSpawn()
 	Enemy* boss = enemyManager->SpawnEeney<EnemyBoss>();
 	ui->SetBossHp(boss->GetHp_ptr());
 	player->SetIsKeyLock(false);
-	
+	missileManager->MissileAllChangeSoul(player);
 }

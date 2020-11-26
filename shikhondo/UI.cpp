@@ -3,6 +3,11 @@
 #include "PlayScene.h"
 #include "Player.h"
 
+UI::UI()
+{
+	playerSkillEfect.BindObject(this,&UI::SkillEffectOn);
+}
+
 HRESULT UI::Init()
 {
 	isbossSpawn = false;
@@ -117,6 +122,8 @@ HRESULT UI::Init()
 	Impact2.imageName = "Impact2";
 	Impact2.drwrc = { (LONG)350 , (LONG)20 , (LONG)550, 70 };
 	Impact2Time = 0.0f;
+	Impact2.framex = 0;
+	Impact2.framey = 0;
 	Back.imageName = "Back";
 	Back.drwrc = { (LONG)0 , (LONG)0 , (LONG)WINSIZE_X, WINSIZE_Y };
 	Back.imageName = "Back";
@@ -163,17 +170,16 @@ HRESULT UI::Init()
 	
 	SoulGeiji3.imageName = "SoulGeiji3";
 	SoulGeiji3.drwrc = { (LONG)1015, (LONG)200 , (LONG)1265, 290 };
-
+	Bomb.imageName = "Bomb";
+	Bomb.drwrc = { (LONG)200, (LONG)200 , (LONG)400, 890 };
+	
 	
 	closeCount = DoorState::OPEN;
 	isWaring = false;
 	isUsingBackImage = true;
 	isTurn = false;
-
-	soulSocre[0] = -1;
-	soulSocre[1] = -1;
-	soulSocre[2] = -1;
-	soulSocre[3] = -1;
+	isskillEffect = false;
+	score = 0;
 	return S_OK;
 }
 
@@ -229,7 +235,24 @@ void UI::Update()
 		}
 		SkillGeijiTime = 0.0f;
 	}
-
+	Impact2Time += TimerManager::GetSingleton()->GettimeElapsed();
+	if (Impact2Time >= 0.1f)
+	{
+		if (Impact2.framey < 2)
+		{
+			Impact2.framex++;
+			if (Impact2.framex >= 2)
+			{
+				Impact2.framex = 0;
+				Impact2.framey++;
+			}
+		}
+		else
+		{
+			Impact2.framey = 0;
+		}
+		Impact2Time = 0.0f;
+	}
 	LifeTime += TimerManager::GetSingleton()->GettimeElapsed();
 	if (LifeTime >= 0.1f)
 	{
@@ -370,13 +393,52 @@ void UI::Update()
 	int temp = 0;
 
 	int j = 0;
+	soulSocreCount = 0;
 	for (int i = 3; i > -1; i--)
 	{
-		temp = sSocre / (int)pow(10, i);
-		//if (temp != 0)
+		if (i != 0)
 		{
-			soulSocre[j] = temp;
+ 			if (sSocre - (int)pow(10, i) >= 0 && soulSocreCount == 0)
+				soulSocreCount = i;
+
+			temp = sSocre / (int)pow(10, i);
+			if (temp != 0)
+			{
+				Font3[j].framex = temp % 10;
+				j++;
+			}
+		}
+		else
+		{
+			temp = sSocre % 10;
+			Font3[j].framex = temp;
 			j++;
+		}
+	}
+
+	j = 13;
+	socreCount = 0;
+	for (int i = 0; i < 13; i++)
+	{
+		if (i != 0)
+		{
+			if (sSocre - (int)pow(10, i) >= 0 && socreCount == 0)
+				socreCount = i;
+
+			temp = sSocre / (int)pow(10, i);
+			if (temp != 0)
+			{
+				Font2[j].framex = temp % 10;
+				Font1[j].framex = Font2[j].framex;
+				j--;
+			}
+		}
+		else
+		{
+			temp = sSocre % 10;
+			Font2[j].framex = temp;
+			Font1[j].framex = Font2[j].framex;
+			j--;
 		}
 	}
 
@@ -401,11 +463,13 @@ void UI::Render(HDC hdc)
 	imageManager->DrawAnimImage(hdc, Warning);*/
 
 	//이부분 스킬사용시
-	/*imageManager->DrawAnimImage(hdc, SkillEffect4);
-	imageManager->DrawAnimImage(hdc, SkillEffect2);
-	imageManager->DrawAnimImage(hdc, SkillEffect1);
-	imageManager->DrawAnimImage(hdc, SkillEffect3);*/
-	
+	if (isskillEffect)
+	{
+		imageManager->DrawAnimImage(hdc, SkillEffect4);
+		imageManager->DrawAnimImage(hdc, SkillEffect2);
+		imageManager->DrawAnimImage(hdc, SkillEffect1);
+		imageManager->DrawAnimImage(hdc, SkillEffect3);
+	}
 
 	if (closeCount != DoorState::NONE)
 	{
@@ -441,6 +505,7 @@ void UI::Render(HDC hdc)
 		imageManager->DrawAnimImage(hdc, RightSideDownBackground);
 		imageManager->DrawAnimImage(hdc, RightUpBackground);
 	}
+
 	imageManager->DrawAnimImage(hdc, test);
 	imageManager->DrawAnimImage(hdc, SoulGeijiBack);
 	imageManager->DrawAnimImage(hdc, Soulgeiji2);
@@ -476,10 +541,9 @@ void UI::Render(HDC hdc)
 	{
 		imageManager->DrawAnimImage(hdc, Font2[i]);
 	}
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < soulSocreCount + 1; i++)
 	{
-		if (soulSocre[0] != -1)
-			imageManager->DrawAnimImage(hdc, Font3[i]);
+		imageManager->DrawAnimImage(hdc, Font3[i]);
 	}
 	//for (int i = 0; i < 2; i++)
 	//{
@@ -497,8 +561,9 @@ void UI::Render(HDC hdc)
 	imageManager->DrawAnimImage(hdc, BossFont2);
 	imageManager->DrawAnimImage(hdc, BossFont4);*/
 	//imageManager->DrawAnimImage(hdc, Impact);
-	//imageManager->DrawAnimImage(hdc, Impact2);
+	imageManager->DrawAnimImage(hdc, Impact2);
 	imageManager->DrawAnimImage(hdc, SoulGeiji3);
+	imageManager->DrawAnimImage(hdc, Bomb);
 	if (isbossFont)
 	{
 		imageManager->DrawAnimImage(hdc, BossFontBack);
@@ -608,4 +673,17 @@ void UI::CloudAlhpa()
 	RightCloud2.alpha= alpha;
 	RightCloud3.alpha= alpha;
 	RightCloud4.alpha= alpha;
+}
+
+void UI::SkillEffectOn()
+{
+	isskillEffect = true;
+	GamePlayStatic::GetScene()->SetAllShaek(2,-6,0.5f);
+	TimerManager::GetSingleton()->SetTimer(skillEffectTimer, this, &UI::SkillEffectOff);
+}
+
+void UI::SkillEffectOff()
+{
+	isskillEffect = false;
+	TimerManager::GetSingleton()->DeleteTimer(skillEffectTimer);
 }

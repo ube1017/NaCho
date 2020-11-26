@@ -18,6 +18,7 @@ HRESULT Enemy3::Init()
 	angleNum = 50;
 	mapInCheck = false;
 	mapOutCheck = false;
+	socre = 5620 + +rand() % 10;
 	// 시작 위치 설정
 	RandLocation();
 	LocationReset();

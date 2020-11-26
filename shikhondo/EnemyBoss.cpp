@@ -2,6 +2,8 @@
 #include "PlayScene.h"
 #include "GamePlayStatic.h"
 #include "Missile.h"
+#include "UI.h"
+#include "PlayScene.h"
 /*
 시작하자마자 멈추게 하고
 
@@ -30,6 +32,7 @@ HRESULT EnemyBoss::Init()
 	boom = false;
 	stopAttack = true;
 	stop = true;
+	socre = 10000;
 	// 시작 위치 설정
 	LocationReset();
 	RandLocation();
@@ -48,6 +51,7 @@ void EnemyBoss::Release()
 void EnemyBoss::Update()
 {
 	Enemy::Update();
+	PlayScene* playScene = dynamic_cast<PlayScene*>( GamePlayStatic::GetScene());
 	imageinfo.MovePos(pos);
 	DEBUG_MASSAGE("보스체력이다 : %d \n", this->hp);
 	hitBox = { (LONG)pos.x - hitBoxSize.cx / 2, (LONG)pos.y - hitBoxSize.cy / 2,
@@ -95,6 +99,8 @@ void EnemyBoss::Update()
 			else if (hp <= 500)
 			{
 				roundCheck++;
+				socre += socre + 2000;
+				playScene->GetUI()->AddScore(socre);
 				hp = 2000;
 				speed = 2;
 				stop = true;
@@ -139,6 +145,8 @@ void EnemyBoss::Update()
 			else if (hp <= 300)
 			{
 				roundCheck++;
+				socre += socre + 1500;
+				playScene->GetUI()->AddScore(socre);
 				hp = 3000;
 				speed = 2;
 				stop = true;
@@ -188,6 +196,7 @@ void EnemyBoss::Update()
 			else if (hp <= 0)
 			{
 				roundCheck++;
+				socre += socre + 5000;
 			}
 		}
 		else

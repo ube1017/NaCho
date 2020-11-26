@@ -1,6 +1,9 @@
 #pragma once
 #include "BaseUI.h"
 
+DELEGATE(PlayerSkillEffect);
+
+
 enum class DoorState
 {
 	OPEN = 0,
@@ -14,6 +17,7 @@ enum class DoorState
 class UI : public BaseUI
 {
 public:
+	UI();
 	virtual HRESULT Init();				// 멤버 변수 초기화, 메모리 할당
 	virtual void Release();				// 메모리 해제
 	virtual void Update();				// 프레임 단위 게임 로직 실행 (데이터 변경)
@@ -21,6 +25,7 @@ public:
 
 	void SetBossHp(int* hp) { bossHp = hp; bossMaxHp = *hp;isbossSpawn = true; }
 	bool GetIsFullOpen() { return isFullOpen; }
+	void AddScore(int value) { this->score += value; }
 
 	void BossStage();
 private:
@@ -30,6 +35,11 @@ private:
 	void BossSpawn();
 	void WarningAlpha();
 	void CloudAlhpa();
+
+	void SkillEffectOn();
+	void SkillEffectOff();
+public:
+	PlayerSkillEffect playerSkillEfect;
 private:
 	FPOINT leftBack2pos;
 	FPOINT leftBack1pos;
@@ -49,7 +59,9 @@ private:
 	const int* playerBoom;
 	const int* bossHp;
 	const int* pSoulSocre;
-	int soulSocre[4];
+	int score;
+	int socreCount;
+	int soulSocreCount;
 	int bossMaxHp;
 	int bossFontUIcount;
 	// 값이 일정값이상 올라갔다 내려갈때쓰이는 bool 변수
@@ -61,11 +73,13 @@ private:
 	bool isWaring;
 	bool isbossFont;
 	bool isUsingBackImage;
+	bool isskillEffect;
 
 	TimerHandle warningUIEndtimer;
 	TimerHandle bossFontTimer;
 	TimerHandle bossSpawnTimer;
 	TimerHandle AlphaTimer;
+	TimerHandle skillEffectTimer;
 
 	ImageDrawInfo Soulgeiji2;
 	float Soulgeiji2Time;
@@ -112,7 +126,7 @@ private:
 	ImageDrawInfo SkillEffect2;
 	ImageDrawInfo SkillEffect3;
 	ImageDrawInfo SkillEffect4;
-
+	ImageDrawInfo Bomb;
 
 };
 
