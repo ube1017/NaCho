@@ -7,6 +7,7 @@ private:
 	int angleNum;
 	int angleNum2;
 	float ShootCount;
+	float pTime;
 	bool pattenCheck;
 	float missileSpeed2 = 4.0f;
 	class Missile* Em[8];
@@ -15,6 +16,7 @@ private:
 	int roundCheck;
 	bool stopAttack;
 	bool boom;
+	int num;
 public:
 
 	HRESULT Init();				// 멤버 변수 초기화, 메모리 할당
@@ -30,7 +32,9 @@ public:
 	void patten3(float MSpeed);
 	void patten4(float MSpeed);
 	void patten5(float MSpeed);
-	void patten6(FPOINT MPos);
+	void patten6(FPOINT MPos, float speed);
+	void patten7(float MSpeed, float Mtime);
+	void patten8(float MSpeed, float Mtime);
 	void bossMove();
 
 private:
