@@ -57,7 +57,7 @@ private:
 	// z키함수
 	void FireDelay();
 	// 느린 움직임
-	void SlowMove();
+	void SlowMove(bool vaule);
 	// C키
 	void SpecialAbility();
 	// 무적

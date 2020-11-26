@@ -173,6 +173,7 @@ void Player::OnHit(Missile * hitMissile)
 	PlayScene* playScene = Cast<PlayScene>(GamePlayStatic::GetScene());
 	MissileManager* missilemanager = playScene->GetMissileManager();
 	missilemanager->MissileAllChangeSoul(this);
+	playScene->SetAllShaek(2,-1,0.5f);
 	//const list<Missile*>* enemyMissile = missilemanager->GetSpawnMissileList();
 	//list<Missile*>::const_iterator const_it;
 	//for (const_it = enemyMissile->begin(); const_it != enemyMissile->end(); const_it++)
@@ -229,9 +230,9 @@ void Player::KeyChack()
 		if (keyManager->IsStayKeyDown(ZKey))
 			this->Fire();
 		if (keyManager->IsOnceKeyDown(XKey))
-			this->SlowMove();
+			this->SlowMove(true);
 		else if (keyManager->IsOnceKeyUp(XKey))
-			this->SlowMove();
+			this->SlowMove(false);
 		if (keyManager->IsOnceKeyDown(CKey))
 			this->SpecialAbility();
 		// 테스트모드
@@ -353,13 +354,16 @@ void Player::FireDelay()
 	isFire = true;
 }
 
-void Player::SlowMove()
+void Player::SlowMove(bool vaule)
 {
-	if (moveState == MoveState::NORMAL)
+	if (vaule)
 	{
-		moveState = MoveState::SLOW;
-		speed = 2.0f;
-		isSoulGaudeRender = !isSoulGaudeRender;
+		//if (moveState == MoveState::NORMAL)
+		{
+			moveState = MoveState::SLOW;
+			speed = 2.0f;
+			isSoulGaudeRender = !isSoulGaudeRender;
+		}
 	}
 	else
 	{
