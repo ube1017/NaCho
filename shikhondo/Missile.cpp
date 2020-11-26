@@ -5,6 +5,7 @@
 #include "Character.h"
 #include "Image.h"
 #include "Impact.h"
+#include "Player.h"
 
 Missile::Missile()
 {
@@ -84,8 +85,14 @@ void Missile::OnHit()
 	if (isboom)
 		return;
 	this->isActivation = false;
+	Player* player = Cast<Player>(GamePlayStatic::GetPlayerCharacter());
+
 	if (!this->isSoul)
 		impact->SpawnImpact("Impact", this->pos, {128,128});
+	else
+		player->AddSoulScore(1);
+	if (player->GetIsSpecialAbility())
+		player->AddSoulScore(1);
 	TimerManager::GetSingleton()->DeleteTimer(misiileAnimTimerHandle);
 }
 

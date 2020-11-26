@@ -7,7 +7,7 @@ HRESULT Enemy1::Init()
 {
 	hp = 20;
 	damge = 1;
-	speed = 1.5f;
+	speed = 2.5f;
 	missileSpeed = 2.0f;
 	size.cx = 30;
 	size.cy = 60;
@@ -25,6 +25,7 @@ HRESULT Enemy1::Init()
 	// ∆–≈œ 
 	pattenX = 150;
 	pattenY = 5;
+	socre = 1280 + rand() % 10;
 
 	AutomaticMissile = false;
 	
@@ -218,7 +219,7 @@ void Enemy1::monsterPatten(int locationCount)
 			speed = 0.8f;
 			break;
 		case 4:
-			speed = 1.0f;
+			speed = 2.0f;
 			RandPos.x = 1500;
 			RandPos.y = 750;
 			locationCount = 0;

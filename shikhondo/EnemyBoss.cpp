@@ -2,6 +2,8 @@
 #include "PlayScene.h"
 #include "GamePlayStatic.h"
 #include "Missile.h"
+#include "UI.h"
+#include "PlayScene.h"
 /*
 시작하자마자 멈추게 하고
 
@@ -11,7 +13,7 @@
 */
 HRESULT EnemyBoss::Init()
 {
-	hp = 1500;
+	hp = 550;
 	damge = 1;
 	speed = 1.5f;
 	missileSpeed = 1.5f;
@@ -19,13 +21,18 @@ HRESULT EnemyBoss::Init()
 	size.cy = 160;
 	hitBoxSize = size;
 	ShootCount = 0;
-	angleNum = 20; 
+	angleNum = 20;
 	angleNum2 = 14;
 	movePCheck = 0;
 	movePosCheck = 0;
 	roundCheck = 0;
+	pTime = 0;
+	num = 50;
 	pattenCheck = false;
+	boom = false;
+	stopAttack = true;
 	stop = true;
+	socre = 10000;
 	// 시작 위치 설정
 	LocationReset();
 	RandLocation();
@@ -44,106 +51,139 @@ void EnemyBoss::Release()
 void EnemyBoss::Update()
 {
 	Enemy::Update();
+	PlayScene* playScene = dynamic_cast<PlayScene*>( GamePlayStatic::GetScene());
 	imageinfo.MovePos(pos);
 	DEBUG_MASSAGE("보스체력이다 : %d \n", this->hp);
+	hitBox = { (LONG)pos.x - hitBoxSize.cx / 2, (LONG)pos.y - hitBoxSize.cy / 2,
+							(LONG)pos.x + hitBoxSize.cx / 2, (LONG)pos.y + hitBoxSize.cy / 2 };
+
+	checkTime += TimerManager::GetSingleton()->GettimeElapsed();
+	ShootCount += TimerManager::GetSingleton()->GettimeElapsed();
+	pTime += TimerManager::GetSingleton()->GettimeElapsed();
+
 	if (!stop)
 	{
 		if (roundCheck == 0)
 		{
 			if (hp > 500)
 			{
-				checkTime += TimerManager::GetSingleton()->GettimeElapsed();
-				ShootCount += TimerManager::GetSingleton()->GettimeElapsed();
-				hitBox = { (LONG)pos.x - hitBoxSize.cx / 2, (LONG)pos.y - hitBoxSize.cy / 2,
-							(LONG)pos.x + hitBoxSize.cx / 2, (LONG)pos.y + hitBoxSize.cy / 2 };
 
 				pos.x += cosf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 				pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
-
-				if (pos.x < RandPos.x + 5 && pos.x >= RandPos.x - 5)
+				if (stopAttack)
 				{
-					if (pos.y < RandPos.y + 5 && pos.y >= RandPos.y - 5)
+					patten8(0.3f, 1.5f);
+					if (checkTime >= 5.0f)
 					{
-						bossMove();
+						stopAttack = false;
 					}
 				}
-				if (checkTime >= 1.0f)
+				else if (!stopAttack)
 				{
-					patten2();
-					checkTime = 0;
+					if (pos.x < RandPos.x + 5 && pos.x >= RandPos.x - 5)
+					{
+						if (pos.y < RandPos.y + 5 && pos.y >= RandPos.y - 5)
+						{
+							bossMove();
+						}
+					}
+					patten2(1.0f);
+					patten7(0.3f, 1.0f);
 				}
 			}
 			else if (hp <= 500)
 			{
 				roundCheck++;
+				socre += socre + 2000;
+				playScene->GetUI()->AddScore(socre);
 				hp = 2000;
 				speed = 2;
 				stop = true;
+				stopAttack = true;
+				checkTime = 0;
+				ShootCount = 0;
+				pTime = 0;
 			}
 		}
 		else if (roundCheck == 1)
 		{
 			if (hp > 300)
 			{
-				checkTime += TimerManager::GetSingleton()->GettimeElapsed();
-				ShootCount += TimerManager::GetSingleton()->GettimeElapsed();
-				hitBox = { (LONG)pos.x - hitBoxSize.cx / 2, (LONG)pos.y - hitBoxSize.cy / 2,
-							(LONG)pos.x + hitBoxSize.cx / 2, (LONG)pos.y + hitBoxSize.cy / 2 };
-
 				pos.x += cosf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 				pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
-
-				if (pos.x < RandPos.x + 5 && pos.x >= RandPos.x - 5)
+				if (stopAttack)
 				{
-					if (pos.y < RandPos.y + 5 && pos.y >= RandPos.y - 5)
+					patten4(0.4f);
+					patten7(0.3f, 1.0f);
+					if (checkTime >= 5.0f)
 					{
-						bossMove();
+						stopAttack = false;
 					}
 				}
-				if (checkTime >= 0.5f)
+				else if (!stopAttack)
 				{
-					patten2();
-					patten3();
-					checkTime = 0;
+					if (pos.x < RandPos.x + 5 && pos.x >= RandPos.x - 5)
+					{
+						if (pos.y < RandPos.y + 5 && pos.y >= RandPos.y - 5)
+						{
+							bossMove();
+						}
+					}
+					patten3(0.7f);
+					patten7(0.3f, 1.0f);
 				}
 			}
 			else if (hp <= 300)
 			{
 				roundCheck++;
+				socre += socre + 1500;
+				playScene->GetUI()->AddScore(socre);
 				hp = 3000;
 				speed = 2;
 				stop = true;
+				stopAttack = true;
+				checkTime = 0;
+				ShootCount = 0;
+				pTime = 0;
 			}
 		}
 		else if (roundCheck == 2)
 		{
 			if (hp > 0)
 			{
-				checkTime += TimerManager::GetSingleton()->GettimeElapsed();
-				ShootCount += TimerManager::GetSingleton()->GettimeElapsed();
-				hitBox = { (LONG)pos.x - hitBoxSize.cx / 2, (LONG)pos.y - hitBoxSize.cy / 2,
-							(LONG)pos.x + hitBoxSize.cx / 2, (LONG)pos.y + hitBoxSize.cy / 2 };
-
 				pos.x += cosf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 				pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
-
-				if (pos.x < RandPos.x + 5 && pos.x >= RandPos.x - 5)
+				if (stopAttack)
 				{
-					if (pos.y < RandPos.y + 5 && pos.y >= RandPos.y - 5)
+					patten3(0.7f);
+					patten7(0.3f, 1.0f);
+					if (checkTime >= 5.0f)
 					{
-						bossMove();
+						stopAttack = false;
 					}
 				}
-				if (checkTime >= 0.5f)
+				else if (!stopAttack)
 				{
-					patten4();
-					patten5();
-					checkTime = 0;
+					if (pos.x < RandPos.x + 5 && pos.x >= RandPos.x - 5)
+					{
+						if (pos.y < RandPos.y + 5 && pos.y >= RandPos.y - 5)
+						{
+							bossMove();
+						}
+					}
+					if (checkTime >= 0.5f)
+					{
+						patten4(0.7f);
+						patten5(1.0f);
+						patten7(0.3f, 1.0f);
+						checkTime = 0;
+					}
 				}
 			}
 			else if (hp <= 0)
 			{
 				roundCheck++;
+				socre += socre + 5000;
 			}
 		}
 		else
@@ -195,48 +235,47 @@ void EnemyBoss::patten1(FPOINT MPos, float MAngle)
 	{
 		Missile* Em = playScene->SpawnMissile(this, "21", MPos, { 25, 25 });
 		Em->SetAngle(MAngle);		// 각도 값
-		Em->SetSpeed(speed);					// 총알 스피드
+		Em->SetSpeed(missileSpeed);					// 총알 스피드
 		Em->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
-		speed += 0.06f;
-		if (speed > 1.06f)
+		missileSpeed += 0.06f;
+		if (missileSpeed > 1.06f)
 		{
-			speed += 0.1f;
+			missileSpeed += 0.2f;
 		}
 	}
-	speed = 1.0;
+	missileSpeed = 1.0;
 }
 
-void EnemyBoss::patten2()
+void EnemyBoss::patten2(float MSpeed)
 {
 	PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
 	float angle = 0.0f;
-
-	for (int i = 0; i < 20; i++)
+	if (ShootCount >= MSpeed)
 	{
-		Missile* Em = playScene->SpawnMissile(this, "21", this->pos, { 30, 30 });
-		Em->SetSpeed(missileSpeed2);
-		Em->SetAngle(angle);
-		Em->SetMovePatten(Patten::TEST2);
+		for (int i = 0; i < 20; i++)
+		{
+			Missile* Em = playScene->SpawnMissile(this, "21", this->pos, { 30, 30 });
+			Em->SetSpeed(missileSpeed2);
+			Em->SetAngle(angle);
+			Em->SetMovePatten(Patten::TEST2);
 
-		Missile* Em1 = playScene->SpawnMissile(this, "21", this->pos, { 30, 30 });
-		Em1->SetSpeed(missileSpeed2);
-		Em1->SetAngle(angle);
-		Em1->SetMovePatten(Patten::TEST);
+			Missile* Em1 = playScene->SpawnMissile(this, "21", this->pos, { 30, 30 });
+			Em1->SetSpeed(missileSpeed2);
+			Em1->SetAngle(angle);
+			Em1->SetMovePatten(Patten::TEST);
 
-		angle += 0.3f;//(6.14 / 20.0f);
+			angle += 0.3f;//(6.14 / 20.0f);
+		}
+		ShootCount = 0;
 	}
-
 }
 
-void EnemyBoss::patten3()
+void EnemyBoss::patten3(float MSpeed)
 {
 	PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
-	if (!AutomaticMissile)
-	{
-		// 1패턴
-		// 탄 발사전 좌표지정
 
-		// 각도를 받고
+	if (ShootCount >= MSpeed && !boom)
+	{
 		for (int i = 0; i < 8; i++)
 		{
 			Em[i] = playScene->SpawnMissile(this, "21", this->pos, { 25, 25 });
@@ -246,37 +285,27 @@ void EnemyBoss::patten3()
 			angleNum += 45;
 		}
 		angleNum = 20;
-
-		//그 각도로 움직이는 코드
-		checkTime = 0;
-		AutomaticMissile = true;
-		pattenCheck = true;
+		ShootCount = 0;
+		boom = true;
 	}
-	else if (AutomaticMissile)
+	if (checkTime >= (MSpeed + 1.5f) && boom)
 	{
-		if (checkTime >= 0.5f && pattenCheck)
+		// 1패턴boom
+		for (int i = 0; i < 8; i++)
 		{
-			// 1패턴
-			for (int i = 0; i < 8; i++)
-			{
-				patten1(Em[i]->GetPos(), Em[i]->GetAngle());
-			}
-			pattenCheck = false;
+			if (!Em[i]->GetIsSoul() && Em[i]->GetisActivation())
+				patten6(Em[i]->GetPos(), 3.5f);
 		}
-		if (checkTime >= 3.0f)
-		{
-			ShootCount = 0;
-			checkTime = 0;
-			AutomaticMissile = false;
-			speed = 1.0f;
-		}
+		checkTime = 0;
+		boom = false;
 	}
 }
 
-void EnemyBoss::patten4()
+
+void EnemyBoss::patten4(float MSpeed)// 0.3
 {
 	PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
-	if (ShootCount >= 1.0f)
+	if (ShootCount >= MSpeed)
 	{
 		// 각도를 받고
 		for (int i = 0; i < 18; i++)
@@ -296,10 +325,10 @@ void EnemyBoss::patten4()
 	}
 }
 
-void EnemyBoss::patten5()
+void EnemyBoss::patten5(float MSpeed)//1.0
 {
 	PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
-	if (ShootCount >= 1.0f)
+	if (ShootCount >= MSpeed)
 	{
 		// 각도를 받고
 		for (int i = 0; i < 14; i++)
@@ -311,11 +340,66 @@ void EnemyBoss::patten5()
 			angleNum2 += 14;
 			if (angleNum2 == 81)
 			{
-				//angleNum2 = 99;
+				angleNum2 = 99;
 			}
 		}
-		//angleNum2 = 9;
+		angleNum2 = 9;
 		ShootCount = 0;
+	}
+}
+
+void EnemyBoss::patten6(FPOINT MPos, float speed)
+{
+	PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
+
+	int angleNum3 = 20;
+	// 1패턴
+	// 탄 발사전 좌표지정
+
+	for (int i = 0; i < 8; i++)
+	{
+		Missile* Emg;
+		Emg = playScene->SpawnMissile(this, "21", MPos, { 25, 25 });
+		Emg->SetAngle(DegreeToRadian(angleNum3));		// 각도 값
+		Emg->SetSpeed(speed);					// 총알 스피드
+		Emg->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
+		angleNum3 += 45;
+	}
+	angleNum3 = 20;
+}
+
+void EnemyBoss::patten7(float MSpeed, float Mtime)
+{
+	PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
+	if (pTime >= Mtime)
+	{
+		// 각도를 받고
+		Missile* Em7;
+		Em7 = playScene->SpawnMissile(this, missileName, this->pos, { 30, 30 });
+		Em7->SetAngle(this->GetAngle());		// 각도 값
+		Em7->SetSpeed(MSpeed);			// 총알 스피드
+		Em7->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
+		pTime = 0;
+	}
+}
+
+void EnemyBoss::patten8(float MSpeed, float Mtime)
+{
+	if (pTime >= Mtime)
+	{
+		// 탄 발사전 좌표지정
+		PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
+		// 각도를 받고
+		for (int i = 0; i < 5; i++)
+		{
+			Missile* Em = playScene->SpawnMissile(this, missileName, this->pos, { 25, 25 });
+			Em->SetAngle(DegreeToRadian(num));		// 각도 값
+			Em->SetSpeed(MSpeed);					// 총알 스피드
+			Em->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
+			num += 20;
+		}
+		num = 50;
+		pTime = 0;
 	}
 }
 

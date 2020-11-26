@@ -5,12 +5,15 @@
 #include "PlayScene.h"
 #include "EnemyManager.h"
 #include "Impact.h"
+#include "UI.h"
 
 Enemy::Enemy()
 {
 	impact = GamePlayStatic::GetScene()->CreateObject<Impact>();
 	impact->SetIsValid(false);
 	impact->SetZOrder(7);
+	socre = 0;
+
 }
 
 HRESULT Enemy::Init()
@@ -85,6 +88,8 @@ void Enemy::OnHit(Missile* hitMissile)
 	{
 		impact->SetIsValid(true);
 		impact->SpawnImpact("Impact", this->pos, {256,256}, 0.01f);
+		PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
+		playScene->GetUI()->AddScore(socre);
 		this->Death();
 	}
 }

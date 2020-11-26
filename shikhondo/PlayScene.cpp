@@ -51,7 +51,6 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("RightUpBackground", "RightUpBackground", { 1024,512 }, { 1,1 });
 	imageManager->_LoadBitmap("LProgress", "LProgress", { 64,128 }, { 1,1 });
 	imageManager->_LoadBitmap("RProgress", "RProgress", { 64,128 }, { 1,1 });
-	//heroProgress-sharedassets1.assets-159
 	imageManager->_LoadBitmap("Soulgeiji2", "Soulgeiji2", { 512,1024 }, { 2,3 });
 	imageManager->_LoadBitmap("SkillGeiji", "SkillGeiji", { 2048,128 }, { 33,1 });
 	imageManager->_LoadBitmap("Life", "Life", { 220,45 }, { 4,1 });
@@ -155,15 +154,15 @@ void PlayScene::Update()
 		enemyManager->SpawnEeney<Enemy2>();
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(0x45)) //e~
 		enemyManager->SpawnEeney<Enemy3>();
+
+#endif // _DEBUG
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(0x51))
-	{ 
+	{
 		//Enemy* boss = enemyManager->SpawnEeney<EnemyBoss>();
 		//ui->SetBossHp(boss->GetHp_ptr());
 		ui->BossStage();
 		player->SetIsKeyLock(true);
-	}
-#endif // _DEBUG
-
+}
 }
 
 void PlayScene::Render(HDC hdc)
@@ -329,7 +328,7 @@ void PlayScene::SpawnBoss()
 
 void PlayScene::SpawnStartFun()
 {
-	TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
+	//TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
 	player->SetIsKeyLock(false);
 
 }
@@ -339,5 +338,5 @@ void PlayScene::BossSpawn()
 	Enemy* boss = enemyManager->SpawnEeney<EnemyBoss>();
 	ui->SetBossHp(boss->GetHp_ptr());
 	player->SetIsKeyLock(false);
-	
+	missileManager->MissileAllChangeSoul(player);
 }

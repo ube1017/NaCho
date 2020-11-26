@@ -6,6 +6,7 @@
 #include "Missile.h"
 #include "EnemyManager.h"
 #include "Image.h"
+#include "UI.h"
 
 HRESULT Player::Init()
 {
@@ -62,6 +63,7 @@ void Player::Release()
 void Player::Update()
 {
 	GameNode::Update();
+
 	this->KeyChack();
 	hitBox = {	(LONG)pos.x - hitBoxSize.cx/2 -3, (LONG)pos.y - hitBoxSize.cy - 4,
 				(LONG)pos.x + hitBoxSize.cx/2 -3, (LONG)pos.y - 4 };
@@ -70,6 +72,9 @@ void Player::Update()
 	this->SpecialAbilityGauge();
 #ifdef _DEBUG
 	boomCount = 4;
+	soulScore++;
+	if (soulScore == 9999)
+		soulScore = 9998;
 #endif // _DEBUG
 
 	
@@ -371,14 +376,7 @@ void Player::SpecialAbility()
 		PlayScene* playScene =Cast<PlayScene>(GamePlayStatic::GetScene());
 		MissileManager* missilemanager = playScene->GetMissileManager();
 		missilemanager->MissileAllChangeSoul(this);
-		//const list<Missile*>* enemyMissile = missilemanager->GetSpawnMissileList();
-		//list<Missile*>::const_iterator const_it;
-		//for (const_it = enemyMissile->begin(); const_it != enemyMissile->end(); const_it++)
-		//{
-		//	//(*const_it)->OnHit();
-		//	(*const_it)->ChangeSoul(this);
-		//}
-
+		playScene->GetUI()->playerSkillEfect.Execute();
 		isSpecialAbility = true;
 		damge = 2;
 		missileSize = specialAbilityMissileSize;
@@ -430,6 +428,7 @@ void Player::Boom()
 
 void Player::SpecialAbilityGauge()
 {
+	//this->soulGauge = 2000;
 	// 특수능력 해제부분
 	if (isSpecialAbility)
 	{

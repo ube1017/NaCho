@@ -3,6 +3,11 @@
 #include "PlayScene.h"
 #include "Player.h"
 
+UI::UI()
+{
+	playerSkillEfect.BindObject(this,&UI::SkillEffectOn);
+}
+
 HRESULT UI::Init()
 {
 	isbossSpawn = false;
@@ -28,6 +33,13 @@ HRESULT UI::Init()
 	leftBack2.drwrc = { (LONG)Play_LeftX + PlayXSize / 2   , (LONG)-10 , (LONG)Play_RightX + 10, WINSIZE_Y + 20 };
 	leftBack1.framex = 1;
 	leftBack1.framey = 0;
+
+	UIleftBack1.drwrc = { 0, (LONG)-10, (LONG)Play_LeftX  , WINSIZE_Y + 7 };
+	UIleftBack1.imageName = "leftBack";  //문
+
+	UIleftBack2.drwrc = { Play_RightX, (LONG)-10, (LONG)WINSIZE_X  , WINSIZE_Y + 7};
+	UIleftBack2.imageName = "leftBack";  //문
+
 
 	LeftUpBackground.imageName = "LeftUpBackground";  
 	LeftUpBackground.drwrc = { (LONG)0 , (LONG)0 , (LONG)650 , 350 };
@@ -139,20 +151,23 @@ HRESULT UI::Init()
 	SkillEffect3.drwrc = { (LONG)500, (LONG)280 , (LONG)800, 350 };
 	SkillEffect4.imageName = "SkillEffect4"; //오른쪽
 	SkillEffect4.drwrc = { (LONG)650, (LONG)0 , (LONG)1000 ,400 };
+	
 	LeftCloud1.imageName = "LeftCloud1"; //왼쪽위
-	LeftCloud1.drwrc = { (LONG)0, (LONG)0 , (LONG)600, 200 };
+	LeftCloud1.drwrc = { (LONG)-100, (LONG)0 , (LONG)500, 200 };
 	LeftCloud2.imageName = "LeftCloud2";//왼쪽가운데
-	LeftCloud2.drwrc = { (LONG)0, (LONG)350 , (LONG)420, 800 };
+	LeftCloud2.drwrc = { (LONG)-100, (LONG)350 , (LONG)320, 800 };
 	LeftCloud3.imageName = "LeftCloud3";//왼쪽아래
-	LeftCloud3.drwrc = { (LONG)0, (LONG)600 , (LONG)600, 800 };
-	RightCloud3.imageName = "RightCloud3"; //오른쪽맨밑
-	RightCloud3.drwrc = { (LONG)700, (LONG)700 , (LONG)1200, 900 };
-	RightCloud2.imageName = "RightCloud2"; //오른쪽 중간아래
-	RightCloud2.drwrc = { (LONG)750, (LONG)650 , (LONG)1550, 850 };
-	RightCloud4.imageName = "RightCloud4"; //오른쪽맨위
-	RightCloud4.drwrc = { (LONG)650, (LONG)50 , (LONG)1550, 450 };
+	LeftCloud3.drwrc = { (LONG)-100, (LONG)600 , (LONG)500, 800 };
+	
 	RightCloud1.imageName = "RightCloud1"; //오른쪽 중간위
-	RightCloud1.drwrc = { (LONG)800, (LONG)280 , (LONG)1350, 400 };
+	RightCloud1.drwrc = { (LONG)900, (LONG)280 , (LONG)1450, 400 };
+	RightCloud2.imageName = "RightCloud2"; //오른쪽 중간아래
+	RightCloud2.drwrc = { (LONG)850, (LONG)650 , (LONG)1650, 850 };
+	RightCloud3.imageName = "RightCloud3"; //오른쪽맨밑
+	RightCloud3.drwrc = { (LONG)800, (LONG)700 , (LONG)1300, 900 };
+	RightCloud4.imageName = "RightCloud4"; //오른쪽맨위
+	RightCloud4.drwrc = { (LONG)750, (LONG)50 , (LONG)1650, 450 };
+	
 	SoulGeiji3.imageName = "SoulGeiji3";
 	SoulGeiji3.drwrc = { (LONG)1015, (LONG)200 , (LONG)1265, 290 };
 	Bomb.imageName = "Bomb";
@@ -161,11 +176,10 @@ HRESULT UI::Init()
 	
 	closeCount = DoorState::OPEN;
 	isWaring = false;
-
-	soulSocre[0] = -1;
-	soulSocre[1] = -1;
-	soulSocre[2] = -1;
-	soulSocre[3] = -1;
+	isUsingBackImage = true;
+	isTurn = false;
+	isskillEffect = false;
+	score = 0;
 	return S_OK;
 }
 
@@ -319,12 +333,25 @@ void UI::Update()
 			{
 				//leftBack1pos.x--;
 				leftBack1.MovePos(MovePosType::X_AIS, +8);
+				if (closeCount == DoorState::BOSSCLOSE)
+				{
+					LeftCloud1.MovePos(MovePosType::X_AIS, +2);
+					LeftCloud2.MovePos(MovePosType::X_AIS, +2);
+					LeftCloud3.MovePos(MovePosType::X_AIS, +2);
+				}
 			}
 
 			if (leftBack2.drwrc.left > Play_LeftX + PlayXSize / 2)
 			{
 				//leftBack2pos.x++;
 				leftBack2.MovePos(MovePosType::X_AIS, -8);
+				if (closeCount == DoorState::BOSSCLOSE)
+				{
+					RightCloud1.MovePos(MovePosType::X_AIS, -2);
+					RightCloud2.MovePos(MovePosType::X_AIS, -2);
+					RightCloud3.MovePos(MovePosType::X_AIS, -2);
+					RightCloud4.MovePos(MovePosType::X_AIS, -2);
+				}
 			}
 			else
 			{
@@ -366,13 +393,52 @@ void UI::Update()
 	int temp = 0;
 
 	int j = 0;
+	soulSocreCount = 0;
 	for (int i = 3; i > -1; i--)
 	{
-		temp = sSocre / (int)pow(10, i);
-		//if (temp != 0)
+		if (i != 0)
 		{
-			soulSocre[j] = temp;
+ 			if (sSocre - (int)pow(10, i) >= 0 && soulSocreCount == 0)
+				soulSocreCount = i;
+
+			temp = sSocre / (int)pow(10, i);
+			if (temp != 0)
+			{
+				Font3[j].framex = temp % 10;
+				j++;
+			}
+		}
+		else
+		{
+			temp = sSocre % 10;
+			Font3[j].framex = temp;
 			j++;
+		}
+	}
+
+	j = 13;
+	socreCount = 0;
+	for (int i = 0; i < 13; i++)
+	{
+		if (i != 0)
+		{
+			if (sSocre - (int)pow(10, i) >= 0 && socreCount == 0)
+				socreCount = i;
+
+			temp = sSocre / (int)pow(10, i);
+			if (temp != 0)
+			{
+				Font2[j].framex = temp % 10;
+				Font1[j].framex = Font2[j].framex;
+				j--;
+			}
+		}
+		else
+		{
+			temp = sSocre % 10;
+			Font2[j].framex = temp;
+			Font1[j].framex = Font2[j].framex;
+			j--;
 		}
 	}
 
@@ -382,8 +448,8 @@ void UI::Render(HDC hdc)
 {
 	BaseUI::Render(hdc);
 	ImageManager* imageManager = ImageManager::GetSingleton();
-	imageManager->DrawAnimImage(hdc, leftBack1);
-	imageManager->DrawAnimImage(hdc, leftBack2);
+	//imageManager->DrawAnimImage(hdc, leftBack1);
+	//imageManager->DrawAnimImage(hdc, leftBack2);
 
 	//이부분 보스등장씬
 	/*imageManager->DrawAnimImage(hdc, BossInit);
@@ -397,29 +463,49 @@ void UI::Render(HDC hdc)
 	imageManager->DrawAnimImage(hdc, Warning);*/
 
 	//이부분 스킬사용시
-	/*imageManager->DrawAnimImage(hdc, SkillEffect4);
-	imageManager->DrawAnimImage(hdc, SkillEffect2);
-	imageManager->DrawAnimImage(hdc, SkillEffect1);
-	imageManager->DrawAnimImage(hdc, SkillEffect3);*/
-	
-
-	//if (closeCount != DoorState::NONE)
-	//{
-	//	imageManager->DrawAnimImage(hdc, leftBack1);
-	//	imageManager->DrawAnimImage(hdc, leftBack2);
-	//}
-	if (isWaring)
+	if (isskillEffect)
 	{
-		imageManager->DrawAnimImage(hdc, BossInit);
-		imageManager->DrawAnimImage(hdc, Warning);
+		imageManager->DrawAnimImage(hdc, SkillEffect4);
+		imageManager->DrawAnimImage(hdc, SkillEffect2);
+		imageManager->DrawAnimImage(hdc, SkillEffect1);
+		imageManager->DrawAnimImage(hdc, SkillEffect3);
 	}
-	imageManager->DrawAnimImage(hdc, Back);
-	imageManager->DrawAnimImage(hdc, LeftBackground);
-	imageManager->DrawAnimImage(hdc, LeftSideDownBackground);
-	imageManager->DrawAnimImage(hdc, LeftUpBackground);
-	imageManager->DrawAnimImage(hdc, RightBackground);
-	imageManager->DrawAnimImage(hdc, RightSideDownBackground);
-	imageManager->DrawAnimImage(hdc, RightUpBackground);
+
+	if (closeCount != DoorState::NONE)
+	{
+		imageManager->DrawAnimImage(hdc, leftBack1);
+		imageManager->DrawAnimImage(hdc, leftBack2);
+	}
+
+	if (isUsingBackImage)
+		imageManager->DrawAnimImage(hdc, Back);
+	else
+	{
+		imageManager->DrawAnimImage(hdc, UIleftBack1);
+		imageManager->DrawAnimImage(hdc, UIleftBack2);
+		if (isWaring)
+		{
+			imageManager->DrawAnimImage(hdc, BossInit);
+			//imageManager->DrawAnimImage(hdc, Warning);
+			imageManager->AlphaRender(hdc, Warning, Warning.alpha);
+		}
+		imageManager->AlphaRender(hdc, LeftCloud1, LeftCloud1.alpha);
+		imageManager->AlphaRender(hdc, LeftCloud2, LeftCloud2.alpha);
+		imageManager->AlphaRender(hdc, LeftCloud3, LeftCloud3.alpha);
+		imageManager->AlphaRender(hdc, RightCloud1,RightCloud1.alpha);
+		imageManager->AlphaRender(hdc, RightCloud2,RightCloud2.alpha);
+		imageManager->AlphaRender(hdc, RightCloud3,RightCloud3.alpha);
+		imageManager->AlphaRender(hdc, RightCloud4,RightCloud4.alpha);
+
+
+		imageManager->DrawAnimImage(hdc, LeftBackground);
+		imageManager->DrawAnimImage(hdc, LeftSideDownBackground);
+		imageManager->DrawAnimImage(hdc, LeftUpBackground);
+		imageManager->DrawAnimImage(hdc, RightBackground);
+		imageManager->DrawAnimImage(hdc, RightSideDownBackground);
+		imageManager->DrawAnimImage(hdc, RightUpBackground);
+	}
+
 	imageManager->DrawAnimImage(hdc, test);
 	imageManager->DrawAnimImage(hdc, SoulGeijiBack);
 	imageManager->DrawAnimImage(hdc, Soulgeiji2);
@@ -455,10 +541,9 @@ void UI::Render(HDC hdc)
 	{
 		imageManager->DrawAnimImage(hdc, Font2[i]);
 	}
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < soulSocreCount + 1; i++)
 	{
-		if (soulSocre[0] != -1)
-			imageManager->DrawAnimImage(hdc, Font3[i]);
+		imageManager->DrawAnimImage(hdc, Font3[i]);
 	}
 	//for (int i = 0; i < 2; i++)
 	//{
@@ -490,7 +575,8 @@ void UI::Render(HDC hdc)
 
 void UI::BossStage()
 {
-	closeCount = DoorState::CLOSE;
+	closeCount = DoorState::BOSSCLOSE;
+	isUsingBackImage = false;
 }
 
 void UI::WarningUI()
@@ -504,9 +590,12 @@ void UI::WarningUI()
 	Warning.imageName = "Warning";
 	Warning.drwrc = { (LONG)0 + (WINSIZE_X / 4) - 100 , (LONG)40 , (LONG)WINSIZE_X - (WINSIZE_X / 4) + 100, WINSIZE_Y + 40 };
 	TimerManager::GetSingleton()->SetTimer(warningUIEndtimer, this, &UI::WarningUIEnd, 2.0f);
+	TimerManager::GetSingleton()->SetTimer(AlphaTimer, this, &UI::WarningAlpha, 0.1f);
 	PlayScene* plsyScene = Cast<PlayScene>(GamePlayStatic::GetScene());
 	plsyScene->SetAllShaek(1,-1,2.0f);
-	
+	Warning.alpha = 0;
+	isTurn = false;
+
 }
 
 void UI::WarningUIEnd()
@@ -515,9 +604,12 @@ void UI::WarningUIEnd()
 	isFullOpen = false;
 	isWaring = false;
 	TimerManager::GetSingleton()->DeleteTimer(warningUIEndtimer);
+	TimerManager::GetSingleton()->DeleteTimer(AlphaTimer);
 	TimerManager::GetSingleton()->SetTimer(warningUIEndtimer, this, &UI::BossFontUI, 0.5f);
+	TimerManager::GetSingleton()->SetTimer(AlphaTimer, this, &UI::CloudAlhpa, 0.2f);
 	bossFontUIcount = 0;
 	isbossFont = true;
+
 }
 
 void UI::BossFontUI()
@@ -529,6 +621,7 @@ void UI::BossFontUI()
 		isbossFont = false;
 		bossFontUIcount = 0;
 		TimerManager::GetSingleton()->SetTimer(bossSpawnTimer, this, &UI::BossSpawn, 0.8f);
+		isUsingBackImage = true;
 	}
 	else
 		GamePlayStatic::GetScene()->SetSideShake(5, 0.2f);
@@ -542,4 +635,55 @@ void UI::BossSpawn()
 	plsyScene->spawnStart.Execute();
 	plsyScene->spawnStart.UnBind();
 	TimerManager::GetSingleton()->DeleteTimer(bossSpawnTimer);
+}
+
+void UI::WarningAlpha()
+{
+	int alpha = Warning.alpha;
+	if (!isTurn)
+		alpha += 60;
+	else
+		alpha -= 60;
+
+	if (alpha >= 255)
+	{
+		isTurn = true;
+		alpha = 254;
+	}
+	if (alpha <= 0 )
+	{ 
+		isTurn = false;
+		alpha = 1;
+	}
+
+	Warning.alpha = alpha;
+}
+
+void UI::CloudAlhpa()
+{
+	int alpha = LeftCloud1.alpha;
+	alpha += 60;
+	if (alpha >= 255)
+		alpha = 255;
+
+	LeftCloud1.alpha = alpha;
+	LeftCloud2.alpha = alpha;
+	LeftCloud3.alpha = alpha;
+	RightCloud1.alpha= alpha;
+	RightCloud2.alpha= alpha;
+	RightCloud3.alpha= alpha;
+	RightCloud4.alpha= alpha;
+}
+
+void UI::SkillEffectOn()
+{
+	isskillEffect = true;
+	GamePlayStatic::GetScene()->SetAllShaek(2,-6,0.5f);
+	TimerManager::GetSingleton()->SetTimer(skillEffectTimer, this, &UI::SkillEffectOff);
+}
+
+void UI::SkillEffectOff()
+{
+	isskillEffect = false;
+	TimerManager::GetSingleton()->DeleteTimer(skillEffectTimer);
 }
