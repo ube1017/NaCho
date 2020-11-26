@@ -5,6 +5,7 @@ enum class DoorState
 {
 	OPEN = 0,
 	BOSSOPEN,
+	BOSSCLOSE,
 	CLOSE,
 	HOLD,
 	NONE,
@@ -27,11 +28,15 @@ private:
 	void WarningUIEnd();
 	void BossFontUI();
 	void BossSpawn();
+	void WarningAlpha();
+	void CloudAlhpa();
 private:
 	FPOINT leftBack2pos;
 	FPOINT leftBack1pos;
 	ImageDrawInfo leftBack1;
-	ImageDrawInfo leftBack2;
+	ImageDrawInfo leftBack2;	
+	ImageDrawInfo UIleftBack1;
+	ImageDrawInfo UIleftBack2;
 	ImageDrawInfo LeftSideDownBackground;
 	ImageDrawInfo LeftBackground;
 	ImageDrawInfo LeftUpBackground;
@@ -47,15 +52,20 @@ private:
 	int soulSocre[4];
 	int bossMaxHp;
 	int bossFontUIcount;
+	// 값이 일정값이상 올라갔다 내려갈때쓰이는 bool 변수
+	bool isTurn;
 
 	DoorState closeCount;
 	bool isbossSpawn;
 	bool isFullOpen;
 	bool isWaring;
 	bool isbossFont;
+	bool isUsingBackImage;
+
 	TimerHandle warningUIEndtimer;
 	TimerHandle bossFontTimer;
 	TimerHandle bossSpawnTimer;
+	TimerHandle AlphaTimer;
 
 	ImageDrawInfo Soulgeiji2;
 	float Soulgeiji2Time;

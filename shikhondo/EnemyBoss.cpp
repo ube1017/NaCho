@@ -63,6 +63,7 @@ void EnemyBoss::Update()
 		{
 			if (hp > 500)
 			{
+
 				pos.x += cosf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 				pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 				if (stopAttack)

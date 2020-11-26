@@ -20,7 +20,7 @@ struct ImageDrawInfo
 	// 애니메이션 사이즈
 	SIZE animSize;
 	bool isAnimSizeReset = false;
-
+	BYTE alpha;
 
 	bool isAnimStartRest = false;
 	int startx;

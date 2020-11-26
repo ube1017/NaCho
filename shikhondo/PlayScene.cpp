@@ -154,15 +154,15 @@ void PlayScene::Update()
 		enemyManager->SpawnEeney<Enemy2>();
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(0x45)) //e~
 		enemyManager->SpawnEeney<Enemy3>();
+
+#endif // _DEBUG
 	if (KeyManager::GetSingleton()->IsOnceKeyDown(0x51))
-	{ 
+	{
 		//Enemy* boss = enemyManager->SpawnEeney<EnemyBoss>();
 		//ui->SetBossHp(boss->GetHp_ptr());
 		ui->BossStage();
 		player->SetIsKeyLock(true);
-	}
-#endif // _DEBUG
-
+}
 }
 
 void PlayScene::Render(HDC hdc)
@@ -328,7 +328,7 @@ void PlayScene::SpawnBoss()
 
 void PlayScene::SpawnStartFun()
 {
-	TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
+	//TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
 	player->SetIsKeyLock(false);
 
 }
