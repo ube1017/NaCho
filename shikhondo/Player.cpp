@@ -236,7 +236,7 @@ void Player::KeyChack()
 		if (keyManager->IsOnceKeyDown(CKey))
 			this->SpecialAbility();
 		// 테스트모드
-		if (keyManager->IsOnceKeyDown(VK_SPACE))
+		if (keyManager->IsOnceKeyDown(0x50))
 			testMode = !testMode;
 	}
 }

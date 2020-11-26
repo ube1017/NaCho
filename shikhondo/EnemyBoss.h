@@ -9,6 +9,8 @@ private:
 	float ShootCount;
 	float pTime;
 	float P3Check;
+	float P1Check;
+	float P2Check;
 	bool pattenCheck;
 	float missileSpeed2 = 4.0f;
 	class Missile* Em[8];

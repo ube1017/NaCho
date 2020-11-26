@@ -29,6 +29,8 @@ HRESULT EnemyBoss::Init()
 	movePosCheck = 0;
 	roundCheck = 0;
 	pTime = 0;
+	P1Check = 0;
+	P2Check = 0;
 	num = 50;
 	pattenCheck = false;
 	boom = false;
@@ -53,7 +55,7 @@ void EnemyBoss::Release()
 void EnemyBoss::Update()
 {
 	Enemy::Update();
-	PlayScene* playScene = dynamic_cast<PlayScene*>( GamePlayStatic::GetScene());
+	PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
 	imageinfo.MovePos(pos);
 	DEBUG_MASSAGE("보스체력이다 : %d \n", this->hp);
 	hitBox = { (LONG)pos.x - hitBoxSize.cx / 2, (LONG)pos.y - hitBoxSize.cy / 2,
@@ -63,6 +65,9 @@ void EnemyBoss::Update()
 	ShootCount += TimerManager::GetSingleton()->GettimeElapsed();
 	pTime += TimerManager::GetSingleton()->GettimeElapsed();
 	P3Check += TimerManager::GetSingleton()->GettimeElapsed();
+	P1Check += TimerManager::GetSingleton()->GettimeElapsed();
+	P2Check += TimerManager::GetSingleton()->GettimeElapsed();
+
 	if (!stop)
 	{
 		if (roundCheck == 0)
@@ -111,6 +116,8 @@ void EnemyBoss::Update()
 				checkTime = 0;
 				ShootCount = 0;
 				P3Check = 0;
+				P1Check = 0;
+				P2Check = 0;
 				pTime = 0;
 			}
 		}
@@ -159,6 +166,8 @@ void EnemyBoss::Update()
 				checkTime = 0;
 				ShootCount = 0;
 				pTime = 0;
+				P1Check = 0;
+				P2Check = 0;
 				P3Check = 0;
 			}
 		}
@@ -194,8 +203,11 @@ void EnemyBoss::Update()
 					{
 						patten2(1.0f);
 						patten7(4.5f, 0.5f);
-						patten4(0.7f);
 						if (hp < 2000)
+						{
+							patten4(0.7f);
+						}
+						if (hp < 1000)
 						{
 							patten3(2.0f);
 						}
@@ -209,7 +221,7 @@ void EnemyBoss::Update()
 				socre += socre + 5000;
 				playScene->GetMissileManager()->MissileAllChangeSoul(GamePlayStatic::GetPlayerCharacter());
 				if (this->hp <= 0)
-					GamePlayStatic::GetMainGame()->GetUI()->CloseDoor();
+					GamePlayStatic::GetMainGame()->GetUI()->SetCloseTimer(1.0f);
 			}
 		}
 		else
@@ -276,23 +288,24 @@ void EnemyBoss::patten2(float MSpeed)
 {
 	PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
 	float angle = 0.0f;
-	if (ShootCount >= MSpeed)
+
+	if (P1Check >= MSpeed)
 	{
 		for (int i = 0; i < 20; i++)
 		{
-			Missile* Em = playScene->SpawnMissile(this, "21", this->pos, { 30, 30 });
+			Missile* Em = playScene->SpawnMissile(this, "23", this->pos, { 30, 30 });
 			Em->SetSpeed(missileSpeed2);
 			Em->SetAngle(angle);
 			Em->SetMovePatten(Patten::TEST2);
 
-			Missile* Em1 = playScene->SpawnMissile(this, "21", this->pos, { 30, 30 });
+			Missile* Em1 = playScene->SpawnMissile(this, "24", this->pos, { 30, 30 });
 			Em1->SetSpeed(missileSpeed2);
 			Em1->SetAngle(angle);
 			Em1->SetMovePatten(Patten::TEST);
 
 			angle += 0.3f;//(6.14 / 20.0f);
 		}
-		ShootCount = 0;
+		P1Check = 0;
 	}
 }
 
@@ -331,7 +344,7 @@ void EnemyBoss::patten3(float MSpeed)
 void EnemyBoss::patten4(float MSpeed)// 0.3
 {
 	PlayScene* playScene = dynamic_cast<PlayScene*>(GamePlayStatic::GetScene());
-	if (ShootCount >= MSpeed)
+	if (P2Check >= MSpeed)
 	{
 		// 각도를 받고
 		for (int i = 0; i < 18; i++)
@@ -347,7 +360,7 @@ void EnemyBoss::patten4(float MSpeed)// 0.3
 			}
 		}
 		angleNum2 = 9;
-		ShootCount = 0;
+		P2Check = 0;
 	}
 }
 
@@ -359,7 +372,7 @@ void EnemyBoss::patten5(float MSpeed)//1.0
 		// 각도를 받고
 		for (int i = 0; i < 14; i++)
 		{
-			Missile* Em = playScene->SpawnMissile(this, "21", this->pos, { 25, 25 });
+			Missile* Em = playScene->SpawnMissile(this, "24", this->pos, { 25, 25 });
 			Em->SetAngle(DegreeToRadian(angleNum2));		// 각도 값
 			Em->SetSpeed(2.5f);					// 총알 스피드
 			Em->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
@@ -384,7 +397,7 @@ void EnemyBoss::patten6(FPOINT MPos, float speed)
 	for (int i = 0; i < 8; i++)
 	{
 		Missile* Emg;
-		Emg = playScene->SpawnMissile(this, "21", MPos, { 25, 25 });
+		Emg = playScene->SpawnMissile(this, "23", MPos, { 25, 25 });
 		Emg->SetAngle(DegreeToRadian(angleNum3));		// 각도 값
 		Emg->SetSpeed(speed);					// 총알 스피드
 		Emg->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
@@ -400,7 +413,7 @@ void EnemyBoss::patten7(float MSpeed, float Mtime)
 	{
 		// 각도를 받고
 		Missile* Em7;
-		Em7 = playScene->SpawnMissile(this, "21", this->pos, { 30, 30 });
+		Em7 = playScene->SpawnMissile(this, "25", this->pos, { 30, 30 });
 		Em7->SetAngle(this->GetAngle());		// 각도 값
 		Em7->SetSpeed(MSpeed);			// 총알 스피드
 		Em7->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
@@ -417,7 +430,7 @@ void EnemyBoss::patten8(float MSpeed, float Mtime)
 		// 각도를 받고
 		for (int i = 0; i < 5; i++)
 		{
-			Missile* Em = playScene->SpawnMissile(this, "21", this->pos, { 25, 25 });
+			Missile* Em = playScene->SpawnMissile(this, "25", this->pos, { 25, 25 });
 			Em->SetAngle(DegreeToRadian(num));		// 각도 값
 			Em->SetSpeed(MSpeed);					// 총알 스피드
 			Em->SetMovePatten(Patten::ANGLEMOVE);	// 초알 패턴
