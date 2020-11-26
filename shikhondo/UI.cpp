@@ -3,6 +3,11 @@
 #include "PlayScene.h"
 #include "Player.h"
 
+UI::UI()
+{
+	playerSkillEfect.BindObject(this,&UI::SkillEffectOn);
+}
+
 HRESULT UI::Init()
 {
 	isbossSpawn = false;
@@ -169,11 +174,8 @@ HRESULT UI::Init()
 	isWaring = false;
 	isUsingBackImage = true;
 	isTurn = false;
-
-	soulSocre[0] = -1;
-	soulSocre[1] = -1;
-	soulSocre[2] = -1;
-	soulSocre[3] = -1;
+	isskillEffect = false;
+	score = 0;
 	return S_OK;
 }
 
@@ -370,13 +372,52 @@ void UI::Update()
 	int temp = 0;
 
 	int j = 0;
+	soulSocreCount = 0;
 	for (int i = 3; i > -1; i--)
 	{
-		temp = sSocre / (int)pow(10, i);
-		//if (temp != 0)
+		if (i != 0)
 		{
-			soulSocre[j] = temp;
+ 			if (sSocre - (int)pow(10, i) >= 0 && soulSocreCount == 0)
+				soulSocreCount = i;
+
+			temp = sSocre / (int)pow(10, i);
+			if (temp != 0)
+			{
+				Font3[j].framex = temp % 10;
+				j++;
+			}
+		}
+		else
+		{
+			temp = sSocre % 10;
+			Font3[j].framex = temp;
 			j++;
+		}
+	}
+
+	j = 13;
+	socreCount = 0;
+	for (int i = 0; i < 13; i++)
+	{
+		if (i != 0)
+		{
+			if (sSocre - (int)pow(10, i) >= 0 && socreCount == 0)
+				socreCount = i;
+
+			temp = sSocre / (int)pow(10, i);
+			if (temp != 0)
+			{
+				Font2[j].framex = temp % 10;
+				Font1[j].framex = Font2[j].framex;
+				j--;
+			}
+		}
+		else
+		{
+			temp = sSocre % 10;
+			Font2[j].framex = temp;
+			Font1[j].framex = Font2[j].framex;
+			j--;
 		}
 	}
 
@@ -401,11 +442,13 @@ void UI::Render(HDC hdc)
 	imageManager->DrawAnimImage(hdc, Warning);*/
 
 	//이부분 스킬사용시
-	/*imageManager->DrawAnimImage(hdc, SkillEffect4);
-	imageManager->DrawAnimImage(hdc, SkillEffect2);
-	imageManager->DrawAnimImage(hdc, SkillEffect1);
-	imageManager->DrawAnimImage(hdc, SkillEffect3);*/
-	
+	if (isskillEffect)
+	{
+		imageManager->DrawAnimImage(hdc, SkillEffect4);
+		imageManager->DrawAnimImage(hdc, SkillEffect2);
+		imageManager->DrawAnimImage(hdc, SkillEffect1);
+		imageManager->DrawAnimImage(hdc, SkillEffect3);
+	}
 
 	if (closeCount != DoorState::NONE)
 	{
@@ -476,10 +519,9 @@ void UI::Render(HDC hdc)
 	{
 		imageManager->DrawAnimImage(hdc, Font2[i]);
 	}
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < soulSocreCount + 1; i++)
 	{
-		if (soulSocre[0] != -1)
-			imageManager->DrawAnimImage(hdc, Font3[i]);
+		imageManager->DrawAnimImage(hdc, Font3[i]);
 	}
 	//for (int i = 0; i < 2; i++)
 	//{
@@ -608,4 +650,17 @@ void UI::CloudAlhpa()
 	RightCloud2.alpha= alpha;
 	RightCloud3.alpha= alpha;
 	RightCloud4.alpha= alpha;
+}
+
+void UI::SkillEffectOn()
+{
+	isskillEffect = true;
+	GamePlayStatic::GetScene()->SetAllShaek(2,-6,0.5f);
+	TimerManager::GetSingleton()->SetTimer(skillEffectTimer, this, &UI::SkillEffectOff);
+}
+
+void UI::SkillEffectOff()
+{
+	isskillEffect = false;
+	TimerManager::GetSingleton()->DeleteTimer(skillEffectTimer);
 }

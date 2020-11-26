@@ -25,6 +25,7 @@ HRESULT Enemy1::Init()
 	// ∆–≈œ 
 	pattenX = 150;
 	pattenY = 5;
+	socre = 1280 + rand() % 10;
 
 	AutomaticMissile = false;
 	

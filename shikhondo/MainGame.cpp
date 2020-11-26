@@ -71,9 +71,9 @@ void MainGame::Render()
 		int x = 0;
 		int y = 0;
 		if (ShackeX != 0)
-			x = rand() % ShackeX - Revision;
+			x = rand() % ShackeX + Revision;
 		if (ShackeY != 0)
-			y = rand() % ShackeY - Revision;
+			y = rand() % ShackeY + Revision;
 		BitBlt(hdc, x, y, WINSIZE_X, WINSIZE_Y, MemDC, 0, 0, SRCCOPY);
 	}
 	else

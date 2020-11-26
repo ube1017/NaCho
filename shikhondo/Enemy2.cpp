@@ -20,6 +20,7 @@ HRESULT Enemy2::Init()
 	mapOutCheck = false;
 	missileSpeed = 2.5f;
 	moveTime = 0;
+	socre = 2470 + +rand() % 10;
 	// 시작 위치 설정
 	RandLocation();
 	LocationReset();

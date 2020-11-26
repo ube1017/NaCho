@@ -30,6 +30,7 @@ public:
 	class EnemyManager* GetEnemyManager() { return enemyManager; }
 
 	class Missile* SpawnMissile(class Character* owner,string imageName, FPOINT missilePos, SIZE MissileSize);
+	class UI* GetUI() { return this->ui; }
 
 
 	void BossSpawnBind();
