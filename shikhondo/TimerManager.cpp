@@ -33,12 +33,14 @@ void TimerManager::Update()
 {
 	timer->Tick();
 	Const_IteratorTimerMap it;
-	for (it = timers.begin(); it != timers.end();)
+	std::map<TimerHandle, Timer*> copyTimersmap = timers;
+	for (it = copyTimersmap.begin(); it != copyTimersmap.end();)
 	{
 		Timer* timer = it->second;
 		it++;
 		timer->Tick();
 	}
+	copyTimersmap.clear();
 }
 
 void TimerManager::Render(HDC hdc)

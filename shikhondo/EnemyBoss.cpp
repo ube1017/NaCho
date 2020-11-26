@@ -46,6 +46,8 @@ void EnemyBoss::Update()
 	Enemy::Update();
 	imageinfo.MovePos(pos);
 	DEBUG_MASSAGE("보스체력이다 : %d \n", this->hp);
+	hitBox = { (LONG)pos.x - hitBoxSize.cx / 2, (LONG)pos.y - hitBoxSize.cy / 2,
+			(LONG)pos.x + hitBoxSize.cx / 2, (LONG)pos.y + hitBoxSize.cy / 2 };
 	if (!stop)
 	{
 		if (roundCheck == 0)
@@ -54,9 +56,6 @@ void EnemyBoss::Update()
 			{
 				checkTime += TimerManager::GetSingleton()->GettimeElapsed();
 				ShootCount += TimerManager::GetSingleton()->GettimeElapsed();
-				hitBox = { (LONG)pos.x - hitBoxSize.cx / 2, (LONG)pos.y - hitBoxSize.cy / 2,
-							(LONG)pos.x + hitBoxSize.cx / 2, (LONG)pos.y + hitBoxSize.cy / 2 };
-
 				pos.x += cosf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 				pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 
@@ -87,8 +86,8 @@ void EnemyBoss::Update()
 			{
 				checkTime += TimerManager::GetSingleton()->GettimeElapsed();
 				ShootCount += TimerManager::GetSingleton()->GettimeElapsed();
-				hitBox = { (LONG)pos.x - hitBoxSize.cx / 2, (LONG)pos.y - hitBoxSize.cy / 2,
-							(LONG)pos.x + hitBoxSize.cx / 2, (LONG)pos.y + hitBoxSize.cy / 2 };
+				//hitBox = { (LONG)pos.x - hitBoxSize.cx / 2, (LONG)pos.y - hitBoxSize.cy / 2,
+				//			(LONG)pos.x + hitBoxSize.cx / 2, (LONG)pos.y + hitBoxSize.cy / 2 };
 
 				pos.x += cosf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 				pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
@@ -121,8 +120,8 @@ void EnemyBoss::Update()
 			{
 				checkTime += TimerManager::GetSingleton()->GettimeElapsed();
 				ShootCount += TimerManager::GetSingleton()->GettimeElapsed();
-				hitBox = { (LONG)pos.x - hitBoxSize.cx / 2, (LONG)pos.y - hitBoxSize.cy / 2,
-							(LONG)pos.x + hitBoxSize.cx / 2, (LONG)pos.y + hitBoxSize.cy / 2 };
+				//hitBox = { (LONG)pos.x - hitBoxSize.cx / 2, (LONG)pos.y - hitBoxSize.cy / 2,
+				//			(LONG)pos.x + hitBoxSize.cx / 2, (LONG)pos.y + hitBoxSize.cy / 2 };
 
 				pos.x += cosf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
 				pos.y += sinf(atan2((RandPos.y - pos.y), (RandPos.x - pos.x))) * speed;
