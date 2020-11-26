@@ -31,6 +31,7 @@ protected:
 	FPOINT RandPos;
 	int RandNum;
 	int locationCount;
+	int socre;
 	float missileSpeed;
 	float checkTime;
 	float moveTime;

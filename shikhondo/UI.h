@@ -25,7 +25,7 @@ public:
 
 	void SetBossHp(int* hp) { bossHp = hp; bossMaxHp = *hp;isbossSpawn = true; }
 	bool GetIsFullOpen() { return isFullOpen; }
-	void AddScore(int value) { this->score += value; }
+	void AddScore(int value) { this->socre += value; }
 
 	void BossStage();
 private:
@@ -59,7 +59,7 @@ private:
 	const int* playerBoom;
 	const int* bossHp;
 	const int* pSoulSocre;
-	int score;
+	int socre;
 	int socreCount;
 	int soulSocreCount;
 	int bossMaxHp;

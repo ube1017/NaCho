@@ -72,7 +72,7 @@ void Player::Update()
 	this->SpecialAbilityGauge();
 #ifdef _DEBUG
 	boomCount = 4;
-	soulScore++;
+	//soulScore++;
 	if (soulScore == 9999)
 		soulScore = 9998;
 #endif // _DEBUG
@@ -441,6 +441,9 @@ void Player::SpecialAbilityGauge()
 			this->damge = 1;
 			this->missileName = "PlayerMissile";
 			this->missileSize = normalMissileSize;
+			PlayScene* playScene = Cast<PlayScene>(GamePlayStatic::GetScene());
+			MissileManager* missilemanager = playScene->GetMissileManager();
+			missilemanager->MissileAllChangeSoul(this);
 		}
 	}
 	float ratio = 0;

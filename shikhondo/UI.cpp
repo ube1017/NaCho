@@ -175,7 +175,7 @@ HRESULT UI::Init()
 	isUsingBackImage = true;
 	isTurn = false;
 	isskillEffect = false;
-	score = 0;
+	socre = 0;
 	return S_OK;
 }
 
@@ -401,10 +401,10 @@ void UI::Update()
 	{
 		if (i != 0)
 		{
-			if (sSocre - (int)pow(10, i) >= 0 && socreCount == 0)
+			if (socre - (int)pow(10, i) >= 0 && socreCount == 0)
 				socreCount = i;
 
-			temp = sSocre / (int)pow(10, i);
+			temp = socre / (int)pow(10, i);
 			if (temp != 0)
 			{
 				Font2[j].framex = temp % 10;
@@ -414,7 +414,7 @@ void UI::Update()
 		}
 		else
 		{
-			temp = sSocre % 10;
+			temp = socre % 10;
 			Font2[j].framex = temp;
 			Font1[j].framex = Font2[j].framex;
 			j--;
