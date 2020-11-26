@@ -23,10 +23,13 @@ public:
 	virtual void Update();				// 프레임 단위 게임 로직 실행 (데이터 변경)
 	virtual void Render(HDC hdc);		// 프레임 단위 출력 (이미지, 텍스트 등)
 
+	void SetIsStrat(bool value) { this->isStart = value; this->isUsingBackImage = true; }
+	bool GetIsStrat() { return this->isStart; }
 	void SetBossHp(int* hp) { bossHp = hp; bossMaxHp = *hp;isbossSpawn = true; }
 	bool GetIsFullOpen() { return isFullOpen; }
-	void AddScore(int value) { this->socre += value; }
+	void AddScore(int value) { this->socre += value; if (maxSocre <= this->socre) maxSocre = this->socre; }
 
+	void CloseDoor();
 	void BossStage();
 private:
 	void WarningUI();
@@ -61,6 +64,7 @@ private:
 	const int* bossHp;
 	const int* pSoulSocre;
 	int socre;
+	static int maxSocre;
 	int socreCount;
 	int soulSocreCount;
 	int bossMaxHp;
@@ -75,6 +79,7 @@ private:
 	bool isbossFont;
 	bool isUsingBackImage;
 	bool isskillEffect;
+	bool isStart;
 
 	TimerHandle warningUIEndtimer;
 	TimerHandle bossFontTimer;

@@ -38,6 +38,8 @@ public:
 	void patten8(float MSpeed, float Mtime);
 	void bossMove();
 
+	void OnHit(class Missile* hitMissile) override;
+
 private:
 	void Idle();
 

@@ -3,7 +3,7 @@
 class Scene : public GameNode
 {
 public:
-	Scene() : isShake(false), shackeMoveX(0), shackeMoveY(0), revision(0){}
+	Scene() : isShake(false), shackeMoveX(0), shackeMoveY(0), revision(0), isRestart(false){}
 	HRESULT Init() { return S_OK; }
 	void Release() { GameNode::Release(); }
 
@@ -20,7 +20,10 @@ public:
 	int GetRandomShackeMove() const { return rand() % (this->strength * 2) - 1; }
 
 	int GetRevision() { return this->revision; }
-	
+
+	void SetisReStart(bool value) { this->isRestart = value; }
+	bool GetisReStart() { return this->isRestart; }
+	bool GetisStart() { return this->isStart; }
 private:
 	void OffShake();
 protected:
@@ -30,5 +33,7 @@ protected:
 	int revision;
 	int shackeMoveX;
 	int shackeMoveY;
+	bool isRestart;
+	bool isStart;
 };
 

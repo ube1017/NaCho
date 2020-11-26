@@ -120,10 +120,8 @@ int APIENTRY WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance,
 		}
 		else
 		{
-			
+			g_mainGame.MainLoop();
 
-			g_mainGame.Update();
-			g_mainGame.Render();
 		}
 	}
 

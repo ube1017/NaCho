@@ -36,10 +36,12 @@ public:
 	HRESULT Init();
 	void Release();
 	void Update();
+	void TimerUpdate();
 	void Render(HDC hdc);
 
 	float GettimeElapsed();
 
+	void AllDeleteTimer();
 public:
 	template<typename UserClass>
 	void SetTimer(TimerHandle& timerHandle, UserClass* object, typename Memptr<UserClass>::Type fun, float delay = 1.0f)

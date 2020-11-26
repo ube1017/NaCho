@@ -58,8 +58,8 @@ void Missile::Update()
 	GameNode::Update();
 	//this->imaginfo.MovePos(this->pos);
 	(this->*movePatten[MISSILEPATTEN(nowMovePatten)])();
-	if (pos.x <= Play_LeftX || pos.x >= Play_RightX ||
-		pos.y <= 0 || pos.y >= WINSIZE_Y)
+	if ((pos.x <= Play_LeftX || pos.x >= Play_RightX ||
+		pos.y <= 0 || pos.y >= WINSIZE_Y) && !isboom)
 	{
 		this->MissileRelease();
 		this->isActivation = false;
@@ -101,7 +101,10 @@ void Missile::MissileSetting(string imageName, FPOINT pos, SIZE size)
 	this->pos = pos;
 	this->size = size;
 	this->imaginfo.DrawRectSetting(imageName,pos,size);
-	TimerManager::GetSingleton()->SetTimer(misiileAnimTimerHandle, this, &Missile::MissileAnim, 0.05f);
+	if (!this->isboom)
+		TimerManager::GetSingleton()->SetTimer(misiileAnimTimerHandle, this, &Missile::MissileAnim, 0.05f);
+	else
+		TimerManager::GetSingleton()->SetTimer(misiileAnimTimerHandle, this, &Missile::MissileAnim, 0.001f);
 }
 
 void Missile::MissileRelease()
@@ -194,16 +197,25 @@ void Missile::MissileAnim()
 		Image* findImage = ImageManager::GetSingleton()->FindImage(this->imaginfo.imageName);
 		if (findImage)
 		{
-			int X_max = findImage->GetMaxFramX();
-			int Y_max = findImage->GetMaxFramY();
-			this->imaginfo.framex++;
-			if (this->imaginfo.framex >= X_max)
+			if (this->isboom)
 			{
-				this->imaginfo.framex = 0;
-				this->imaginfo.framey++;
-				if (this->imaginfo.framey >= Y_max)
-					this->imaginfo.framey = 0;
+				this->imaginfo.MovePos(MovePosType::Y_AIS, - 20);
+				this->pos.y -= 20;
+			}
+			else
+			{
+				int X_max = findImage->GetMaxFramX();
+				int Y_max = findImage->GetMaxFramY();
+				this->imaginfo.framex++;
+				if (this->imaginfo.framex >= X_max)
+				{
+					this->imaginfo.framex = 0;
+					this->imaginfo.framey++;
+					if (this->imaginfo.framey >= Y_max)
+						this->imaginfo.framey = 0;
+				}
 			}
 		}
+		
 	}
 }

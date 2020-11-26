@@ -12,7 +12,7 @@ HRESULT Player::Init()
 {
 	
 	imageinfo.imageName = "Player";
-	hp = 6;
+	hp = 1;
 	boomCount = 4;
 	soulGauge = 0;
 	damge = 1;
@@ -389,10 +389,7 @@ void Player::SpecialAbility()
 			PlayScene* playScene = Cast<PlayScene>(GamePlayStatic::GetScene());
 			MissileManager* missilemanager = playScene->GetMissileManager();
 			missilemanager->MissileAllChangeSoul(this);
-			boomMissile = missilemanager->SpawnPlayerMissile(this, "Bomb", { Play_LeftX + (PlayXSize / 8), WINSIZE_Y/2 }, { (PlayXSize / 4) , WINSIZE_Y});
-			//boomMissile = missilemanager->SpawnPlayerMissile(this, "Bomb", { Play_LeftX + (PlayXSize / 8), WINSIZE_Y / 2 }, { (PlayXSize / 4) , 80 });
-			boomMissile->SetDamage(70);
-			boomMissile->SetisBoom(true);
+
 			Boom();
 			this->boomCount--;
 			if (this->boomCount <= 0)
@@ -409,12 +406,7 @@ void Player::Invincibility()
 
 void Player::Boom()
 {
-	boomBox = { Play_LeftX + (PlayXSize / 4) * ((LONG)boomAttackCount) ,0,Play_LeftX + (PlayXSize / 4) * (1 + (LONG)boomAttackCount) , WINSIZE_Y };
-	TimerManager::GetSingleton()->SetTimer(boomTimer, this, &Player::Boom, 0.5f);
 	boomAttackCount++;
-	boomMissile->SetPos({ (float)(Play_LeftX + (PlayXSize / 8) + (PlayXSize/4) * (boomAttackCount - 1)), (float)(WINSIZE_Y / 2) });
-	boomMissile->SetMovePatten(Patten::NONE);
-	boomMissile->SetHitBox(boomBox);
 	if (boomAttackCount == 5)
 	{
 		TimerManager::GetSingleton()->DeleteTimer(boomTimer);
@@ -422,8 +414,27 @@ void Player::Boom()
 		boomAttackCount = 0;
 		PlayScene* playScene = Cast<PlayScene>(GamePlayStatic::GetScene());
 		MissileManager* missilemanager = playScene->GetMissileManager();
-		missilemanager->MissileRelease(this,boomMissile);
-		
+		for (int i = 0; i < 4; i++)
+			missilemanager->MissileRelease(this, boomMissile[i]);
+
+	}
+	else
+	{
+		PlayScene* playScene = Cast<PlayScene>(GamePlayStatic::GetScene());
+		MissileManager* missilemanager = playScene->GetMissileManager();
+		boomMissile[boomAttackCount - 1] = missilemanager->SpawnPlayerMissile(this, "Bomb", { Play_LeftX + (PlayXSize / 8), WINSIZE_Y / 2 }, { (PlayXSize / 4) , 1024 });
+		//boomMissile = missilemanager->SpawnPlayerMissile(this, "Bomb", { Play_LeftX + (PlayXSize / 8), WINSIZE_Y / 2 }, { (PlayXSize / 4) , 80 });
+		boomMissile[boomAttackCount - 1]->SetDamage(70);
+		boomMissile[boomAttackCount - 1]->SetisBoom(true);
+		boomMissile[boomAttackCount - 1]->MissileSetting("Bomb", { Play_LeftX + (PlayXSize / 8),WINSIZE_Y + WINSIZE_Y / 2 }, { (PlayXSize / 4) , 1024 });
+
+		boomBox = { Play_LeftX + (PlayXSize / 4) * ((LONG) boomAttackCount - 1) ,0,Play_LeftX + (PlayXSize / 4) * ((LONG)boomAttackCount) , WINSIZE_Y };
+		TimerManager::GetSingleton()->SetTimer(boomTimer, this, &Player::Boom, 0.5f);
+		//boomAttackCount++;
+		boomMissile[boomAttackCount - 1]->SetPos({ (float)(Play_LeftX + (PlayXSize / 8) + (PlayXSize / 4) * (boomAttackCount - 1)), (float)(WINSIZE_Y / 2) });
+		boomMissile[boomAttackCount - 1]->SetMovePatten(Patten::NONE);
+		boomMissile[boomAttackCount - 1]->SetHitBox(boomBox);
+
 	}
 }
 

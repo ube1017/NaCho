@@ -87,27 +87,32 @@ void CollisionManager::CollisinCheck()
 	Enemy* enemy;
 	if (player->GetBoomAttackCount() != 0)
 	{
-		Missile* boomMissile = player->GetBoomMissile();
-		RECT boomBox = boomMissile->GetHitBox();
-		for (; eiter != enemys->end(); )
+		for (int i = 0; i < 4; i++)
 		{
-			if (!(*eiter)->GetMapInCheck())
+			Missile* boomMissile = player->GetBoomMissile()[i];
+			if (boomMissile == nullptr)
+				break;
+			RECT boomBox = boomMissile->GetHitBox();
+			for (eiter = enemys->begin(); eiter != enemys->end(); )
 			{
+				if (!(*eiter)->GetMapInCheck())
+				{
+					eiter++;
+					continue;
+				}
+				enemy = *eiter;
 				eiter++;
-				continue;
+				enemyPos = enemy->Getpos();
+				pos = { (LONG)enemyPos.x , (LONG)enemyPos.y };
+				if (PtInRect(&boomBox, pos))
+				{
+					enemy->OnHit(boomMissile);
+					if (!enemy->GetisActivation())
+						enemyManager->DieEnemy(enemy);
+				}
 			}
-			enemy = *eiter;
-			eiter++;
-			enemyPos = enemy->Getpos();
-			pos = { (LONG)enemyPos.x , (LONG)enemyPos.y };
-			if (PtInRect(&boomBox, pos))
-			{
-				enemy->OnHit(boomMissile);
-				if (!enemy->GetisActivation())
-					enemyManager->DieEnemy(enemy);
-			}
+			boomMissile->SetHitBox({ 0,0,0,0 });
 		}
-		boomMissile->SetHitBox({0,0,0,0});
 	}
 
 	eiter = enemys->begin();

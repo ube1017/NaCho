@@ -32,6 +32,10 @@ void TimerManager::Release()
 void TimerManager::Update()
 {
 	timer->Tick();
+}
+
+void TimerManager::TimerUpdate()
+{
 	Const_IteratorTimerMap it;
 	std::map<TimerHandle, Timer*> copyTimersmap = timers;
 	for (it = copyTimersmap.begin(); it != copyTimersmap.end();)
@@ -55,6 +59,17 @@ void TimerManager::Render(HDC hdc)
 float TimerManager::GettimeElapsed()
 {
 	return timer->GettimeElapsed();
+}
+
+void TimerManager::AllDeleteTimer()
+{
+	Const_IteratorTimerMap it;
+	for (it = timers.begin(); it != timers.end(); it++)
+	{
+		it->second->timer.UnBind();
+		delete it->second;
+	}
+	timers.clear();
 }
 
 void TimerManager::DeleteTimer(TimerHandle & timerHandle)

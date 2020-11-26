@@ -44,7 +44,7 @@ public:
 	// ÆøÅº ¸î¹øÀç °ø°ÝÀÎÁö
 	int GetBoomAttackCount() { return this->boomAttackCount; }
 	RECT GetBoomBox() { return this->boomBox; }
-	class Missile* GetBoomMissile() { return this->boomMissile; }
+	class Missile** GetBoomMissile() { return this->boomMissile; }
 
 	bool GetIsSpecialAbility() { return this->isSpecialAbility; }
 
@@ -105,7 +105,7 @@ private:
 	TimerHandle startMoveTimer;
 
 
-	class Missile* boomMissile;
+	class Missile* boomMissile[4];
 	RECT boomBox;
 	int boomAttackCount;
 	bool startMove_back;

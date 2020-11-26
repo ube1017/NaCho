@@ -4,6 +4,7 @@
 #include "Missile.h"
 #include "UI.h"
 #include "PlayScene.h"
+#include "MainGame.h"
 /*
 시작하자마자 멈추게 하고
 
@@ -13,7 +14,7 @@
 */
 HRESULT EnemyBoss::Init()
 {
-	hp = 550;
+	hp = 2500;
 	damge = 1;
 	speed = 1.5f;
 	missileSpeed = 1.5f;
@@ -101,7 +102,7 @@ void EnemyBoss::Update()
 				roundCheck++;
 				socre += socre + 2000;
 				playScene->GetUI()->AddScore(socre);
-				hp = 2000;
+				hp = 3500;
 				speed = 2;
 				stop = true;
 				stopAttack = true;
@@ -148,7 +149,7 @@ void EnemyBoss::Update()
 				roundCheck++;
 				socre += socre + 1500;
 				playScene->GetUI()->AddScore(socre);
-				hp = 3000;
+				hp = 4000;
 				speed = 2;
 				stop = true;
 				stopAttack = true;
@@ -203,6 +204,8 @@ void EnemyBoss::Update()
 			{
 				roundCheck++;
 				socre += socre + 5000;
+				if (this->hp <= 0)
+					GamePlayStatic::GetMainGame()->GetUI()->CloseDoor();
 			}
 		}
 		else
@@ -555,6 +558,13 @@ void EnemyBoss::bossMove()
 
 
 
+
+}
+
+void EnemyBoss::OnHit(class Missile* hitMissile)
+{
+
+	Enemy::OnHit(hitMissile);
 
 }
 

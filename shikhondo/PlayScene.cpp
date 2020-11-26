@@ -13,10 +13,13 @@
 #include "Missile.h"
 #include "CollisionManager.h"
 #include "UI.h"
+#include "MainGame.h"
 
 PlayScene::PlayScene()
 {
 	spawnStart.BindObject(this, &PlayScene::SpawnStartFun);
+
+
 }
 
 HRESULT PlayScene::Init()
@@ -67,7 +70,7 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("Bar3", "Bar3", { 512,128 }, { 10,1 });
 	imageManager->_LoadBitmap("Impact", "Impact", { 1024,128 }, { 8,1 });
 	imageManager->_LoadBitmap("Impact2", "Impact2", { 256,256 }, { 1,1 });
-	imageManager->_LoadBitmap("Bomb", "Bomb", { 128,128 }, { 1,1 });
+	imageManager->_LoadBitmap("Bomb", "Bomb", { 448,4260 }, { 1,1 });
 	imageManager->_LoadBitmap("Back", "Back", { 1280,900 }, { 1,1 });
 	imageManager->_LoadBitmap("BossInit", "BossInit", { 1024,1024 }, { 1,1 });
 	imageManager->_LoadBitmap("BossBackGround", "BossBackGround", { 1024,1024 }, { 1,1 });
@@ -91,6 +94,8 @@ HRESULT PlayScene::Init()
 	imageManager->_LoadBitmap("SkillEffect3", "SkillEffect3", { 430,138 }, { 1,1 });
 	imageManager->_LoadBitmap("SkillEffect4", "SkillEffect4", { 512,512 }, { 1,1 });
 
+
+
 	// µµ¿µ
 	EPos.x = 500;
 	EPos.y = 200;
@@ -103,8 +108,6 @@ HRESULT PlayScene::Init()
 	player = CreateObject<Player>();
 	GamePlayStatic::SetPlayerCharacter(player);
 	player->SetIsKeyLock(true);
-	ui = CreateObject<UI>();
-	ui->SetZOrder(1);
 	enemyManager = CreateObject<EnemyManager>(false);
 	missileManager = CreateObject<MissileManager>(false);
 	player->SetMissileManager(missileManager);
@@ -135,7 +138,9 @@ HRESULT PlayScene::Init()
 	nowPatten = SpawnPatten::ENEMY1;
 	spawnCount = 0;
 	isBoss = false;
-
+	isRestart = false;
+	ui = GamePlayStatic::GetMainGame()->GetUI();
+	ui->Init();
 	return S_OK;
 }
 
@@ -163,6 +168,23 @@ void PlayScene::Update()
 		player->SetIsKeyLock(true);
 	}
 #endif // _DEBUG
+
+	if (!ui->GetIsStrat())
+	{
+		if (KeyManager::GetSingleton()->IsOnceKeyDown(ZKey)) 
+		{
+			isStart = true;
+			ui->SetIsStrat(true);
+		}
+		else
+			isStart = false;
+	}
+	else
+	{
+		if (player->GetHp() == 0)
+			ui->CloseDoor();
+	}
+
 
 }
 
@@ -317,9 +339,10 @@ void PlayScene::SpawnBoss()
 	if (enemys->size() == 0)
 	{
 		ui->BossStage();
-		//Enemy* boss = enemyManager->SpawnEeney<EnemyBoss>();
+		missileManager->MissileAllChangeSoul(player);
 		nowPatten = SpawnPatten::NONE;
 		this->PlayScene::StageSpawn();
+		//Enemy* boss = enemyManager->SpawnEeney<EnemyBoss>();
 		//ui->SetBossHp(boss->GetHp_ptr());
 		
 	}
@@ -329,8 +352,9 @@ void PlayScene::SpawnBoss()
 
 void PlayScene::SpawnStartFun()
 {
-	//TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
+	TimerManager::GetSingleton()->SetTimer(spawnTimer, this, &PlayScene::StageSpawn, 2.0f);
 	player->SetIsKeyLock(false);
+
 
 }
 
@@ -339,5 +363,5 @@ void PlayScene::BossSpawn()
 	Enemy* boss = enemyManager->SpawnEeney<EnemyBoss>();
 	ui->SetBossHp(boss->GetHp_ptr());
 	player->SetIsKeyLock(false);
-	missileManager->MissileAllChangeSoul(player);
+	
 }

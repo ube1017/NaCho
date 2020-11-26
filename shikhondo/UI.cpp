@@ -3,6 +3,9 @@
 #include "PlayScene.h"
 #include "Player.h"
 
+int UI::maxSocre = 1000;
+
+
 UI::UI()
 {
 	playerSkillEfect.BindObject(this,&UI::SkillEffectOn);
@@ -177,10 +180,12 @@ HRESULT UI::Init()
 	
 	closeCount = DoorState::OPEN;
 	isWaring = false;
-	isUsingBackImage = true;
+	isUsingBackImage = false;
 	isTurn = false;
 	isskillEffect = false;
 	socre = 0;
+	
+	isStart = false;
 	return S_OK;
 }
 
@@ -191,6 +196,8 @@ void UI::Release()
 
 void UI::Update()
 {
+	if (!isStart)
+		return;
 	Soulgeiji2Time += TimerManager::GetSingleton()->GettimeElapsed();
 	if (Soulgeiji2Time >= 0.05f)
 	{
@@ -356,8 +363,15 @@ void UI::Update()
 			}
 			else
 			{
-				if (closeCount != DoorState::HOLD)
+				if (closeCount == DoorState::CLOSE)
+				{
+					this->isStart = false;
+					PlayScene* playScene = Cast<PlayScene>(GamePlayStatic::GetScene());
+					playScene->SetisReStart(true);
+				}
+				else if (closeCount != DoorState::HOLD)
 					this->WarningUI();
+
 			}
 		}
 	}
@@ -430,7 +444,7 @@ void UI::Update()
 			if (temp != 0)
 			{
 				Font2[j].framex = temp % 10;
-				Font1[j].framex = Font2[j].framex;
+				//Font1[j].framex = Font2[j].framex;
 				j--;
 			}
 		}
@@ -438,7 +452,32 @@ void UI::Update()
 		{
 			temp = socre % 10;
 			Font2[j].framex = temp;
-			Font1[j].framex = Font2[j].framex;
+			//Font1[j].framex = Font2[j].framex;
+			j--;
+		}
+	}
+
+
+	j = 13;
+	socreCount = 0;
+	for (int i = 0; i < 13; i++)
+	{
+		if (i != 0)
+		{
+			if (maxSocre - (int)pow(10, i) >= 0 && socreCount == 0)
+				socreCount = i;
+
+			temp = maxSocre / (int)pow(10, i);
+			if (temp != 0)
+			{
+				Font1[j].framex = temp % 10;
+				j--;
+			}
+		}
+		else
+		{
+			temp = maxSocre % 10;
+			Font1[j].framex = temp;
 			j--;
 		}
 	}
@@ -462,6 +501,23 @@ void UI::Render(HDC hdc)
 	imageManager->DrawAnimImage(hdc, RightCloud3);
 	imageManager->DrawAnimImage(hdc, RightCloud4);
 	imageManager->DrawAnimImage(hdc, Warning);*/
+
+	if (playerBoom)
+	{
+		for (int i = 0; i < *playerBoom; i++)
+		{
+			SkillGeiji[0].drwrc = { (LONG)715 + (i * 35), (LONG)798 , (LONG)779 + (i * 35) , 926 };
+			imageManager->DrawAnimImage(hdc, SkillGeiji[0]);
+		}
+	}
+	if (playerHp)
+	{
+		for (int i = 0; i < *playerHp; i++)
+		{
+			Life[0].drwrc = { (LONG)340 + (i * 40) , (LONG)860 , (LONG)390 + (i * 40) , 905 };
+			imageManager->DrawAnimImage(hdc, Life[0]);
+		}
+	}
 
 	//이부분 스킬사용시
 	if (isskillEffect)
@@ -495,10 +551,10 @@ void UI::Render(HDC hdc)
 		imageManager->AlphaRender(hdc, LeftCloud1, LeftCloud1.alpha);
 		imageManager->AlphaRender(hdc, LeftCloud2, LeftCloud2.alpha);
 		imageManager->AlphaRender(hdc, LeftCloud3, LeftCloud3.alpha);
-		imageManager->AlphaRender(hdc, RightCloud1,RightCloud1.alpha);
-		imageManager->AlphaRender(hdc, RightCloud2,RightCloud2.alpha);
-		imageManager->AlphaRender(hdc, RightCloud3,RightCloud3.alpha);
-		imageManager->AlphaRender(hdc, RightCloud4,RightCloud4.alpha);
+		imageManager->AlphaRender(hdc, RightCloud1, RightCloud1.alpha);
+		imageManager->AlphaRender(hdc, RightCloud2, RightCloud2.alpha);
+		imageManager->AlphaRender(hdc, RightCloud3, RightCloud3.alpha);
+		imageManager->AlphaRender(hdc, RightCloud4, RightCloud4.alpha);
 
 
 		imageManager->DrawAnimImage(hdc, LeftBackground);
@@ -510,34 +566,6 @@ void UI::Render(HDC hdc)
 	}
 
 
-
-	imageManager->DrawAnimImage(hdc, test);
-	imageManager->DrawAnimImage(hdc, SoulGeijiBack);
-	imageManager->DrawAnimImage(hdc, Soulgeiji2);
-	if (playerBoom)
-	{
-		for (int i = 0; i < *playerBoom; i++)
-		{
-			SkillGeiji[0].drwrc = { (LONG)715 + (i * 35), (LONG)798 , (LONG)779 + (i * 35) , 926 };
-			imageManager->DrawAnimImage(hdc, SkillGeiji[0]);
-		}
-	}
-	if (playerHp)
-	{
-		for (int i = 0; i < *playerHp; i++)
-		{
-			Life[0].drwrc = { (LONG)340 + (i * 40) , (LONG)860 , (LONG)390 + (i * 40) , 905 };
-			imageManager->DrawAnimImage(hdc, Life[0]);
-		}
-	}
-
-	if (isbossSpawn)
-	{
-		imageManager->DrawAnimImage(hdc, boss_Hp_Bar2);
-		imageManager->DrawAnimImage(hdc, boss_Hp_Bar1);
-		imageManager->DrawAnimImage(hdc, boss_Hp_Bar3);
-	}
-
 	for (int i = 0; i < 14; i++)
 	{
 		imageManager->DrawAnimImage(hdc, Font1[i]);
@@ -546,6 +574,22 @@ void UI::Render(HDC hdc)
 	{
 		imageManager->DrawAnimImage(hdc, Font2[i]);
 	}
+
+	if (!isStart)
+		return;
+
+	imageManager->DrawAnimImage(hdc, test);
+	imageManager->DrawAnimImage(hdc, SoulGeijiBack);
+	imageManager->DrawAnimImage(hdc, Soulgeiji2);
+
+	if (isbossSpawn)
+	{
+		imageManager->DrawAnimImage(hdc, boss_Hp_Bar2);
+		imageManager->DrawAnimImage(hdc, boss_Hp_Bar1);
+		imageManager->DrawAnimImage(hdc, boss_Hp_Bar3);
+	}
+
+
 	for (int i = 0; i < soulSocreCount + 1; i++)
 	{
 		imageManager->DrawAnimImage(hdc, Font3[i]);
@@ -578,6 +622,18 @@ void UI::Render(HDC hdc)
 			imageManager->DrawAnimImage(hdc, BossFont[i]);
 
 	}
+
+	//if (*playerHp == 0 && isFullOpen)
+	//{
+	//	closeCount = DoorState::CLOSE;
+	//	isFullOpen = false;
+	//}
+}
+
+void UI::CloseDoor()
+{
+	closeCount = DoorState::CLOSE;
+	isUsingBackImage = false;
 }
 
 void UI::BossStage()

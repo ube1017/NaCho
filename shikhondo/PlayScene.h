@@ -32,7 +32,6 @@ public:
 	class Missile* SpawnMissile(class Character* owner,string imageName, FPOINT missilePos, SIZE MissileSize);
 	class UI* GetUI() { return this->ui; }
 
-
 	void BossSpawnBind();
 
 	void StageSpawn();
@@ -68,6 +67,7 @@ private:
 	UINT nextspawnCount;
 	float spawnNum;
 	bool isBoss;
+
 
 };
 
